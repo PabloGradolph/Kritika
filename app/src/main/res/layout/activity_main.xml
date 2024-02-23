@@ -15,4 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Response will show here"
+        android:layout_centerInParent="true"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
