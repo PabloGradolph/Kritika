@@ -1,8 +1,8 @@
-# Kritika
+# Kritika 📲
 
 Kritika es una aplicación móvil todo en uno para aficionados al cine, lectores ávidos y entusiastas de la música, permitiéndoles explorar, valorar y revisar una amplia gama de contenido cultural. Con Kritika, los usuarios pueden mantener listas personalizadas de sus películas, libros y álbumes favoritos, así como descubrir nuevas recomendaciones y compartir su pasión con una comunidad afín.
 
-## Características
+## Características 🌍
 
 - Buscar y explorar una base de datos de películas, libros y música.
 - Crear y gestionar listas personalizadas para seguimiento de contenido visto, leído o escuchado.
@@ -10,7 +10,7 @@ Kritika es una aplicación móvil todo en uno para aficionados al cine, lectores
 - Ver valoraciones y reseñas de otros usuarios.
 - Añadir nuevos elementos a la base de datos de la aplicación.
 
-## Tecnologías Utilizadas
+## Tecnologías Utilizadas 💻
 
 - Android Studio
 - Java
@@ -19,7 +19,7 @@ Kritika es una aplicación móvil todo en uno para aficionados al cine, lectores
 - Google Books API
 - The Movie Database (TMDb) API
 
-## Configuración del Proyecto
+## Configuración del Proyecto 🚀
 
 Para configurar este proyecto en tu entorno local, sigue estos pasos:
 
@@ -29,9 +29,9 @@ Para configurar este proyecto en tu entorno local, sigue estos pasos:
 3. Sincroniza el proyecto con los archivos de Gradle para descargar todas las dependencias necesarias.
 4. Construye el proyecto usando `Build > Make Project`.
 
-## Licencia
+## Licencia 📄
 
-Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
 
 ## 👥 Authors
 
