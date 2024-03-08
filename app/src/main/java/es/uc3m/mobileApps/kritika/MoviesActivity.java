@@ -18,6 +18,7 @@ import es.uc3m.mobileApps.kritika.model.Movie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MoviesActivity extends AppCompatActivity {
     private RecyclerView rvMovies;
@@ -40,12 +41,20 @@ public class MoviesActivity extends AppCompatActivity {
     private class DiscoverMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         @Override
         protected List<Movie> doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
+            // Crear el interceptor de logging y configurar el nivel de log
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            // Construir el cliente OkHttpClient e incluir el interceptor de logging
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(logging)
+                    .build();
+
             Request request = new Request.Builder()
                     .url("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1")
                     .get()
                     .addHeader("accept", "application/json")
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiOWE1NGY3MzRjMzYxZjFmOWZkNjFiNDUyNDBhMzVmNyIsInN1YiI6IjY1ZDQ5ODc2YmJlMWRkMDE3ZDVmODhmYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.sHPGWnO65YwdqEebPvXIjgBobTKEpE9WufBh9ebal8M") // Replace with your actual access token
+                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE")
                     .build();
 
             try {
