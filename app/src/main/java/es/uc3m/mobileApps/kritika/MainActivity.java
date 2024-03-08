@@ -1,59 +1,26 @@
 package es.uc3m.mobileApps.kritika;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class MainActivity extends AppCompatActivity {
-    private TextView tvResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvResponse = findViewById(R.id.tvResponse);
-        new DiscoverMoviesTask().execute();
-    }
-
-    private class DiscoverMoviesTask extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .url("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc")
-                    .get()
-                    .addHeader("accept", "application/json")
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiOWE1NGY3MzRjMzYxZjFmOWZkNjFiNDUyNDBhMzVmNyIsInN1YiI6IjY1ZDQ5ODc2YmJlMWRkMDE3ZDVmODhmYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.sHPGWnO65YwdqEebPvXIjgBobTKEpE9WufBh9ebal8M") // Replace with your actual access token
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
+        buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MoviesActivity.class);
+                startActivity(intent);
             }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result != null) {
-                // Actualizar el TextView con la respuesta JSON
-                tvResponse.setText(result);
-            } else {
-                Toast.makeText(MainActivity.this, "Failed to fetch data!", Toast.LENGTH_LONG).show();
-            }
-        }
+        });
     }
 }

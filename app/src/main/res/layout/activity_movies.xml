@@ -10,14 +10,7 @@
         android:id="@+id/tvResponse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
-    <Button
-        android:id="@+id/button_open_movies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MOVIES"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="144dp" />
+        android:text="Response will show here"
+        android:layout_centerInParent="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
