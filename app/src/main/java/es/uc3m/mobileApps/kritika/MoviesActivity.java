@@ -1,20 +1,16 @@
 
-
 package es.uc3m.mobileApps.kritika;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,19 +20,24 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MoviesActivity extends AppCompatActivity {
-    private TextView tvResponse;
+    private RecyclerView rvMovies;
+    private MoviesAdapter adapter;
+    private List<Movie> movieList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
-        tvResponse = findViewById(R.id.tvResponse);
+        rvMovies = findViewById(R.id.rvMovies);
+        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MoviesAdapter(this, movieList);
+        rvMovies.setAdapter(adapter);
+
         new DiscoverMoviesTask().execute();
     }
 
     private class DiscoverMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
-
         @Override
         protected List<Movie> doInBackground(Void... voids) {
             OkHttpClient client = new OkHttpClient();
@@ -50,11 +51,21 @@ public class MoviesActivity extends AppCompatActivity {
             try {
                 Response response = client.newCall(request).execute();
                 String jsonData = response.body().string();
-
-                JsonObject jsonObject = JsonParser.parseString(jsonData).getAsJsonObject();
-                Type movieListType = new TypeToken<ArrayList<Movie>>(){}.getType();
-                List<Movie> movies = new Gson().fromJson(jsonObject.get("results"), movieListType);
-
+                JSONObject jsonObject = new JSONObject(jsonData);
+                JSONArray results = jsonObject.getJSONArray("results");
+                List<Movie> movies = new ArrayList<>();
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject movieJson = results.getJSONObject(i);
+                    Movie movie = new Movie(
+                            movieJson.getInt("id"),
+                            movieJson.getString("title"),
+                            movieJson.getString("overview"),
+                            movieJson.getString("poster_path"),
+                            movieJson.getDouble("vote_average"),
+                            movieJson.getString("release_date")
+                    );
+                    movies.add(movie);
+                }
                 return movies;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,15 +76,12 @@ public class MoviesActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Movie> movies) {
             super.onPostExecute(movies);
-            if (movies != null && !movies.isEmpty()) {
-                StringBuilder sb = new StringBuilder();
-                for (Movie movie : movies) {
-                    sb.append(movie.getTitle()).append("\n");
-                }
-                // Actualizar el TextView con los títulos de películas
-                tvResponse.setText(sb.toString());
+            if (movies != null) {
+                movieList.clear();
+                movieList.addAll(movies);
+                adapter.notifyDataSetChanged();
             } else {
-                Toast.makeText(MoviesActivity.this, "Failed to fetch data!", Toast.LENGTH_LONG).show();
+                // Mostrar mensaje de error
             }
         }
     }
