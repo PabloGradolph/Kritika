@@ -6,7 +6,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/movie_poster"
+        android:id="@+id/imageViewPoster"
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_launcher_background"
@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Movie Title"
-        app:layout_constraintStart_toEndOf="@+id/movie_poster"
-        app:layout_constraintTop_toTopOf="@+id/movie_poster"
+        app:layout_constraintStart_toEndOf="@+id/imageViewPoster"
+        app:layout_constraintTop_toTopOf="@+id/imageViewPoster"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
@@ -32,8 +32,8 @@
         android:text="Movie Overview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/movie_poster"
-        app:layout_constraintTop_toTopOf="@+id/movie_poster" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewPoster"
+        app:layout_constraintTop_toTopOf="@+id/imageViewPoster" />
 
     <TextView
         android:id="@+id/tvRating"
