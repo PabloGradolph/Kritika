@@ -15,10 +15,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
+        Button buttonOpenMusic = findViewById(R.id.button_open_music);
+
         buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MoviesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonOpenMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MusicActivity.class);
                 startActivity(intent);
             }
         });
