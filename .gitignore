@@ -1,7 +1,7 @@
 *.iml
 .gradle
 .idea
-local.properties
+google-services.json
 /local.properties
 /.idea/caches
 /.idea/libraries
