@@ -1,43 +1,43 @@
 # Kritika 📲
 
-Kritika es una aplicación móvil todo en uno para aficionados al cine, lectores ávidos y entusiastas de la música, permitiéndoles explorar, valorar y revisar una amplia gama de contenido cultural. Con Kritika, los usuarios pueden mantener listas personalizadas de sus películas, libros y álbumes favoritos, así como descubrir nuevas recomendaciones y compartir su pasión con una comunidad afín.
+Kritika is an all-in-one mobile application for movie buffs, avid readers and music enthusiasts, allowing them to explore, rate and review a wide range of cultural content. With Kritika, users can maintain personalized lists of their favorite movies, books and albums, as well as discover new recommendations and share their passion with a like-minded community.
 
-## Características 🌍
+## Features 🌍
 
-- Buscar y explorar una base de datos de películas, libros y música.
-- Crear y gestionar listas personalizadas para seguimiento de contenido visto, leído o escuchado.
-- Valorar y reseñar películas, libros y álbumes.
-- Ver valoraciones y reseñas de otros usuarios.
-- Añadir nuevos elementos a la base de datos de la aplicación.
+- Search and browse a database of movies, books and music.
+- Create and manage customized lists to track content viewed, read or listened to.
+- Evaluate and review films, books and albums.
+- See ratings and reviews from other users.
+- Add new items to the application database.
 
-## Tecnologías Utilizadas 💻
+## Technologies Used 💻
 
-- Android Studio
+- AndroidStudio
 - Java
-- Retrofit para llamadas a la API
-- Room para persistencia de datos
+- Firebase
 - Google Books API
 - The Movie Database (TMDb) API
+- Last FM API
 
-## Configuración del Proyecto 🚀
+## Project Setup 🚀
 
-Para configurar este proyecto en tu entorno local, sigue estos pasos:
+To set up this project in your local environment, follow these steps:
 
-1. Clona el repositorio en tu máquina local:
+1. Clone the repository on your local machine:
 `git clone https://github.com/usuario/kritika.git`
-2. Abre el proyecto en Android Studio.
-3. Sincroniza el proyecto con los archivos de Gradle para descargar todas las dependencias necesarias.
-4. Construye el proyecto usando `Build > Make Project`.
+2. Open the project in Android Studio.
+3. Synchronize the project with the Gradle files to download all necessary dependencies.
+4. Build the project using `Build > Make Project`.
 
-## Licencia 📄
+## License 📄
 
-Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👥 Authors
 
 - [@PabloGradolph](https://github.com/PabloGradolph)
 - [@jorgegarcelan](https://github.com/jorgegarcelan)
-- Falta Alonso
+- [@AlonsoMad](https://github.com/AlonsoMad)
 
 
 ![Logo](https://upload.wikimedia.org/wikipedia/commons/4/47/Acronimo_y_nombre_uc3m.png)
