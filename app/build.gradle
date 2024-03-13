@@ -8,7 +8,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "es.uc3m.mobileApps.kritika"
+        applicationId "es.uc3m.android.firebase"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -27,10 +27,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // enable view binding (optional)
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
 
+    implementation 'androidx.activity:activity:1.8.0'
     def room_version = "2.6.1"
 
     // API
@@ -41,6 +47,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.7.3')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage'
 
     //
     implementation 'androidx.appcompat:appcompat:1.6.1'
