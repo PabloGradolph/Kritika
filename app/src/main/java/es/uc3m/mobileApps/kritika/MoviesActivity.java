@@ -85,7 +85,7 @@ public class MoviesActivity extends AppCompatActivity {
                 }
             }
 
-            return movies; // Retorna la lista completa de películas después de iterar a través de las páginas
+            return movies;
         }
 
         @Override

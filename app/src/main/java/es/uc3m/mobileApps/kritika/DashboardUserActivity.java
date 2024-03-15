@@ -34,6 +34,7 @@ public class DashboardUserActivity extends AppCompatActivity {
 
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
+        Button buttonOpenBooks = findViewById(R.id.button_open_books);
 
         // handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,14 @@ public class DashboardUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DashboardUserActivity.this, MusicActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonOpenBooks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashboardUserActivity.this, BooksActivity.class);
                 startActivity(intent);
             }
         });
