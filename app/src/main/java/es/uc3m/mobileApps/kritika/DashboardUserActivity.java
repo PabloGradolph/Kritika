@@ -70,9 +70,9 @@ public class DashboardUserActivity extends AppCompatActivity {
             finish();
         } else {
             // logged in, get user info
-            String email = firebaseUser.getEmail();
+            String UserName = firebaseUser.getEmail();
             // set in textview of toolbar
-            binding.subTitleTv.setText(email);
+            binding.subTitleTv.setText(UserName);
 
         }
     }
