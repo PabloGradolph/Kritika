@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import java.util.List;
 
 import es.uc3m.mobileApps.kritika.model.Movie;
 import es.uc3m.mobileApps.kritika.model.Song;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -48,30 +51,49 @@ public class MusicActivity extends AppCompatActivity {
         protected List<Song> doInBackground(Void... voids) {
             OkHttpClient client = new OkHttpClient();
             List<Song> songs = new ArrayList<>();
-            String url = "https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=96f13ee809056c77d25defbd0f813024&format=json";
 
-            Request request = new Request.Builder()
-                    .url(url)
-                    .get()
+            // Esta URL es para pedir un token de acceso de cliente
+            String tokenUrl = "https://accounts.spotify.com/api/token";
+
+            // Usa Base64 para codificar Client ID y Client Secret
+            String credentials = Base64.encodeToString(("904e4d28994c4a70963a2fb5b5744729:fb988307f5fd400fb34e8400fd557ca8").getBytes(), Base64.NO_WRAP);
+
+            Request tokenRequest = new Request.Builder()
+                    .url(tokenUrl)
+                    .post(new FormBody.Builder().add("grant_type", "client_credentials").build())
+                    .addHeader("Authorization", "Basic " + credentials)
                     .build();
 
             try {
-                Response response = client.newCall(request).execute();
-                String jsonData = response.body().string();
+                Response tokenResponse = client.newCall(tokenRequest).execute();
+                String jsonData = tokenResponse.body().string();
                 JSONObject jsonObject = new JSONObject(jsonData);
-                JSONArray tracks = jsonObject.getJSONObject("tracks").getJSONArray("track");
+                String accessToken = jsonObject.getString("access_token");
+
+                String topTracksUrl = "https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks";
+
+                Request tracksRequest = new Request.Builder()
+                        .url(topTracksUrl)
+                        .addHeader("Authorization", "Bearer " + accessToken)
+                        .build();
+
+                Response tracksResponse = client.newCall(tracksRequest).execute();
+                String tracksjsonData = tracksResponse.body().string();
+                JSONObject topTracksjsonObject = new JSONObject(tracksjsonData);
+                JSONArray tracks = topTracksjsonObject.getJSONArray("items");
 
                 for (int i = 0; i < tracks.length(); i++) {
-                    JSONObject trackJson = tracks.getJSONObject(i);
-                    JSONObject artistJson = trackJson.getJSONObject("artist");
-                    String imageUrl = trackJson.getJSONArray("image").getJSONObject(2).getString("#text"); // using large image
+                    JSONObject trackItem = tracks.getJSONObject(i);
+                    JSONObject track = trackItem.getJSONObject("track");
+                    String trackName = track.getString("name");
 
-                    Song song = new Song(
-                            trackJson.getString("name"),
-                            artistJson.getString("name"),
-                            trackJson.getString("url"),
-                            imageUrl
-                    );
+                    JSONArray artists = track.getJSONArray("artists");
+                    String artistName = artists.getJSONObject(0).getString("name");
+
+                    String trackUrl = track.getJSONObject("external_urls").getString("spotify");
+                    String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(1).getString("url");
+
+                    Song song = new Song(trackName, artistName, trackUrl, imageUrl);
                     songs.add(song);
                 }
             } catch (Exception e) {
