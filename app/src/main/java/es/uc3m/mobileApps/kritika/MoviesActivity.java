@@ -50,36 +50,42 @@ public class MoviesActivity extends AppCompatActivity {
                     .addInterceptor(logging)
                     .build();
 
-            Request request = new Request.Builder()
-                    .url("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1")
-                    .get()
-                    .addHeader("accept", "application/json")
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE")
-                    .build();
+            List<Movie> movies = new ArrayList<>();
+            String baseUrl = "https://api.themoviedb.org/3/movie/popular?language=en-US&sort_by=popularity.desc&page=";
+            String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE";
 
-            try {
-                Response response = client.newCall(request).execute();
-                String jsonData = response.body().string();
-                JSONObject jsonObject = new JSONObject(jsonData);
-                JSONArray results = jsonObject.getJSONArray("results");
-                List<Movie> movies = new ArrayList<>();
-                for (int i = 0; i < results.length(); i++) {
-                    JSONObject movieJson = results.getJSONObject(i);
-                    Movie movie = new Movie(
-                            movieJson.getInt("id"),
-                            movieJson.getString("title"),
-                            movieJson.getString("overview"),
-                            movieJson.getString("poster_path"),
-                            movieJson.getDouble("vote_average"),
-                            movieJson.getString("release_date")
-                    );
-                    movies.add(movie);
+            for (int page = 1; page <= 3; page++) { // Ajusta según el número de páginas que desees obtener
+                Request request = new Request.Builder()
+                        .url(baseUrl + page)
+                        .get()
+                        .addHeader("accept", "application/json")
+                        .addHeader("Authorization", token)
+                        .build();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    String jsonData = response.body().string();
+                    JSONObject jsonObject = new JSONObject(jsonData);
+                    JSONArray results = jsonObject.getJSONArray("results");
+
+                    for (int i = 0; i < results.length(); i++) {
+                        JSONObject movieJson = results.getJSONObject(i);
+                        Movie movie = new Movie(
+                                movieJson.getInt("id"),
+                                movieJson.getString("title"),
+                                movieJson.getString("overview"),
+                                movieJson.getString("poster_path"),
+                                movieJson.getDouble("vote_average"),
+                                movieJson.getString("release_date")
+                        );
+                        movies.add(movie);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                return movies;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
+
+            return movies; // Retorna la lista completa de películas después de iterar a través de las páginas
         }
 
         @Override
