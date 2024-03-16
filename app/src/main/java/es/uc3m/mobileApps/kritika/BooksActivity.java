@@ -3,6 +3,7 @@ package es.uc3m.mobileApps.kritika;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class BooksActivity extends AppCompatActivity {
+public class BooksActivity extends DashboardUserActivity {
     private RecyclerView rvBooks;
     private BooksAdapter adapter;
     private List<Book> bookList = new ArrayList<>();
@@ -34,6 +35,13 @@ public class BooksActivity extends AppCompatActivity {
         rvBooks.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BooksAdapter(this, bookList);
         rvBooks.setAdapter(adapter);
+
+        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
+        Button buttonOpenMusic = findViewById(R.id.button_open_music);
+        Button buttonOpenBooks = findViewById(R.id.button_open_books);
+
+        // Set click listeners for buttons
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
 
         new DiscoverBooksTask().execute();
     }

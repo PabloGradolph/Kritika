@@ -6,28 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back01"
-    tools:context=".DashboardUserActivity">
+    tools:context=".DashboardUserActivity"
+    app:layout_constraintTop_toTopOf="parent">
 
     <RelativeLayout
+        android:id="@+id/menuNavBar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/gray01">>
+        android:layout_height="30dp"
+        android:background="@color/gray01">
 
-        <TextView
-            android:id="@+id/titleTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="Hello!"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/subTitleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/titleTv"
+            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:text="User Name"
             android:textColor="@color/black" />
@@ -41,48 +35,69 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_logout_white" />
-
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/button_open_movies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="MOVIES"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_open_music"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--Secondary bar for easy navigation -->
+    <RelativeLayout
+        android:id="@+id/mediaNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_below="@id/menuNavBar"
+        android:background="@android:color/white">
 
-    <Button
-        android:id="@+id/button_open_music"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="MUSIC"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_open_movies"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!-- You can add buttons or other views here -->
+        <Button
+            android:id="@+id/button_open_movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MOVIES"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            />
 
-    <Button
-        android:id="@+id/button_open_books"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:text="BOOKS"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_open_music"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/button_open_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MUSIC"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button_open_movies"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/button_open_books"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BOOKS"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button_open_music"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_alignParentTop="false"
         android:layout_alignParentBottom="true"
-        android:background="@color/gray01">
+        android:background="@color/gray01"
+        tools:layout_editor_absoluteY="602dp">
 
 
         <ImageButton
@@ -90,24 +105,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:src="@drawable/baseline_home_purple"
             android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_home_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/searchButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:src="@drawable/baseline_search_purple"
             android:scaleType="fitCenter"
-            app:layout_constraintStart_toEndOf="@id/houseButton"
+            android:src="@drawable/baseline_search_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/profileButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/houseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Button 2 -->
         <ImageButton
@@ -115,12 +130,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:src="@drawable/baseline_person_purple"
             android:scaleType="fitCenter"
-            app:layout_constraintStart_toEndOf="@id/searchButton"
+            android:src="@drawable/baseline_person_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/searchButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

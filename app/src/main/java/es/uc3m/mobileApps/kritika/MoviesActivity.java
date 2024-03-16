@@ -19,8 +19,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-
-public class MoviesActivity extends AppCompatActivity {
+import android.widget.Button;
+public class MoviesActivity extends DashboardUserActivity {
     private RecyclerView rvMovies;
     private MoviesAdapter adapter;
     private List<Movie> movieList = new ArrayList<>();
@@ -34,6 +34,13 @@ public class MoviesActivity extends AppCompatActivity {
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MoviesAdapter(this, movieList);
         rvMovies.setAdapter(adapter);
+
+        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
+        Button buttonOpenMusic = findViewById(R.id.button_open_music);
+        Button buttonOpenBooks = findViewById(R.id.button_open_books);
+
+        // Set click listeners for buttons
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
 
         new DiscoverMoviesTask().execute();
     }

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MusicActivity extends AppCompatActivity {
+public class MusicActivity extends DashboardUserActivity {
 
     private RecyclerView rvSongs;
     private SongsAdapter adapter;
@@ -40,6 +41,13 @@ public class MusicActivity extends AppCompatActivity {
         rvSongs.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SongsAdapter(this, songsList);
         rvSongs.setAdapter(adapter);
+
+        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
+        Button buttonOpenMusic = findViewById(R.id.button_open_music);
+        Button buttonOpenBooks = findViewById(R.id.button_open_books);
+
+        // Set click listeners for buttons
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
 
         new MusicActivity.DiscoverSongsTask().execute();
     }

@@ -45,29 +45,48 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
         });
 
+        // Set click listeners for buttons
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
+    }
+
+    // Method to set click listeners for buttons
+    protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic, Button buttonOpenBooks) {
         buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardUserActivity.this, MoviesActivity.class);
-                startActivity(intent);
+                openMovies();
             }
         });
 
         buttonOpenMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardUserActivity.this, MusicActivity.class);
-                startActivity(intent);
+                openMusic();
             }
         });
 
         buttonOpenBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardUserActivity.this, BooksActivity.class);
-                startActivity(intent);
+                openBooks();
             }
         });
+    }
+
+    // HAGO METODOS PUBLICOS PARA PODER REUTILIZARLOS EN OTRAS PANTALLAS
+    public void openMovies() {
+        Intent intent = new Intent(this, MoviesActivity.class);
+        startActivity(intent);
+    }
+
+    public void openMusic() {
+        Intent intent = new Intent(this, MusicActivity.class);
+        startActivity(intent);
+    }
+
+    public void openBooks() {
+        Intent intent = new Intent(this, BooksActivity.class);
+        startActivity(intent);
     }
 
     private void checkUser() {
