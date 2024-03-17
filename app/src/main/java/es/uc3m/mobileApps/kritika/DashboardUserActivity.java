@@ -48,6 +48,8 @@ public class DashboardUserActivity extends AppCompatActivity {
         // Set click listeners for buttons
 
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
+        // Start the dashboard with movies opened.
+        openMovies();
     }
 
     // Method to set click listeners for buttons
@@ -89,9 +91,6 @@ public class DashboardUserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BooksActivity.class);
         startActivity(intent);
     }
-
-
-
 
     private void checkUser() {
         // get current user
