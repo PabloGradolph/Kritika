@@ -45,7 +45,7 @@ public class MoviesActivity extends DashboardUserActivity {
         new DiscoverMoviesTask().execute();
     }
 
-    private class DiscoverMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
+    protected class DiscoverMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         @Override
         protected List<Movie> doInBackground(Void... voids) {
             // Crear el interceptor de logging y configurar el nivel de log
