@@ -50,6 +50,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         // Set click listeners for buttons
 
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile);
+        // Start the dashboard with movies opened.
     }
 
     // Method to set click listeners for buttons
