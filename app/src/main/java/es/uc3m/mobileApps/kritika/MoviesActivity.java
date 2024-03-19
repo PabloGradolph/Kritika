@@ -20,6 +20,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import android.widget.Button;
+import android.widget.ImageButton;
+
 public class MoviesActivity extends DashboardUserActivity {
     private RecyclerView rvMovies;
     private MoviesAdapter adapter;
@@ -38,9 +40,10 @@ public class MoviesActivity extends DashboardUserActivity {
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
+        ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
 
         // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile);
 
         new DiscoverMoviesTask().execute();
     }

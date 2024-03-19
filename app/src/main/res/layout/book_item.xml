@@ -19,6 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Book Title"
+        android:textColor="@color/KritikaPurple"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageViewThumbnail"
         app:layout_constraintTop_toTopOf="@+id/imageViewThumbnail"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -30,9 +33,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Authors"
+        android:textColor="@color/JetBlack"
         app:layout_constraintStart_toEndOf="@+id/imageViewThumbnail"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/tvDescription"
@@ -41,8 +47,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Book Description"
+        android:textColor="@color/JetBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewThumbnail"
-        app:layout_constraintTop_toBottomOf="@+id/tvAuthors" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAuthors"
+        android:maxLines="4"
+        android:ellipsize="end"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

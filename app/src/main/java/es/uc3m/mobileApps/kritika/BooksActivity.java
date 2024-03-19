@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,9 +40,10 @@ public class BooksActivity extends DashboardUserActivity {
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
+        ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
 
         // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks);
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile);
 
         new DiscoverBooksTask().execute();
     }
