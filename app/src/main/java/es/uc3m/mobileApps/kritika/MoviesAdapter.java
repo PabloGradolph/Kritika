@@ -37,6 +37,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Movie currentMovie = movies.get(position);
         holder.tvTitle.setText(currentMovie.getTitle());
         holder.tvOverview.setText(currentMovie.getOverview());
+        holder.tvRating.setText(currentMovie.getRating());
         // Aquí puedes continuar asignando los demás datos de la película a los elementos de la vista
 
         // Cargar imagen con Glide
@@ -51,7 +52,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     }
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {
-        final TextView tvTitle, tvOverview; // Declara aquí otros elementos de la vista si es necesario
+        final TextView tvTitle, tvOverview, tvRating; // Declara aquí otros elementos de la vista si es necesario
         public ImageView imageViewPoster; // Asegúrate de declarar el ImageView
 
         MovieViewHolder(View itemView) {
@@ -59,6 +60,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             imageViewPoster = itemView.findViewById(R.id.imageViewPoster); // Inicializa el ImageView
+            tvRating = itemView.findViewById(R.id.tvRating);
+
             // Inicializa aquí otros elementos de la vista
         }
     }

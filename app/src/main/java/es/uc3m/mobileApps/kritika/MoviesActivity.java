@@ -3,8 +3,9 @@ package es.uc3m.mobileApps.kritika;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,8 +20,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 public class MoviesActivity extends DashboardUserActivity {
     private RecyclerView rvMovies;
@@ -85,7 +84,7 @@ public class MoviesActivity extends DashboardUserActivity {
                                 movieJson.getString("title"),
                                 movieJson.getString("overview"),
                                 movieJson.getString("poster_path"),
-                                movieJson.getDouble("vote_average"),
+                                movieJson.getString("vote_average"),
                                 movieJson.getString("release_date")
                         );
                         movies.add(movie);

@@ -5,7 +5,7 @@ public class Movie {
     private String title;
     private String overview;
     private String posterPath;
-    private double rating;
+    private String rating;
     private String releaseDate;
 
     // Constructor vacío requerido por Firebase
@@ -13,7 +13,7 @@ public class Movie {
     }
 
     // Constructor para nuestra comodidad
-    public Movie(int id, String title, String overview, String posterPath, double rating, String releaseDate) {
+    public Movie(int id, String title, String overview, String posterPath, String rating, String releaseDate) {
         this.id = id;
         this.title = title;
         this.overview = overview;
@@ -35,8 +35,8 @@ public class Movie {
     public String getPosterPath() { return posterPath; }
     public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
 
-    public double getRating() { return rating; }
-    public void setRating(double rating) { this.rating = rating; }
+    public String getRating() { return rating; }
+    public void setRating(String rating) { this.rating = rating; }
 
     public String getReleaseDate() { return releaseDate; }
     public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
