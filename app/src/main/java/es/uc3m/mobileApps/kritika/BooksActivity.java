@@ -41,10 +41,12 @@ public class BooksActivity extends DashboardUserActivity {
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
+        ImageButton buttonOpenHome = findViewById(R.id.houseButton);
+        ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
         // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile);
-
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
+                buttonOpenHome, buttonOpenSearch);
         new DiscoverBooksTask().execute();
     }
 

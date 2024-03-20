@@ -37,6 +37,8 @@ public class DashboardUserActivity extends AppCompatActivity {
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
+        ImageButton buttonOpenHome = findViewById(R.id.houseButton);
+        ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
         // handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -49,12 +51,15 @@ public class DashboardUserActivity extends AppCompatActivity {
 
         // Set click listeners for buttons
 
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile);
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
+                buttonOpenHome, buttonOpenSearch);
         // Start the dashboard with movies opened.
     }
 
     // Method to set click listeners for buttons
-    protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic, Button buttonOpenBooks, ImageButton buttonOpenProfile) {
+    protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic,
+                                      Button buttonOpenBooks, ImageButton buttonOpenProfile,
+                                      ImageButton buttonOpenHome, ImageButton buttonOpenSearch) {
         buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +87,20 @@ public class DashboardUserActivity extends AppCompatActivity {
                 openProfile();
             }
         });
+
+        buttonOpenHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHome();
+            }
+        });
+
+        buttonOpenSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSearch();
+            }
+        });
     }
 
     // HAGO METODOS PUBLICOS PARA PODER REUTILIZARLOS EN OTRAS PANTALLAS
@@ -104,8 +123,14 @@ public class DashboardUserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
     }
-
-
+    public void openHome() {
+        Intent intent = new Intent(this, DashboardUserActivity.class);
+        startActivity(intent);
+    }
+    public void openSearch() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
 
     private void checkUser() {
         // get current user

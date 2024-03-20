@@ -21,6 +21,9 @@
             android:name=".Profile"
             android:exported="false" />
         <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".BooksActivity"
             android:exported="false" />
         <activity
