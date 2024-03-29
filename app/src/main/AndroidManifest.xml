@@ -33,6 +33,9 @@
             android:name=".MoviesActivity"
             android:exported="false" />
         <activity
+            android:name=".MovieDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".DashboardAdminActivity"
             android:exported="false" />
         <activity

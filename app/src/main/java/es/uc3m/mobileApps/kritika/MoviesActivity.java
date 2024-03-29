@@ -1,6 +1,7 @@
 
 package es.uc3m.mobileApps.kritika;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
@@ -34,6 +35,15 @@ public class MoviesActivity extends DashboardUserActivity {
         rvMovies = findViewById(R.id.rvMovies);
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MoviesAdapter(this, movieList);
+        // listener de clic en tu adaptador
+        adapter.setOnItemClickListener(new MoviesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Movie movie) {
+                Intent intent = new Intent(MoviesActivity.this, MovieDetailActivity.class);
+                intent.putExtra("id", movie.getId());
+                startActivity(intent);
+            }
+        });
         rvMovies.setAdapter(adapter);
 
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);

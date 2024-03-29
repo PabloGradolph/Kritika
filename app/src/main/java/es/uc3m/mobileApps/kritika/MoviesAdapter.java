@@ -17,12 +17,23 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.model.Movie;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
-    private List<Movie> movies;
+    private static List<Movie> movies;
     private LayoutInflater inflater;
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.inflater = LayoutInflater.from(context);
         this.movies = movies;
+    }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Movie movie);
+    }
+
+    private static OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,6 +55,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Glide.with(holder.imageViewPoster.getContext())
                 .load("https://image.tmdb.org/t/p/w500" + currentMovie.getPosterPath()) // Cambia la URL base según sea necesario
                 .into(holder.imageViewPoster);
+
+        // Configuración del OnClickListener
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
+                if (listener != null) {
+                    listener.onItemClick(currentMovie);
+                }
+            }
+        });
     }
 
     @Override
@@ -63,6 +85,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             tvRating = itemView.findViewById(R.id.tvRating);
 
             // Inicializa aquí otros elementos de la vista
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(movies.get(position));
+                    }
+                }
+            });
         }
     }
 
