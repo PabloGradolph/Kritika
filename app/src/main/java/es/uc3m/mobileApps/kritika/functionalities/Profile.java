@@ -1,18 +1,12 @@
-package es.uc3m.mobileApps.kritika;
-import android.content.Intent;
+package es.uc3m.mobileApps.kritika.functionalities;
+
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.R;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 public class Profile extends DashboardUserActivity {
 
     @Override

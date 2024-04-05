@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.functionalities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,12 +13,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-public class SearchActivity extends DashboardUserActivity{
+public class SearchActivity extends DashboardUserActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

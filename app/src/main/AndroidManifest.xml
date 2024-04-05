@@ -18,22 +18,22 @@
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Profile"
+            android:name=".functionalities.Profile"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".functionalities.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".BooksActivity"
+            android:name=".books.BooksActivity"
             android:exported="false" />
         <activity
-            android:name=".MusicActivity"
+            android:name=".music.MusicActivity"
             android:exported="false" />
         <activity
-            android:name=".MoviesActivity"
+            android:name=".movies.MoviesActivity"
             android:exported="false" />
         <activity
-            android:name=".MovieDetailActivity"
+            android:name=".movies.MovieDetailActivity"
             android:exported="false" />
         <activity
             android:name=".DashboardAdminActivity"
@@ -42,14 +42,14 @@
             android:name=".DashboardUserActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".logs.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".logs.RegisterActivity"
             android:exported="false" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".logs.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

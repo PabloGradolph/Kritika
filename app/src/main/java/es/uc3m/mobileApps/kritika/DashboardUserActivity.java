@@ -6,14 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import es.uc3m.mobileApps.kritika.books.BooksActivity;
+import es.uc3m.mobileApps.kritika.functionalities.Profile;
+import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
+import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
+import es.uc3m.mobileApps.kritika.music.MusicActivity;
 
 public class DashboardUserActivity extends AppCompatActivity {
 

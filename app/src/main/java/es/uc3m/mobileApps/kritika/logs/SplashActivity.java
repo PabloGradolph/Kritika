@@ -1,10 +1,8 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.logs;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +13,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import es.uc3m.mobileApps.kritika.DashboardAdminActivity;
+import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.MainActivity;
+import es.uc3m.mobileApps.kritika.R;
 
 public class SplashActivity extends AppCompatActivity {
 

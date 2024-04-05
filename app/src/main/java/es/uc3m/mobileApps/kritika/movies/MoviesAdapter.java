@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.movies;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {

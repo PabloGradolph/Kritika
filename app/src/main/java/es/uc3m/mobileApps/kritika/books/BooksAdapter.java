@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.books;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {

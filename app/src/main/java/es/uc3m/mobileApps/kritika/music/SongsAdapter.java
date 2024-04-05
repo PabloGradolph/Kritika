@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.music;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.util.List;
+
+import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {

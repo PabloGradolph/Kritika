@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.movies;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Locale;
 
+import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
