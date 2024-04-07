@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika;
+package es.uc3m.mobileApps.kritika.newDashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import es.uc3m.mobileApps.kritika.MainActivity;
+import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.books.BooksActivity;
 import es.uc3m.mobileApps.kritika.functionalities.Profile;
 import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
 import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
 import es.uc3m.mobileApps.kritika.music.MusicActivity;
-import es.uc3m.mobileApps.kritika.newDashboard.NewMoviesActivity;
 
-public class DashboardUserActivity extends AppCompatActivity {
+public class newDashboardUserActivity extends AppCompatActivity {
 
     // view binding
     private es.uc3m.mobileApps.kritika.databinding.ActivityDashboardUserBinding binding;
@@ -142,7 +143,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void openHome() {
-        Intent intent = new Intent(this, DashboardUserActivity.class);
+        Intent intent = new Intent(this, newDashboardUserActivity.class);
         startActivity(intent);
     }
     public void openSearch() {

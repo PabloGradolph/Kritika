@@ -1,5 +1,5 @@
 
-package es.uc3m.mobileApps.kritika.movies;
+package es.uc3m.mobileApps.kritika.newDashboard;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,24 +24,24 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
-public class MoviesActivity extends DashboardUserActivity {
+public class NewMoviesActivity extends DashboardUserActivity {
     private RecyclerView rvMovies;
-    private MoviesAdapter adapter;
+    private NewMoviesAdapter adapter;
     private List<Movie> movieList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+        setContentView(R.layout.new_activity_dashboard_user);
 
         rvMovies = findViewById(R.id.rvMovies);
-        rvMovies.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MoviesAdapter(this, movieList);
+        rvMovies.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        adapter = new NewMoviesAdapter(this, movieList);
         // listener de clic en tu adaptador
-        adapter.setOnItemClickListener(new MoviesAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new NewMoviesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                Intent intent = new Intent(MoviesActivity.this, MovieDetailActivity.class);
+                Intent intent = new Intent(NewMoviesActivity.this, NewMoviesDetailActivity.class);
                 intent.putExtra("id", movie.getId());
                 startActivity(intent);
             }

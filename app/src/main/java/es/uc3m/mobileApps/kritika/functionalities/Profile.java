@@ -16,12 +16,13 @@ public class Profile extends DashboardUserActivity {
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
+        Button buttonOpenNew = findViewById(R.id.button_open_new); // NEW BUTTON
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
         // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenNew, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);// You can add any specific initialization code for the Profile activity here
     }
 

@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika.music;
+package es.uc3m.mobileApps.kritika.newDashboard;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,12 +19,13 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
+import es.uc3m.mobileApps.kritika.music.SongsAdapter;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MusicActivity extends DashboardUserActivity {
+public class newMusicActivity extends DashboardUserActivity {
 
     private RecyclerView rvSongs;
     private SongsAdapter adapter;
@@ -33,10 +34,10 @@ public class MusicActivity extends DashboardUserActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music);
+        setContentView(R.layout.new_activity_dashboard_user);
 
         rvSongs = findViewById(R.id.rvSongs);
-        rvSongs.setLayoutManager(new LinearLayoutManager(this));
+        rvSongs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         adapter = new SongsAdapter(this, songsList);
         rvSongs.setAdapter(adapter);
 
@@ -51,7 +52,7 @@ public class MusicActivity extends DashboardUserActivity {
         // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenNew, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
-        new MusicActivity.DiscoverSongsTask().execute();
+        new newMusicActivity.DiscoverSongsTask().execute();
     }
     //Comment testea si funciona esta llamada a la API a la que tengas WIFI
     // KEY: 96f13ee809056c77d25defbd0f813024
@@ -121,7 +122,7 @@ public class MusicActivity extends DashboardUserActivity {
                 songsList.addAll(songs);
                 adapter.notifyDataSetChanged();
             } else {
-                Toast.makeText(MusicActivity.this, "Failed to fetch data!", Toast.LENGTH_LONG).show();
+                Toast.makeText(newMusicActivity.this, "Failed to fetch data!", Toast.LENGTH_LONG).show();
             }
         }
     }
