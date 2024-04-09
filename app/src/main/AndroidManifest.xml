@@ -36,6 +36,9 @@
             android:name=".music.MusicActivity"
             android:exported="false" />
         <activity
+            android:name=".music.MusicDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".movies.MoviesActivity"
             android:exported="false" />
         <activity

@@ -1,5 +1,6 @@
 package es.uc3m.mobileApps.kritika.music;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -18,7 +19,11 @@ import java.util.List;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.model.Movie;
 import es.uc3m.mobileApps.kritika.model.Song;
+import es.uc3m.mobileApps.kritika.movies.MovieDetailActivity;
+import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
+import es.uc3m.mobileApps.kritika.movies.MoviesAdapter;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,6 +43,16 @@ public class MusicActivity extends DashboardUserActivity {
         rvSongs = findViewById(R.id.rvSongs);
         rvSongs.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SongsAdapter(this, songsList);
+        //Falta funcionalidad para hacer click, la meto aqui
+        adapter.setOnItemClickListener(new SongsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Song song) {
+                Intent intent = new Intent(MusicActivity.this, MusicDetailActivity.class);
+                intent.putExtra("name", song.getName());
+                startActivity(intent);
+            }
+        });
+
         rvSongs.setAdapter(adapter);
 
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);

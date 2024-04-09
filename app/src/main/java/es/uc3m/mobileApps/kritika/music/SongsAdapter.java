@@ -12,7 +12,9 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.model.Movie;
 import es.uc3m.mobileApps.kritika.model.Song;
+import es.uc3m.mobileApps.kritika.movies.MoviesAdapter;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
     private List<Song> songs;
@@ -22,6 +24,13 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         this.inflater = LayoutInflater.from(context);
         this.songs = songs;
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(Song song);
+    }
+    private static OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {this.listener = listener;}
 
     @NonNull
     @Override
@@ -39,6 +48,16 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         Glide.with(holder.imageView.getContext())
                 .load(currentSong.getImageUrl())
                 .into(holder.imageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
+                if (listener != null) {
+                    listener.onItemClick(currentSong);
+                }
+            }
+        });
     }
 
     @Override
