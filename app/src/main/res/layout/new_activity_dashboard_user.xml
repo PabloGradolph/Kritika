@@ -6,8 +6,6 @@
     android:layout_height="match_parent">
 
     <!-- Activity Dashboard layout -->
-
-    <!-- Movies Text -->
     <include
         android:id="@+id/includedLayout"
         layout="@layout/activity_dashboard_user"
@@ -21,8 +19,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!-- Movies Text -->
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout1"
         android:layout_width="413dp"
         android:layout_height="25dp"
         android:layout_marginBottom="5dp"
@@ -59,11 +58,12 @@
 
     <!-- Music Text -->
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="413dp"
         android:layout_height="25dp"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
         android:background="@color/gray01"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/rvMovies"
         tools:ignore="MissingConstraints">
 
@@ -78,16 +78,19 @@
     <!-- Music layout -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSongs"
-        android:layout_width="367dp"
-        android:layout_height="331dp"
+        android:layout_width="369dp"
+        android:layout_height="192dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="?actionBarSize"
         android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.22" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

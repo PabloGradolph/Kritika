@@ -1,5 +1,6 @@
 package es.uc3m.mobileApps.kritika.newDashboard;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -19,16 +20,16 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
-import es.uc3m.mobileApps.kritika.music.SongsAdapter;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
 public class newMusicActivity extends DashboardUserActivity {
 
     private RecyclerView rvSongs;
-    private SongsAdapter adapter;
+    private newSongsAdapter adapter;
     private List<Song> songsList = new ArrayList<>();
 
     @Override
@@ -38,7 +39,17 @@ public class newMusicActivity extends DashboardUserActivity {
 
         rvSongs = findViewById(R.id.rvSongs);
         rvSongs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new SongsAdapter(this, songsList);
+        adapter = new newSongsAdapter(this, songsList);
+        //funcionalidad para hacer click
+        adapter.setOnItemClickListener(new newSongsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Song song) {
+                Intent intent = new Intent(newMusicActivity.this, newMusicDetailActivity.class);
+                intent.putExtra("name", song.getName());
+                startActivity(intent);
+            }
+        });
+
         rvSongs.setAdapter(adapter);
 
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
@@ -53,6 +64,7 @@ public class newMusicActivity extends DashboardUserActivity {
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenNew, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
         new newMusicActivity.DiscoverSongsTask().execute();
+
     }
     //Comment testea si funciona esta llamada a la API a la que tengas WIFI
     // KEY: 96f13ee809056c77d25defbd0f813024

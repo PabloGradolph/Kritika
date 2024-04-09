@@ -17,13 +17,20 @@ import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
 
 public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongViewHolder> {
-    private List<Song> songs;
+    private static List<Song> songs;
     private LayoutInflater inflater;
 
     public newSongsAdapter(Context context, List<Song> songs) {
         this.inflater = LayoutInflater.from(context);
         this.songs = songs;
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(Song song);
+    }
+    private static OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {this.listener = listener;}
 
     @NonNull
     @Override
@@ -36,9 +43,19 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         Song currentSong = songs.get(position);
         // Cargar imagen con Glide
-        Glide.with(holder.imageView.getContext())
+        Glide.with(holder.songsImageViewPoster.getContext())
                 .load(currentSong.getImageUrl())
-                .into(holder.imageView);
+                .into(holder.songsImageViewPoster);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
+                if (listener != null) {
+                    listener.onItemClick(currentSong);
+                }
+            }
+        });
     }
 
     @Override
@@ -47,11 +64,23 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
     }
 
     static class SongViewHolder extends RecyclerView.ViewHolder {
-        final ImageView imageView;
+        final ImageView songsImageViewPoster;
+
         SongViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.songsImageViewPoster);
+            songsImageViewPoster = itemView.findViewById(R.id.songsImageViewPoster);
+            // Inicializa aquí otros elementos de la vista
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(songs.get(position));
+                    }
+                }
+            });
         }
+
     }
 }
 

@@ -8,10 +8,6 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.books.BooksActivity;
 import es.uc3m.mobileApps.kritika.functionalities.Profile;
@@ -21,21 +17,12 @@ import es.uc3m.mobileApps.kritika.music.MusicActivity;
 
 public class newDashboardUserActivity extends AppCompatActivity {
 
-    // view binding
-    private es.uc3m.mobileApps.kritika.databinding.ActivityDashboardUserBinding binding;
 
-    // firebase auth
-    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = es.uc3m.mobileApps.kritika.databinding.ActivityDashboardUserBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
-        // init firebase auth
-        firebaseAuth = FirebaseAuth.getInstance();
-        checkUser();
 
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
@@ -45,14 +32,7 @@ public class newDashboardUserActivity extends AppCompatActivity {
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
-        // handle click, logout
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                checkUser();
-            }
-        });
+
 
         // Set click listeners for buttons
 
@@ -120,7 +100,7 @@ public class newDashboardUserActivity extends AppCompatActivity {
 
     // NEW BUTTON
     public void openNew() {
-        Intent intent = new Intent(this, NewMoviesActivity.class);
+        Intent intent = new Intent(this, newDashboardUserActivity.class);
         startActivity(intent);
     }
     public void openMovies() {
@@ -151,19 +131,5 @@ public class newDashboardUserActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void checkUser() {
-        // get current user
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser == null){
-            // not logged in, go to main screen
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        } else {
-            // logged in, get user info
-            String UserName = firebaseUser.getEmail();
-            // set in textview of toolbar
-            binding.subTitleTv.setText(UserName);
 
-        }
-    }
 }
