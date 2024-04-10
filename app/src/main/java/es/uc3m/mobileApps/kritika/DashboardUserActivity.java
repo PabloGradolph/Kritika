@@ -16,7 +16,7 @@ import es.uc3m.mobileApps.kritika.functionalities.Profile;
 import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
 import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
 import es.uc3m.mobileApps.kritika.music.MusicActivity;
-import es.uc3m.mobileApps.kritika.newDashboard.newMusicActivity;
+import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 
 public class DashboardUserActivity extends AppCompatActivity {
 
@@ -119,7 +119,7 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     // NEW BUTTON
     public void openNew() {
-        Intent intent = new Intent(this, newMusicActivity.class);
+        Intent intent = new Intent(this, newDashboardUserActivity.class);
         startActivity(intent);
     }
     public void openMovies() {

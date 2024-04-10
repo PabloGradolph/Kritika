@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
@@ -23,12 +25,11 @@ import okhttp3.Response;
 
 public class NewMoviesDetailActivity extends AppCompatActivity {
 
-    // ... tus variables de vistas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.movie_item_detail);
+        setContentView(R.layout.new_movie_item_detail);
 
         int movieId = getIntent().getIntExtra("id", -1);
 
@@ -80,7 +81,14 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         protected void onPostExecute(Movie movie) {
             super.onPostExecute(movie);
             if (movie != null) {
+                TextView tvTitle = findViewById(R.id.tvTitle);
+                TextView tvOverview = findViewById(R.id.tvOverview);
+                TextView tvRating = findViewById(R.id.tvRating);
                 ImageView movieImageViewPoster = findViewById(R.id.movieImageViewPoster);
+
+                tvTitle.setText(movie.getTitle());
+                tvOverview.setText(movie.getOverview());
+                tvRating.setText(String.format(Locale.getDefault(), "Rating: %s", movie.getRating()));
 
                 // Asegúrate de que la URL del póster sea completa y válida
                 String posterUrl = "https://image.tmdb.org/t/p/w500" + movie.getPosterPath();

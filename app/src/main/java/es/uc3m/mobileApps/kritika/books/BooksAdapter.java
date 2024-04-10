@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -23,6 +25,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         this.inflater = LayoutInflater.from(context);
         this.books = books;
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(Book book);
+    }
+    private static BooksAdapter.OnItemClickListener listener;
+
+    public void setOnItemClickListener(BooksAdapter.OnItemClickListener listener) {this.listener = listener;}
 
     @NonNull
     @Override
@@ -44,6 +53,16 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         Glide.with(holder.imageViewThumbnail.getContext())
                 .load(currentBook.getThumbnail())
                 .into(holder.imageViewThumbnail);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
+                if (listener != null) {
+                    listener.onItemClick(currentBook);
+                }
+            }
+        });
     }
 
     @Override

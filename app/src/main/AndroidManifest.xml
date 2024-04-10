@@ -21,13 +21,7 @@
             android:name=".newDashboard.newDashboardUserActivity"
             android:exported="false" />
         <activity
-            android:name=".newDashboard.NewMoviesActivity"
-            android:exported="false" />
-        <activity
             android:name=".newDashboard.NewMoviesDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".newDashboard.newMusicActivity"
             android:exported="false" />
         <activity
             android:name=".newDashboard.newMusicDetailActivity"
@@ -40,6 +34,9 @@
             android:exported="false" />
         <activity
             android:name=".books.BooksActivity"
+            android:exported="false" />
+        <activity
+            android:name=".books.BooksDetailActivity"
             android:exported="false" />
         <activity
             android:name=".music.MusicActivity"

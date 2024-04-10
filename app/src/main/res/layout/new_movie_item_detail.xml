@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/movieImageViewPoster"
+        android:layout_width="399dp"
+        android:layout_height="532dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="174dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="220dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Movie Title"
+        android:textColor="@color/KritikaPurple"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
+        app:layout_constraintWidth_default="wrap" />
+
+    <TextView
+        android:id="@+id/tvOverview"
+        android:layout_width="377dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="7"
+        android:text="Movie Overview"
+        android:textColor="@color/JetBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster" />
+
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="4dp"
+        android:text="Movie Rating"
+        android:textColor="@color/KritikaPurple"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
+        app:layout_constraintWidth_default="wrap" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

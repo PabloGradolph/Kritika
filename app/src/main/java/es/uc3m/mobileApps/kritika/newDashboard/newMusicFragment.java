@@ -4,10 +4,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.FormBody;
@@ -26,25 +26,29 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class newMusicActivity extends DashboardUserActivity {
-
+public class newMusicFragment extends Fragment {
     private RecyclerView rvSongs;
     private newSongsAdapter adapter;
     private List<Song> songsList = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_activity_dashboard_user);
+    // Constructor vacío requerido
+    public newMusicFragment() { }
 
-        rvSongs = findViewById(R.id.rvSongs);
-        rvSongs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new newSongsAdapter(this, songsList);
-        //funcionalidad para hacer click
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Infla el layout para este fragmento
+        View view = inflater.inflate(R.layout.new_fragment_music, container, false);
+
+        rvSongs = view.findViewById(R.id.rvSongs);
+        rvSongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        adapter = new newSongsAdapter(getContext(), songsList);
+        // funcionalidad para hacer click
         adapter.setOnItemClickListener(new newSongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Song song) {
-                Intent intent = new Intent(newMusicActivity.this, newMusicDetailActivity.class);
+                // En los Fragmentos, usa getActivity() para obtener el contexto de la actividad
+                Intent intent = new Intent(getActivity(), newMusicDetailActivity.class);
                 intent.putExtra("name", song.getName());
                 startActivity(intent);
             }
@@ -52,23 +56,17 @@ public class newMusicActivity extends DashboardUserActivity {
 
         rvSongs.setAdapter(adapter);
 
-        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
-        Button buttonOpenMusic = findViewById(R.id.button_open_music);
-        Button buttonOpenBooks = findViewById(R.id.button_open_books);
-        Button buttonOpenNew = findViewById(R.id.button_open_new); // NEW BUTTON
-        ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
-        ImageButton buttonOpenHome = findViewById(R.id.houseButton);
-        ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
+        // No necesitas los botones de navegación aquí si los gestionas en la actividad principal o a través de un Navigation Component
 
-        // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenNew, buttonOpenProfile,
-                buttonOpenHome, buttonOpenSearch);
-        new newMusicActivity.DiscoverSongsTask().execute();
+        // Iniciar la tarea asincrónica para obtener las canciones
+        new RetrieveSongsTask().execute();
 
+        return view;
     }
+
     //Comment testea si funciona esta llamada a la API a la que tengas WIFI
     // KEY: 96f13ee809056c77d25defbd0f813024
-    private class DiscoverSongsTask extends AsyncTask<Void, Void, List<Song>> {
+    private class RetrieveSongsTask extends AsyncTask<Void, Void, List<Song>> {
 
         @Override
         protected List<Song> doInBackground(Void... voids) {
@@ -133,8 +131,6 @@ public class newMusicActivity extends DashboardUserActivity {
                 songsList.clear();
                 songsList.addAll(songs);
                 adapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(newMusicActivity.this, "Failed to fetch data!", Toast.LENGTH_LONG).show();
             }
         }
     }

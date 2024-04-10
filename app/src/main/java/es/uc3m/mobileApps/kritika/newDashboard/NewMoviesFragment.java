@@ -4,9 +4,11 @@ package es.uc3m.mobileApps.kritika.newDashboard;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +18,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 import okhttp3.OkHttpClient;
@@ -24,45 +25,46 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
-public class NewMoviesActivity extends DashboardUserActivity {
+public class NewMoviesFragment extends Fragment {
     private RecyclerView rvMovies;
     private NewMoviesAdapter adapter;
     private List<Movie> movieList = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_activity_dashboard_user);
+    // Constructor vacío requerido
+    public NewMoviesFragment() { }
 
-        rvMovies = findViewById(R.id.rvMovies);
-        rvMovies.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new NewMoviesAdapter(this, movieList);
-        // listener de clic en tu adaptador
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Infla el layout para este fragmento
+        View view = inflater.inflate(R.layout.new_fragment_movies, container, false);
+
+        rvMovies = view.findViewById(R.id.rvMovies);
+        rvMovies.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        adapter = new NewMoviesAdapter(getContext(), movieList);
+        // funcionalidad para hacer click
         adapter.setOnItemClickListener(new NewMoviesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                Intent intent = new Intent(NewMoviesActivity.this, NewMoviesDetailActivity.class);
+                // En los Fragmentos, usa getActivity() para obtener el contexto de la actividad
+                Intent intent = new Intent(getActivity(), NewMoviesDetailActivity.class);
                 intent.putExtra("id", movie.getId());
                 startActivity(intent);
             }
         });
+
         rvMovies.setAdapter(adapter);
 
-        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
-        Button buttonOpenMusic = findViewById(R.id.button_open_music);
-        Button buttonOpenBooks = findViewById(R.id.button_open_books);
-        Button buttonOpenNew = findViewById(R.id.button_open_new); // NEW BUTTON
-        ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
-        ImageButton buttonOpenHome = findViewById(R.id.houseButton);
-        ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
+        // No necesitas los botones de navegación aquí si los gestionas en la actividad principal o a través de un Navigation Component
 
-        // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenNew, buttonOpenProfile,
-                buttonOpenHome, buttonOpenSearch);
-        new DiscoverMoviesTask().execute();
+        // Iniciar la tarea asincrónica para obtener las canciones
+        new NewMoviesFragment.RetrieveMoviesTask().execute();
+
+        return view;
     }
 
-    protected class DiscoverMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
+
+
+    protected class RetrieveMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         @Override
         protected List<Movie> doInBackground(Void... voids) {
             // Crear el interceptor de logging y configurar el nivel de log

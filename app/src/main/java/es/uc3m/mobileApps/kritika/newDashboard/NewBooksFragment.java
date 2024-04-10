@@ -1,12 +1,12 @@
-package es.uc3m.mobileApps.kritika.books;
+package es.uc3m.mobileApps.kritika.newDashboard;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,52 +16,43 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class BooksActivity extends DashboardUserActivity {
+public class NewBooksFragment extends Fragment {
     private RecyclerView rvBooks;
-    private BooksAdapter adapter;
+    private NewBooksAdapter adapter;
     private List<Book> bookList = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_books);
+    // Constructor vacío requerido
+    public NewBooksFragment() { }
 
-        rvBooks = findViewById(R.id.rvBooks);
-        rvBooks.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BooksAdapter(this, bookList);
-        //Funcionalidad para hacer click
-        adapter.setOnItemClickListener(new BooksAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Book book) {
-                Intent intent = new Intent(BooksActivity.this,BooksDetailActivity.class);
-                intent.putExtra("id", book.getId());
-                startActivity(intent);
-            }
-        });
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Infla el layout para este fragmento
+        View view = inflater.inflate(R.layout.new_fragment_book, container, false);
+
+        rvBooks = view.findViewById(R.id.rvBooks);
+        rvBooks.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        adapter = new NewBooksAdapter(getContext(), bookList);
+        // FALTA funcionalidad para hacer click
+
+
         rvBooks.setAdapter(adapter);
 
-        Button buttonOpenMovies = findViewById(R.id.button_open_movies);
-        Button buttonOpenMusic = findViewById(R.id.button_open_music);
-        Button buttonOpenBooks = findViewById(R.id.button_open_books);
-        Button buttonOpenNew = findViewById(R.id.button_open_new); // NEW BUTTON
-        ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
-        ImageButton buttonOpenHome = findViewById(R.id.houseButton);
-        ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
+        // No necesitas los botones de navegación aquí si los gestionas en la actividad principal o a través de un Navigation Component
 
-        // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenNew, buttonOpenProfile,
-                buttonOpenHome, buttonOpenSearch);
-        new DiscoverBooksTask().execute();
+        // Iniciar la tarea asincrónica para obtener las canciones
+        new NewBooksFragment.RetrieveBooksTask().execute();
+
+        return view;
     }
 
-    private class DiscoverBooksTask extends AsyncTask<Void, Void, List<Book>> {
+
+    private class RetrieveBooksTask extends AsyncTask<Void, Void, List<Book>> {
         @Override
         protected List<Book> doInBackground(Void... voids) {
             OkHttpClient client = new OkHttpClient();
@@ -112,8 +103,6 @@ public class BooksActivity extends DashboardUserActivity {
                 bookList.clear();
                 bookList.addAll(books);
                 adapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(BooksActivity.this, "Failed to fetch books data!", Toast.LENGTH_LONG).show();
             }
         }
     }

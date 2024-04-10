@@ -12,11 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Locale;
 
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
@@ -36,7 +32,7 @@ public class MusicDetailActivity extends AppCompatActivity {
         String songName = getIntent().getStringExtra("name");
 
         if (songName != null) {
-            new MusicDetailActivity.FetchMovieDetailsTask().execute(songName);
+            new MusicDetailActivity.FetchMusicDetailsTask().execute(songName);
         } else {
             // Manejar el caso de que no se encuentre un nombre válido
             Toast.makeText(this, "Song name not provided", Toast.LENGTH_SHORT).show();
@@ -44,7 +40,7 @@ public class MusicDetailActivity extends AppCompatActivity {
         }
     }
 
-    private class FetchMovieDetailsTask extends AsyncTask<String, Void, Song> {
+    private class FetchMusicDetailsTask extends AsyncTask<String, Void, Song> {
         @Override
         protected Song doInBackground(String... songNames) {
             final OkHttpClient client = new OkHttpClient();
@@ -89,7 +85,7 @@ public class MusicDetailActivity extends AppCompatActivity {
                 return new Song(name, artistName, url, imageUrl);
 
             } catch (Exception e) {
-                Log.e("MovieDetail", "Error fetching movie details", e);
+                Log.e("MusicDetail", "Error fetching music details", e);
                 return null;
             }
         }
