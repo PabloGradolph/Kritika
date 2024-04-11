@@ -41,7 +41,7 @@ public class BooksActivity extends DashboardUserActivity {
             @Override
             public void onItemClick(Book book) {
                 Intent intent = new Intent(BooksActivity.this,BooksDetailActivity.class);
-                intent.putExtra("id", book.getId());
+                intent.putExtra("title", book.getTitle());
                 startActivity(intent);
             }
         });

@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika.books;
+package es.uc3m.mobileApps.kritika.newDashboard;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,12 +23,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class BooksDetailActivity extends AppCompatActivity {
+public class NewBooksDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.book_item_detail);
+        setContentView(R.layout.new_book_item_detail);
 
         String bookTitle = getIntent().getStringExtra("title");
 
@@ -101,12 +101,12 @@ public class BooksDetailActivity extends AppCompatActivity {
                 tvOverview.setText(shortDescription);
                 tvAuthor.setText(String.join(", ", book.getAuthors()));
                 // Cargar imagen de portada con Glide
-                Glide.with(BooksDetailActivity.this)
+                Glide.with(NewBooksDetailActivity.this)
                         .load(book.getThumbnail())
                         .into(imageViewPoster);
 
             }else {
-                Toast.makeText(BooksDetailActivity.this, "Error al cargar los detalles del libro.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewBooksDetailActivity.this, "Error al cargar los detalles del libro.", Toast.LENGTH_SHORT).show();
             }
         }
     }

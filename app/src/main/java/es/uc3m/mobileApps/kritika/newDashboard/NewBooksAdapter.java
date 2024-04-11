@@ -25,6 +25,13 @@ public class NewBooksAdapter extends RecyclerView.Adapter<NewBooksAdapter.BookVi
         this.books = books;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Book book);
+    }
+    private static NewBooksAdapter.OnItemClickListener listener;
+
+    public void setOnItemClickListener(NewBooksAdapter.OnItemClickListener listener) {this.listener = listener;}
+
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,6 +47,16 @@ public class NewBooksAdapter extends RecyclerView.Adapter<NewBooksAdapter.BookVi
         Glide.with(holder.bookImageViewPoster.getContext())
                 .load(currentBook.getThumbnail())
                 .into(holder.bookImageViewPoster);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
+                if (listener != null) {
+                    listener.onItemClick(currentBook);
+                }
+            }
+        });
     }
 
     @Override

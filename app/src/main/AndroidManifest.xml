@@ -27,6 +27,9 @@
             android:name=".newDashboard.newMusicDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".newDashboard.NewBooksDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".functionalities.Profile"
             android:exported="false" />
         <activity

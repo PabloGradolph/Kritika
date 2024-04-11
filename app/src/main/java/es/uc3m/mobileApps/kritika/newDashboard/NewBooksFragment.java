@@ -1,5 +1,6 @@
 package es.uc3m.mobileApps.kritika.newDashboard;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.books.BooksActivity;
+import es.uc3m.mobileApps.kritika.books.BooksAdapter;
+import es.uc3m.mobileApps.kritika.books.BooksDetailActivity;
 import es.uc3m.mobileApps.kritika.model.Book;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,8 +42,15 @@ public class NewBooksFragment extends Fragment {
         rvBooks = view.findViewById(R.id.rvBooks);
         rvBooks.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new NewBooksAdapter(getContext(), bookList);
-        // FALTA funcionalidad para hacer click
-
+        // Funcionalidad para hacer click
+        adapter.setOnItemClickListener(new NewBooksAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Book book) {
+                Intent intent = new Intent(getContext(), NewBooksDetailActivity.class);
+                intent.putExtra("title", book.getTitle());
+                startActivity(intent);
+            }
+        });
 
         rvBooks.setAdapter(adapter);
 
