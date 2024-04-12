@@ -16,13 +16,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import es.uc3m.mobileApps.kritika.DashboardAdminActivity;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.databinding.ActivityLoginBinding;
 
@@ -114,38 +109,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
-        progressDialog.setMessage("Checkin User...");
+        progressDialog.setMessage("Checking User...");
 
-        // check if user is user or admin from raltime database
-        // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-        // check in db
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseUser.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        progressDialog.dismiss();
-                        // get user type
-                        String userType = ""+snapshot.child("userType").getValue();
-                        // check user type
-                        if (userType.equals("user")){
-                            // this is simple user, open user dashboard
-                            startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
-                            finish();
-
-                        } else if (userType.equals("admin")){
-                            // this is admin, open admin dashboard
-                            startActivity(new Intent(LoginActivity.this, DashboardAdminActivity.class));
-                            finish();
-                        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(firebaseUser.getUid())
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    progressDialog.dismiss();
+                    String userType = documentSnapshot.getString("userType");
+                    if ("user".equals(userType)) {
+                        startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
+                        finish();
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-
-                    }
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
@@ -140,27 +141,18 @@ public class RegisterActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
 
         // set data to db
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(uid)
-                .setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        // data added to db
-                        progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
-                        // since user account is created so start dashboard of user
-                        startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
-                        finish();
-                    }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(uid)
+                .set(hashMap)
+                .addOnSuccessListener(aVoid -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
+                    finish();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        // data failed adding to db
-                        progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }
