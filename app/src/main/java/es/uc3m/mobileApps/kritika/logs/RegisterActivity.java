@@ -14,14 +14,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.databinding.ActivityRegisterBinding;
+import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -147,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     progressDialog.dismiss();
                     Toast.makeText(RegisterActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, newDashboardUserActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> {

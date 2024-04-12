@@ -18,8 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.databinding.ActivityLoginBinding;
+import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     String userType = documentSnapshot.getString("userType");
                     if ("user".equals(userType)) {
-                        startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
+                        startActivity(new Intent(LoginActivity.this, newDashboardUserActivity.class));
                         finish();
                     }
                 })
