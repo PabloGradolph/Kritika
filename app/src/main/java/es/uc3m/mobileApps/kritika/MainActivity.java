@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import es.uc3m.mobileApps.kritika.databinding.ActivityMainBinding;
 import es.uc3m.mobileApps.kritika.logs.LoginActivity;
+import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         binding.skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DashboardUserActivity.class));
+                startActivity(new Intent(MainActivity.this, newDashboardUserActivity.class));
             }
         });
     };

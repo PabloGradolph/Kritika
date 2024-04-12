@@ -1,13 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/back01"
+    tools:context=".newDashboard.newDashboardUserActivity"
+    app:layout_constraintTop_toTopOf="parent">
 
+    <RelativeLayout
+        android:id="@+id/menuNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/gray01">
 
-    <!-- Activity Dashboard layout -->
+        <TextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="User Name"
+            android:textColor="@color/black" />
 
+        <ImageButton
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_logout_white" />
+    </RelativeLayout>
+
+    <!--Secondary bar for easy navigation -->
+    <RelativeLayout
+        android:id="@+id/mediaNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_below="@id/menuNavBar"
+        android:background="@android:color/white">
+
+        <!-- You can add buttons or other views here -->
+        <Button
+            android:id="@+id/button_open_movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MOVIES"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            />
+
+        <Button
+            android:id="@+id/button_open_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MUSIC"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button_open_movies"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/button_open_books"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BOOKS"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button_open_music"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <!-- NewActivity Dashboard layout -->
 
     <FrameLayout
         android:id="@+id/moviesFragmentContainer"
@@ -16,9 +94,9 @@
         android:layout_marginEnd="4dp"
         android:layout_weight="1"
         android:elevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_below="@+id/mediaNavBar"
+        tools:ignore="MissingConstraints" />
+
 
     <FrameLayout
         android:id="@+id/songsFragmentContainer"
@@ -27,36 +105,66 @@
         android:layout_marginTop="0dp"
         android:layout_weight="1"
         android:elevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/moviesFragmentContainer"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="2dp" />
-
+        android:layout_below="@+id/moviesFragmentContainer"
+        tools:ignore="MissingConstraints" />
 
     <FrameLayout
         android:id="@+id/booksFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="0dp"
+        android:layout_below="@+id/songsFragmentContainer"
         android:layout_weight="1"
         android:elevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/songsFragmentContainer"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="2dp" />
+        tools:ignore="MissingConstraints" />
 
-    <include
-        android:id="@+id/includedLayout"
-        layout="@layout/activity_dashboard_user"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray01">
 
 
+        <ImageButton
+            android:id="@+id/houseButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_home_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/searchButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_search_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/profileButton"
+            app:layout_constraintStart_toEndOf="@id/houseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Button 2 -->
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_person_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/searchButton"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Profile Icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
