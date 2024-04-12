@@ -106,6 +106,8 @@ public class newMusicFragment extends Fragment {
                 for (int i = 0; i < tracks.length(); i++) {
                     JSONObject trackItem = tracks.getJSONObject(i);
                     JSONObject track = trackItem.getJSONObject("track");
+
+                    String trackId = track.getString("id");
                     String trackName = track.getString("name");
 
                     JSONArray artists = track.getJSONArray("artists");
@@ -114,7 +116,7 @@ public class newMusicFragment extends Fragment {
                     String trackUrl = track.getJSONObject("external_urls").getString("spotify");
                     String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(1).getString("url");
 
-                    Song song = new Song(trackName, artistName, trackUrl, imageUrl);
+                    Song song = new Song(trackId, trackName, artistName, trackUrl, imageUrl);
                     songs.add(song);
                 }
             } catch (Exception e) {

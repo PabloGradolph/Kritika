@@ -1,8 +1,9 @@
 package es.uc3m.mobileApps.kritika.model;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Book {
+public class Book implements SearchInterface {
     private String id;
     private String title;
     private List<String> authors;
@@ -70,6 +71,11 @@ public class Book {
         return title;
     }
 
+    @Override
+    public String getImagePath() { // for search interface
+        return this.thumbnail;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -78,8 +84,14 @@ public class Book {
         return authors;
     }
 
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
+    public void setAuthors(Object authors) {
+        if (authors instanceof String) {
+            // If the authors field is just a String, convert it to a List with one element
+            this.authors = Collections.singletonList((String) authors);
+        } else if (authors instanceof List) {
+            // Cast safely to List<String>
+            this.authors = (List<String>) authors;
+        }
     }
 
     // Getter y Setter para publisher
@@ -149,9 +161,14 @@ public class Book {
     public List<String> getCategories() {
         return categories;
     }
-
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
+    public void setCategories(Object categories) {
+        if (categories instanceof String) {
+            // If the authors field is just a String, convert it to a List with one element
+            this.categories = Collections.singletonList((String) categories);
+        } else if (categories instanceof List) {
+            // Cast safely to List<String>
+            this.categories = (List<String>) categories;
+        }
     }
 
     // Getter y Setter para averageRating
@@ -205,6 +222,19 @@ public class Book {
 
     public void setInfoLink(String infoLink) {
         this.infoLink = infoLink;
+    }
+
+
+
+    // Método para actualizar los detalles
+    public void updateDetails(String title, List<String> authors, String publisher, String publishedDate,
+                              String description, String thumbnail) {
+        this.title = title;
+        this.authors = authors;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.description = description;
+        this.thumbnail = thumbnail;
     }
 }
 

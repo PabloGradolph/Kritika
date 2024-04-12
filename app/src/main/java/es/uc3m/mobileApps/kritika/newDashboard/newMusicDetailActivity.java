@@ -32,7 +32,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
         String songName = getIntent().getStringExtra("name");
 
         if (songName != null) {
-            new newMusicDetailActivity.FetchMovieDetailsTask().execute(songName);
+            new newMusicDetailActivity.FetchMusicDetailsTask().execute(songName);
         } else {
             // Manejar el caso de que no se encuentre un nombre válido
             Toast.makeText(this, "Song name not provided", Toast.LENGTH_SHORT).show();
@@ -40,7 +40,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
         }
     }
 
-    private class FetchMovieDetailsTask extends AsyncTask<String, Void, Song> {
+    private class FetchMusicDetailsTask extends AsyncTask<String, Void, Song> {
         @Override
         protected Song doInBackground(String... songNames) {
             final OkHttpClient client = new OkHttpClient();
@@ -76,13 +76,14 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 JSONObject track = trackjsonObject.getJSONObject("tracks").getJSONArray("items").getJSONObject(0);
 
                 // Extract relevant details like name, artist, URL, and image URL
+                String trackId = track.getString("id");
                 String name = track.getString("name");
                 String artistName = track.getJSONArray("artists").getJSONObject(0).getString("name");
                 String url = track.getJSONObject("external_urls").getString("spotify");
                 String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url");
 
 
-                return new Song(name, artistName, url, imageUrl);
+                return new Song(trackId, name, artistName, url, imageUrl);
 
             } catch (Exception e) {
                 Log.e("MovieDetail", "Error fetching movie details", e);

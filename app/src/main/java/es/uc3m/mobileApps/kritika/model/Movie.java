@@ -1,6 +1,6 @@
 package es.uc3m.mobileApps.kritika.model;
 
-public class Movie {
+public class Movie implements SearchInterface {
     private int id;
     private String title;
     private String overview;
@@ -29,10 +29,14 @@ public class Movie {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
+
+
     public String getOverview() { return overview; }
     public void setOverview(String overview) { this.overview = overview; }
 
     public String getPosterPath() { return posterPath; }
+
+    public String getImagePath() { return posterPath; } // for interface
     public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
 
     public String getRating() { return rating; }
@@ -40,5 +44,14 @@ public class Movie {
 
     public String getReleaseDate() { return releaseDate; }
     public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
+
+    // Método para actualizar los detalles de la película
+    public void updateDetails(String title, String overview, String posterPath, String rating, String releaseDate) {
+        this.title = title;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.rating = rating;
+        this.releaseDate = releaseDate;
+    }
 }
 

@@ -76,13 +76,14 @@ public class MusicDetailActivity extends AppCompatActivity {
                 JSONObject track = trackjsonObject.getJSONObject("tracks").getJSONArray("items").getJSONObject(0);
 
                 // Extract relevant details like name, artist, URL, and image URL
+                String trackId = track.getString("id");
                 String name = track.getString("name");
                 String artistName = track.getJSONArray("artists").getJSONObject(0).getString("name");
                 String url = track.getJSONObject("external_urls").getString("spotify");
                 String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url");
 
 
-                return new Song(name, artistName, url, imageUrl);
+                return new Song(trackId, name, artistName, url, imageUrl);
 
             } catch (Exception e) {
                 Log.e("MusicDetail", "Error fetching music details", e);
