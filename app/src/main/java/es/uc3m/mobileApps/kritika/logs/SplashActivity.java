@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
-        // start main screen after 2 seconds
+        // start main screen after 0'5 seconds
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -45,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         String userType = documentSnapshot.getString("userType");
                         if ("user".equals(userType)) {
-                            startActivity(new Intent(SplashActivity.this, DashboardUserActivity.class));
+                            startActivity(new Intent(SplashActivity.this, newDashboardUserActivity.class));
                             finish();
                         }
                     })
