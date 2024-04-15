@@ -20,4 +20,97 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">>
+
+        <Spinner
+            android:id="@+id/spinnerMediaType"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:entries="@array/content_types"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutMovies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/editTextMovieTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title" />
+        <EditText
+            android:id="@+id/editTextMovieOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Overview" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutMusic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <EditText
+            android:id="@+id/editTextMusicTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title" />
+        <EditText
+            android:id="@+id/editTextMusicArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Artist" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBooks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <EditText
+            android:id="@+id/editTextBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title" />
+        <EditText
+            android:id="@+id/editTextBookAuthors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Authors" />
+        <EditText
+            android:id="@+id/editTextBookDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description" />
+        <EditText
+            android:id="@+id/editTextBookCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Categories" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
