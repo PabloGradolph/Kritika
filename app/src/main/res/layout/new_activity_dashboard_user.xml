@@ -33,6 +33,7 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_logout_white" />
+
     </RelativeLayout>
 
     <!--Secondary bar for easy navigation -->
@@ -83,6 +84,7 @@
             android:layout_toEndOf="@+id/button_open_music"
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"/>
+
     </RelativeLayout>
 
     <!-- NewActivity Dashboard layout -->
@@ -106,7 +108,9 @@
         android:layout_weight="1"
         android:elevation="10dp"
         android:layout_below="@+id/moviesFragmentContainer"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints" >
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/booksFragmentContainer"
@@ -115,7 +119,19 @@
         android:layout_below="@+id/songsFragmentContainer"
         android:layout_weight="1"
         android:elevation="10dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints" >
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addMediaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="@color/KritikaPurple"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="54dp"
+            android:layout_gravity="bottom|end" />
+
+    </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNavBar"
@@ -165,6 +181,5 @@
             android:contentDescription="Profile Icon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </RelativeLayout>

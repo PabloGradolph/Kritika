@@ -8,12 +8,14 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.books.BooksActivity;
+import es.uc3m.mobileApps.kritika.functionalities.AddMediaActivity;
 import es.uc3m.mobileApps.kritika.functionalities.Profile;
 import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
 import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
@@ -48,6 +50,7 @@ public class newDashboardUserActivity extends AppCompatActivity {
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
+        FloatingActionButton addMediaButton = findViewById(R.id.addMediaButton);
 
         // handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +62,8 @@ public class newDashboardUserActivity extends AppCompatActivity {
         });
 
         // Set click listeners for buttons
-
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
-                buttonOpenHome, buttonOpenSearch); // NEW BUTTON
-
+                buttonOpenHome, buttonOpenSearch, addMediaButton);
 
 
         // Carga el MoviesFragment
@@ -89,7 +90,8 @@ public class newDashboardUserActivity extends AppCompatActivity {
     // Method to set click listeners for buttons
     protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic,
                                       Button buttonOpenBooks, ImageButton buttonOpenProfile, // NEW BUTTON
-                                      ImageButton buttonOpenHome, ImageButton buttonOpenSearch) {
+                                      ImageButton buttonOpenHome, ImageButton buttonOpenSearch,
+                                      FloatingActionButton addMediaButton) {
         buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +133,11 @@ public class newDashboardUserActivity extends AppCompatActivity {
                 openSearch();
             }
         });
+
+        addMediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { openAddMedia(); }
+        });
     }
 
     public void openMovies() {
@@ -158,6 +165,11 @@ public class newDashboardUserActivity extends AppCompatActivity {
     }
     public void openSearch() {
         Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    public void openAddMedia() {
+        Intent intent = new Intent(this, AddMediaActivity.class);
         startActivity(intent);
     }
 
