@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // validate data
         if (TextUtils.isEmpty(name)) {
-            // name edit text is empyt, must eneter name
+            // name edit text is empyt, must enter name
             Toast.makeText(this, "Enter your name...", Toast.LENGTH_SHORT).show();
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             // email is either not entered or email pattern is invalid, don't allow to continue in that case

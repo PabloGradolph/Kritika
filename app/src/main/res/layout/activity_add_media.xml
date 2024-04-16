@@ -1,116 +1,374 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back01"
     tools:context=".functionalities.AddMediaActivity">
 
-    <include
-        android:id="@+id/includedLayout"
-        layout="@layout/activity_dashboard_user"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">>
+        android:layout_height="250dp"
+        android:background="@drawable/shape_toolbar01">
 
-        <Spinner
-            android:id="@+id/spinnerMediaType"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:entries="@array/content_types"/>
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_white"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"/>
 
-    <LinearLayout
-        android:id="@+id/layoutMovies"
+        <ImageView
+            android:id="@+id/iconIv"
+            android:layout_width="166dp"
+            android:layout_height="139dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/kritika5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iconIv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/add_media"
+            android:textColor="@color/white"
+            android:textSize="28sp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="225dp">
 
-        <EditText
-            android:id="@+id/editTextMovieTitle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/title" />
-        <EditText
-            android:id="@+id/editTextMovieOverview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/overview" />
-    </LinearLayout>
+            android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/layoutMusic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <EditText
-            android:id="@+id/editTextMusicTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/title" />
-        <EditText
-            android:id="@+id/editTextMusicArtist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/artist" />
-    </LinearLayout>
+            <!--Media Type-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mediaType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false">
 
-    <LinearLayout
-        android:id="@+id/layoutBooks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <EditText
-            android:id="@+id/editTextBookTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/title" />
-        <EditText
-            android:id="@+id/editTextBookAuthors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/authors" />
-        <EditText
-            android:id="@+id/editTextBookDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/description" />
-        <EditText
-            android:id="@+id/editTextBookCategories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/categories" />
-    </LinearLayout>
+                <Spinner
+                    android:id="@+id/spinnerMediaType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_edittext01"
+                    android:drawablePadding="10dp"
+                    android:entries="@array/content_types"
+                    android:padding="10dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/layoutMovies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mediaType"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp">
+
+                <!--Title-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/TitleMovieTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/TitleMovieEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/title"
+                        android:inputType="textPersonName|textCapWords"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Overview-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/OverviewMovieTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/OverviewMovieEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/overview"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:gravity="top|start"
+                        android:minLines="3"
+                        android:maxLines="6"
+                        android:scrollbars="vertical"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Image-->
+                <ImageView
+                    android:id="@+id/imageMovieIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_upload_gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <Button
+                    android:id="@+id/buttonImageMovie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upload_image"
+                    android:layout_gravity="center"/>
+
+                <!--Submit Button-->
+                <Button
+                    android:id="@+id/submitMovie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_button01"
+                    android:text="@string/submit"
+                    android:layout_below="@id/buttonImageMovie"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutMusic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mediaType"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp">
+
+                <!--Title-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/TitleMusicTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/TitleMusicEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/title"
+                        android:inputType="textPersonName|textCapWords"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Artists-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ArtistsMusicTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/ArtistsMusicEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/artists"
+                        android:inputType="textPersonName|textCapWords"
+                        android:scrollbars="vertical"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Image-->
+                <ImageView
+                    android:id="@+id/imageMusicIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_upload_gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <Button
+                    android:id="@+id/buttonImageMusic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upload_image"
+                    android:layout_gravity="center"/>
+
+                <!--Submit Button-->
+                <Button
+                    android:id="@+id/submitMusic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_button01"
+                    android:text="@string/submit"
+                    android:layout_below="@id/buttonImageMusic"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutBooks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mediaType"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp">
+
+                <!--Title-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/TitleBookTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/TitleBookEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/title"
+                        android:inputType="textPersonName|textCapWords"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Authors-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/AuthorsBookTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/AuthorsBookEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/authors"
+                        android:inputType="textPersonName|textCapWords"
+                        android:scrollbars="vertical"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Description-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/DescriptionBookTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/DescriptionBookEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/description"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:gravity="top|start"
+                        android:minLines="3"
+                        android:maxLines="6"
+                        android:scrollbars="vertical"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Categories-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/CategoriesBookTil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:id="@+id/CategoriesBookEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edittext01"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/categories"
+                        android:inputType="textPersonName|textCapWords"
+                        android:scrollbars="vertical"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray01"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Image-->
+                <ImageView
+                    android:id="@+id/imageBookIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_upload_gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <Button
+                    android:id="@+id/buttonImageBook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upload_image"
+                    android:layout_gravity="center"/>
+
+                <!--Submit Button-->
+                <Button
+                    android:id="@+id/submitBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_button01"
+                    android:text="@string/submit"
+                    android:layout_below="@id/buttonImageBook"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
