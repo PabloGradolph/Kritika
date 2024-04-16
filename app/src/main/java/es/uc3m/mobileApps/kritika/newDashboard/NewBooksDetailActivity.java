@@ -2,6 +2,7 @@ package es.uc3m.mobileApps.kritika.newDashboard;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +28,8 @@ import okhttp3.Response;
 
 public class NewBooksDetailActivity extends AppCompatActivity {
 
+    private FloatingActionButton openMenuButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,38 @@ public class NewBooksDetailActivity extends AppCompatActivity {
         } else {
             // Manejar el caso de que no se encuentre un ID válido
         }
+
+        openMenuButton = findViewById(R.id.openMenuButton);
+
+        openMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBottomSheetMenu();
+            }
+        });
+    }
+
+    private void showBottomSheetMenu() {
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+
+        bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
+            // Implementar la funcionalidad de calificación
+            Toast.makeText(this, "Rate action", Toast.LENGTH_SHORT).show();
+            bottomSheetDialog.dismiss();
+        });
+        bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
+            // Implementar la funcionalidad para añadir a listas
+            Toast.makeText(this, "Add to List action", Toast.LENGTH_SHORT).show();
+            bottomSheetDialog.dismiss();
+        });
+        bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
+            // Implementar la funcionalidad para escribir una reseña
+            Toast.makeText(this, "Write a Review action", Toast.LENGTH_SHORT).show();
+            bottomSheetDialog.dismiss();
+        });
     }
 
     private class FetchBooksDetailsTask extends AsyncTask<String, Void, Book> {

@@ -35,6 +35,10 @@
     <string name="add_media">Add New Media</string>
     <string name="submit">Submit</string>
     <string name="artists">Artists</string>
+    <string name="rate">Rate Media</string>
+    <string name="add_list">Add to List</string>
+    <string name="review">Write a Review</string>
+
 
     <string-array name="content_types">
         <item>Movies</item>
