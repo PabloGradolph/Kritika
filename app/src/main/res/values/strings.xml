@@ -39,10 +39,16 @@
     <string name="add_list">Add to List</string>
     <string name="review">Write a Review</string>
 
-
     <string-array name="content_types">
         <item>Movies</item>
         <item>Songs</item>
         <item>Books</item>
     </string-array>
+
+    <string-array name="list_options">
+        <item>List 1</item>
+        <item>List 2</item>
+        <item>New List</item>
+    </string-array>
+
 </resources>

@@ -1,5 +1,6 @@
 package es.uc3m.mobileApps.kritika.movies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Locale;
 
+import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
+import es.uc3m.mobileApps.kritika.Actions.RateActivity;
+import es.uc3m.mobileApps.kritika.Actions.ReviewActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 import okhttp3.OkHttpClient;
@@ -60,18 +64,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
-            // Implementar la funcionalidad de calificación
-            Toast.makeText(this, "Rate action", Toast.LENGTH_SHORT).show();
+            // Iniciar RateActivity
+            Intent intent = new Intent(this, RateActivity.class);
+            startActivity(intent);
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
-            // Implementar la funcionalidad para añadir a listas
-            Toast.makeText(this, "Add to List action", Toast.LENGTH_SHORT).show();
+            // Iniciar AddToListActivity
+            Intent intent = new Intent(this, AddtoListActivity.class);
+            startActivity(intent);
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
-            // Implementar la funcionalidad para escribir una reseña
-            Toast.makeText(this, "Write a Review action", Toast.LENGTH_SHORT).show();
+            // Iniciar ReviewActivity
+            Intent intent = new Intent(this, ReviewActivity.class);
+            startActivity(intent);
             bottomSheetDialog.dismiss();
         });
     }
