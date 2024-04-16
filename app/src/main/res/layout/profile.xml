@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:text="UserName"
+            android:text="@string/user_name"
             android:textStyle="bold"
             android:gravity="center_vertical|center_horizontal"
             android:textAllCaps="true"
@@ -76,7 +76,7 @@
             android:layout_marginStart="15dp"
             android:layout_weight="1"
             android:gravity="center_vertical|start"
-            android:text="Saved and favourites"
+            android:text="@string/saved_n_favs"
             android:textAllCaps="true"
             android:textColor="@color/KritikaPurple"
             android:textStyle="bold" />

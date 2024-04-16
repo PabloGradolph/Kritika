@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:hint="Search"
+            android:hint="@string/search"
             android:inputType="text"
             android:textColor="@color/KritikaPurple"
             android:background="@android:color/transparent"

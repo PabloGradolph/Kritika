@@ -53,12 +53,12 @@
             android:id="@+id/editTextMovieTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/title" />
         <EditText
             android:id="@+id/editTextMovieOverview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Overview" />
+            android:hint="@string/overview" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,12 +74,12 @@
             android:id="@+id/editTextMusicTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/title" />
         <EditText
             android:id="@+id/editTextMusicArtist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Artist" />
+            android:hint="@string/artist" />
     </LinearLayout>
 
     <LinearLayout
@@ -95,22 +95,22 @@
             android:id="@+id/editTextBookTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/title" />
         <EditText
             android:id="@+id/editTextBookAuthors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Authors" />
+            android:hint="@string/authors" />
         <EditText
             android:id="@+id/editTextBookDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description" />
+            android:hint="@string/description" />
         <EditText
             android:id="@+id/editTextBookCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Categories" />
+            android:hint="@string/categories" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

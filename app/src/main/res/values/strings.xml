@@ -1,6 +1,37 @@
 <resources>
     <string name="app_name">Kritika</string>
+    <string name="artist">Artist</string>
+    <string name="authors">Authors</string>
+    <string name="books">Books</string>
+    <string name="book_title">Book Title</string>
+    <string name="book_desc">Book Description</string>
+    <string name="categories">Categories</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="continue_without_login">Continue without login</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="description">Description</string>
+    <string name="email">Email</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="movies">Movies</string>
+    <string name="movie_title">Movie title</string>
+    <string name="movie_desc">Movie description</string>
+    <string name="movie_rating">Movie rating</string>
+    <string name="music">Music</string>
+    <string name="music_title">Music title</string>
+    <string name="music_artist">Music artist</string>
+    <string name="name">Name</string>
     <string name="new_user_signup">New user? <b>SignUp</b></string>
+    <string name="overview">Overview</string>
+    <string name="password">Password</string>
+    <string name="please_login">Please Login</string>
+    <string name="profile_icon">Profile Icon</string>
+    <string name="register">Register</string>
+    <string name="saved_n_favs">Saved and favourites</string>
+    <string name="search">Search</string>
+    <string name="title">Title</string>
+    <string name="user_name">User Name</string>
+
     <string-array name="content_types">
         <item>Movies</item>
         <item>Songs</item>

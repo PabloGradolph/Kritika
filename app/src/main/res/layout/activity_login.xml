@@ -28,7 +28,7 @@
             android:layout_below="@+id/iconIv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:text="Please Login"
+            android:text="@string/please_login"
             android:textColor="@color/white"
             android:fontFamily="sans-serif-condensed"
             android:textSize="28sp"/>
@@ -61,7 +61,7 @@
                     android:background="@drawable/shape_edittext01"
                     android:drawableStart="@drawable/ic_email_gray"
                     android:drawablePadding="10dp"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
                     android:textColor="@color/black"
@@ -86,7 +86,7 @@
                     android:background="@drawable/shape_edittext01"
                     android:drawableStart="@drawable/ic_lock_gray"
                     android:drawablePadding="10dp"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:padding="10dp"
                     android:textColor="@color/black"
@@ -103,7 +103,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
-                android:text="Forgot Password?"
+                android:text="@string/forgot_password"
                 android:textColor="@color/gray02"/>
 
             <!--Login Button-->
@@ -114,7 +114,7 @@
                 android:layout_below="@id/forgotTv"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_button01"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="@color/white"/>
         </RelativeLayout>
 
