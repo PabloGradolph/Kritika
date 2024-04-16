@@ -57,16 +57,6 @@ public class SearchActivity extends DashboardUserActivity {
         // dropdown
         setupSpinner();
 
-        // vistas
-        searchBar = findViewById(R.id.searchBar);
-        contentTypeSpinner = findViewById(R.id.contentTypeSpinner);
-        recyclerView = findViewById(R.id.rvSearchResults);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SearchAdapter(new ArrayList<>());
-        recyclerView.setAdapter(adapter);
-
-
         // buttons
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
@@ -78,6 +68,18 @@ public class SearchActivity extends DashboardUserActivity {
         // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
+
+        // vistas
+        searchBar = findViewById(R.id.searchBar);
+        contentTypeSpinner = findViewById(R.id.contentTypeSpinner);
+        recyclerView = findViewById(R.id.rvSearchResults);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SearchAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
+
+
 
         // search functionality
         /* para busqueda en real-time
