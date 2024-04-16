@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.FormBody;
@@ -73,10 +74,10 @@ public class MusicActivity extends DashboardUserActivity {
             List<Song> songs = new ArrayList<>();
 
             // Esta URL es para pedir un token de acceso de cliente
-            String tokenUrl = "https://accounts.spotify.com/api/token";
+            String tokenUrl = ApiConstants.SPOTIFY_TOKEN_URL;
 
             // Usa Base64 para codificar Client ID y Client Secret
-            String credentials = Base64.encodeToString(("904e4d28994c4a70963a2fb5b5744729:fb988307f5fd400fb34e8400fd557ca8").getBytes(), Base64.NO_WRAP);
+            String credentials = Base64.encodeToString((ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
 
             Request tokenRequest = new Request.Builder()
                     .url(tokenUrl)
@@ -90,7 +91,7 @@ public class MusicActivity extends DashboardUserActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String accessToken = jsonObject.getString("access_token");
 
-                String topTracksUrl = "https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks";
+                String topTracksUrl = ApiConstants.SPOTIFY_PLAYLIST_URL;
 
                 Request tracksRequest = new Request.Builder()
                         .url(topTracksUrl)

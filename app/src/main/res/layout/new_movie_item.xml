@@ -13,7 +13,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/movieImageViewPoster"
         android:layout_width="100dp"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/RoundedCorners"
         app:layout_constraintStart_toStartOf="parent"

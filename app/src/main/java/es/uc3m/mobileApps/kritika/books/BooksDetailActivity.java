@@ -23,6 +23,7 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
 import es.uc3m.mobileApps.kritika.Actions.RateActivity;
 import es.uc3m.mobileApps.kritika.Actions.ReviewActivity;
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
 import okhttp3.OkHttpClient;
@@ -88,8 +89,8 @@ public class BooksDetailActivity extends AppCompatActivity {
         protected Book doInBackground(String... bookTitles) {
             OkHttpClient client = new OkHttpClient();
             String bookTitleQuery = bookTitles[0].replace(" ", "+"); // Reemplaza los espacios con el símbolo '+' para la request a la API
-            String apiKey = "AIzaSyAYXAuFSEO31onyneSK__KfxiYEdyyhIaA";
-            String baseUrl = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + bookTitleQuery + "&key=" + apiKey;
+            String apiKey = ApiConstants.GOOGLE_BOOKS_API_KEY;
+            String baseUrl = ApiConstants.GOOGLE_BOOKS_API_KEY + bookTitleQuery + "&key=" + apiKey;
 
             Request request = new Request.Builder()
                     .url(baseUrl)

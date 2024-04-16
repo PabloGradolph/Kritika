@@ -24,6 +24,7 @@ import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
 import es.uc3m.mobileApps.kritika.Actions.RateActivity;
 import es.uc3m.mobileApps.kritika.Actions.ReviewActivity;
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.model.Movie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -87,8 +88,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         @Override
         protected Movie doInBackground(Integer... movieIds) {
             final OkHttpClient client = new OkHttpClient();
-            String baseUrl = "https://api.themoviedb.org/3/movie/";
-            String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE";
+            String baseUrl = ApiConstants.MOVIEDB_POPULAR_MOVIES_URL;
+            String token = ApiConstants.MOVIEDB_ACCESS_TOKEN;
             final Request request = new Request.Builder()
                     .url(baseUrl + movieIds[0])
                     .get()
