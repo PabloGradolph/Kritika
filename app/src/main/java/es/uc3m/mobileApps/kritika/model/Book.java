@@ -26,7 +26,7 @@ public class Book implements SearchInterface {
     }
 
     public Book(String id, String title, List<String> authors, String publisher, String publishedDate,
-                String description, String thumbnail) {
+                String description, String thumbnail, double averageRating) {
         this.id = id;
         this.title = title;
         this.authors = authors;
@@ -34,6 +34,7 @@ public class Book implements SearchInterface {
         this.publishedDate = publishedDate;
         this.description = description;
         this.thumbnail = thumbnail;
+        this.averageRating = averageRating;
     }
 
     public Book(String id, String title, List<String> authors, String publisher, String publishedDate,

@@ -118,8 +118,9 @@ public class BooksDetailActivity extends AppCompatActivity {
                     String description = volumeInfo.optString("description", "No description available.");
                     String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                     thumbnail = thumbnail.replace("http://", "https://");
+                    double averageRating = volumeInfo.optDouble("averageRating", 0.0);
 
-                    return new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail);
+                    return new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
