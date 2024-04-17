@@ -55,6 +55,7 @@ public class MusicActivity extends DashboardUserActivity {
             public void onItemClick(Song song) {
                 Intent intent = new Intent(MusicActivity.this, MusicDetailActivity.class);
                 intent.putExtra("name", song.getName());
+                intent.putExtra("id", song.getId());
                 startActivity(intent);
             }
         });

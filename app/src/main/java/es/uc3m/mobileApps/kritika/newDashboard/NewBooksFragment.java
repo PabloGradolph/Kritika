@@ -50,6 +50,7 @@ public class NewBooksFragment extends Fragment {
             public void onItemClick(Book book) {
                 Intent intent = new Intent(getContext(), NewBooksDetailActivity.class);
                 intent.putExtra("title", book.getTitle());
+                intent.putExtra("id", book.getId());
                 startActivity(intent);
             }
         });

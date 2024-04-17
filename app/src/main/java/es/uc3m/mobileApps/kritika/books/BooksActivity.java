@@ -53,6 +53,7 @@ public class BooksActivity extends DashboardUserActivity {
             public void onItemClick(Book book) {
                 Intent intent = new Intent(BooksActivity.this,BooksDetailActivity.class);
                 intent.putExtra("title", book.getTitle());
+                intent.putExtra("id", book.getId());
                 startActivity(intent);
             }
         });

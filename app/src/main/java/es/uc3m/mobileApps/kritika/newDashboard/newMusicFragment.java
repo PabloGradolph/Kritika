@@ -51,6 +51,7 @@ public class newMusicFragment extends Fragment {
                 // En los Fragmentos, usa getActivity() para obtener el contexto de la actividad
                 Intent intent = new Intent(getActivity(), newMusicDetailActivity.class);
                 intent.putExtra("name", song.getName());
+                intent.putExtra("id", song.getId());
                 startActivity(intent);
             }
         });
