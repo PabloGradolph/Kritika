@@ -118,7 +118,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
                     String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                     thumbnail = thumbnail.replace("http://", "https://");
 
-                    return new Book(title, authors, publisher, publishedDate, description, thumbnail);
+                    return new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

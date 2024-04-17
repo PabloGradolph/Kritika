@@ -83,7 +83,6 @@ public class newDashboardUserActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.booksFragmentContainer, booksFragment)
                 .commit();
-
     }
 
 

@@ -28,9 +28,8 @@ public class RateActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(v -> {
             float rating = ratingBar.getRating();
-            // Aquí, guardar la calificación en una base de datos o enviarla a un servidor
             Toast.makeText(this, "Rating submitted: " + rating, Toast.LENGTH_SHORT).show();
-            finish(); // Opcional, cierra la actividad después de enviar
+            finish();
         });
     }
 }

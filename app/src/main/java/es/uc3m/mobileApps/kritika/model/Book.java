@@ -25,8 +25,9 @@ public class Book implements SearchInterface {
     public Book() {
     }
 
-    public Book(String title, List<String> authors, String publisher, String publishedDate,
+    public Book(String id, String title, List<String> authors, String publisher, String publishedDate,
                 String description, String thumbnail) {
+        this.id = id;
         this.title = title;
         this.authors = authors;
         this.publisher = publisher;

@@ -1,14 +1,22 @@
 package es.uc3m.mobileApps.kritika.books;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +29,7 @@ import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 
+import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -97,7 +106,7 @@ public class BooksActivity extends DashboardUserActivity {
                     String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                     thumbnail = thumbnail.replace("http://", "https://");
 
-                    books.add(new Book(title, authors, publisher, publishedDate, description, thumbnail));
+                    books.add(new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -113,6 +122,28 @@ public class BooksActivity extends DashboardUserActivity {
                 bookList.clear();
                 bookList.addAll(books);
                 adapter.notifyDataSetChanged();
+
+                // Guardar las películas en Firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference booksRef = db.collection("books");
+
+                for (Book book : books) {
+                    // Comprobar si el documento existe en Firestore basado en su ID
+                    DocumentReference docRef = booksRef.document(String.valueOf(book.getId()));
+                    docRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (!document.exists()) {
+                                booksRef.document(String.valueOf(book.getId())).set(book);
+                                Log.d(TAG, "The document for book with ID: " + book.getId() + " added.");
+                            } else {
+                                Log.d(TAG, "The document exists for book with ID: " + book.getId());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting document: ", task.getException());
+                        }
+                    });
+                }
             } else {
                 Toast.makeText(BooksActivity.this, "Failed to fetch books data!", Toast.LENGTH_LONG).show();
             }

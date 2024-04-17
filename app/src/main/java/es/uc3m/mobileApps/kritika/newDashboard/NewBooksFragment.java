@@ -100,7 +100,7 @@ public class NewBooksFragment extends Fragment {
                     String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                     thumbnail = thumbnail.replace("http://", "https://");
 
-                    books.add(new Book(title, authors, publisher, publishedDate, description, thumbnail));
+                    books.add(new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

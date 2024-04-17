@@ -1,15 +1,23 @@
 package es.uc3m.mobileApps.kritika.music;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +28,7 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.model.Movie;
 import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -132,6 +141,25 @@ public class MusicActivity extends DashboardUserActivity {
                 songsList.clear();
                 songsList.addAll(songs);
                 adapter.notifyDataSetChanged();
+
+                // Guardar las películas en Firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference songsRef = db.collection("songs");
+
+                for (Song song: songs) {
+                    // Comprobar si el documento existe en Firestore basado en su ID
+                    DocumentReference docRef = songsRef.document(String.valueOf(song.getId()));
+                    docRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (!document.exists()) {
+                                songsRef.document(String.valueOf(song.getId())).set(song);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting document: ", task.getException());
+                        }
+                    });
+                }
             } else {
                 Toast.makeText(MusicActivity.this, "Failed to fetch data!", Toast.LENGTH_LONG).show();
             }

@@ -90,7 +90,7 @@ public class BooksDetailActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
             String bookTitleQuery = bookTitles[0].replace(" ", "+"); // Reemplaza los espacios con el símbolo '+' para la request a la API
             String apiKey = ApiConstants.GOOGLE_BOOKS_API_KEY;
-            String baseUrl = ApiConstants.GOOGLE_BOOKS_API_KEY + bookTitleQuery + "&key=" + apiKey;
+            String baseUrl = ApiConstants.GOOGLE_BOOKS_SEARCH_URL + bookTitleQuery + "&key=" + apiKey;
 
             Request request = new Request.Builder()
                     .url(baseUrl)
@@ -119,7 +119,7 @@ public class BooksDetailActivity extends AppCompatActivity {
                     String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                     thumbnail = thumbnail.replace("http://", "https://");
 
-                    return new Book(title, authors, publisher, publishedDate, description, thumbnail);
+                    return new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

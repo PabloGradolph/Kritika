@@ -1,14 +1,22 @@
 
 package es.uc3m.mobileApps.kritika.movies;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,6 +127,26 @@ public class MoviesActivity extends DashboardUserActivity {
                 movieList.clear();
                 movieList.addAll(movies);
                 adapter.notifyDataSetChanged();
+
+                // Guardar las películas en Firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference moviesRef = db.collection("movies");
+
+                for (Movie movie : movies) {
+                    // Comprobar si el documento existe en Firestore basado en su ID
+                    DocumentReference docRef = moviesRef.document(String.valueOf(movie.getId()));
+                    docRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (!document.exists()) {
+                                // La película no existe en Firestore, guardarla
+                                moviesRef.document(String.valueOf(movie.getId())).set(movie);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting document: ", task.getException());
+                        }
+                    });
+                }
             } else {
                 // Mostrar mensaje de error
             }
