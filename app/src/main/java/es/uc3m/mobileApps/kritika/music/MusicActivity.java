@@ -28,7 +28,6 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
-import es.uc3m.mobileApps.kritika.model.Movie;
 import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -101,7 +100,7 @@ public class MusicActivity extends DashboardUserActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String accessToken = jsonObject.getString("access_token");
 
-                String topTracksUrl = ApiConstants.SPOTIFY_PLAYLIST_URL;
+                String topTracksUrl = ApiConstants.SPOTIFY_NEWRELEASES_URL;
 
                 Request tracksRequest = new Request.Builder()
                         .url(topTracksUrl)

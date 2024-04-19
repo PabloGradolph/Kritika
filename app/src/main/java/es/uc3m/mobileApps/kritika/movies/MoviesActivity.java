@@ -83,7 +83,7 @@ public class MoviesActivity extends DashboardUserActivity {
                     .build();
 
             List<Movie> movies = new ArrayList<>();
-            String baseUrl = ApiConstants.MOVIEDB_POPULAR_MOVIES_URL;
+            String baseUrl = ApiConstants.MOVIEDB_UPCOMING_MOVIES_URL;
             String token = ApiConstants.MOVIEDB_ACCESS_TOKEN;
 
             for (int page = 1; page <= 3; page++) { // Ajusta según el número de páginas que desees obtener

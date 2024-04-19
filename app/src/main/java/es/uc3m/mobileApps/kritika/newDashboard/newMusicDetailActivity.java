@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
 import es.uc3m.mobileApps.kritika.Actions.RateActivity;
 import es.uc3m.mobileApps.kritika.Actions.ReviewActivity;
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.FormBody;
@@ -95,10 +96,8 @@ public class newMusicDetailActivity extends AppCompatActivity {
         @Override
         protected Song doInBackground(String... songNames) {
             final OkHttpClient client = new OkHttpClient();
-            String tokenUrl = "https://accounts.spotify.com/api/token";
-            String credentials = Base64.encodeToString(("904e4d28994c4a70963a2fb5b5744729:fb988307f5fd400fb34e8400fd557ca8").getBytes(), Base64.NO_WRAP);
-
-            String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE";
+            String tokenUrl = ApiConstants.SPOTIFY_TOKEN_URL;
+            String credentials = Base64.encodeToString((ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
 
             Request tokenRequest = new Request.Builder()
                     .url(tokenUrl)
@@ -113,7 +112,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String accessToken = jsonObject.getString("access_token");
 
-                String searchUrl = "https://api.spotify.com/v1/search?q=" + songNames[0] + "&type=track";
+                String searchUrl = ApiConstants.SPOTIFY_SEARCH_URL + songNames[0] + "&type=track";
 
                 Request tracksRequest = new Request.Builder()
                         .url(searchUrl)
@@ -137,7 +136,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 return new Song(trackId, name, artistName, url, imageUrl);
 
             } catch (Exception e) {
-                Log.e("MovieDetail", "Error fetching movie details", e);
+                Log.e("SongDetail", "Error fetching song details", e);
                 return null;
             }
         }

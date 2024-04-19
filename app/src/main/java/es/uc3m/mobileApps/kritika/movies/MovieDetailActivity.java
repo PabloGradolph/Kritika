@@ -96,7 +96,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         @Override
         protected Movie doInBackground(Integer... movieIds) {
             final OkHttpClient client = new OkHttpClient();
-            String baseUrl = ApiConstants.MOVIEDB_POPULAR_MOVIES_URL;
+            String baseUrl = ApiConstants.MOVIEDB_BASE_URL;
             String token = ApiConstants.MOVIEDB_ACCESS_TOKEN;
             final Request request = new Request.Builder()
                     .url(baseUrl + movieIds[0])
@@ -142,8 +142,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                 tvOverview.setText(movie.getOverview());
                 tvRating.setText(String.format(Locale.getDefault(), "Rating: %s", movie.getRating()));
 
-                // Asegúrate de que la URL del póster sea completa y válida
-                String posterUrl = "https://image.tmdb.org/t/p/w500" + movie.getPosterPath();
+                // URL del póster
+                String posterUrl = ApiConstants.MOVIEDB_IMAGE_URL + movie.getPosterPath();
                 Glide.with(MovieDetailActivity.this)
                         .load(posterUrl)
                         .into(imageViewPoster);

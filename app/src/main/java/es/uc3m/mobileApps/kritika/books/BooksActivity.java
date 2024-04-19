@@ -25,11 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
-import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
-
-import es.uc3m.mobileApps.kritika.model.Song;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -78,7 +76,7 @@ public class BooksActivity extends DashboardUserActivity {
             OkHttpClient client = new OkHttpClient();
             List<Book> books = new ArrayList<>();
             String apiKey = ApiConstants.GOOGLE_BOOKS_API_KEY;
-            String baseUrl = ApiConstants.GOOGLE_BOOKS_BESTSELLERS_URL + apiKey;
+            String baseUrl = ApiConstants.GOOGLE_BOOKS_NEWRELEASES_URL + apiKey;
 
             Request request = new Request.Builder()
                     .url(baseUrl)

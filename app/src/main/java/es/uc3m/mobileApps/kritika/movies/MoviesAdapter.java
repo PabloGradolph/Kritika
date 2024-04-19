@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 
@@ -54,7 +55,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         // Cargar imagen con Glide
         Glide.with(holder.imageViewPoster.getContext())
-                .load("https://image.tmdb.org/t/p/w500" + currentMovie.getPosterPath()) // Cambia la URL base según sea necesario
+                .load(ApiConstants.MOVIEDB_IMAGE_URL + currentMovie.getPosterPath()) // Cambia la URL base según sea necesario
                 .into(holder.imageViewPoster);
 
         // Configuración del OnClickListener

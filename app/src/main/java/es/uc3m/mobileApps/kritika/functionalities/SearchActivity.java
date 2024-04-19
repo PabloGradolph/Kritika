@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
 import es.uc3m.mobileApps.kritika.model.Movie;
@@ -146,7 +147,7 @@ public class SearchActivity extends DashboardUserActivity {
                 .orderBy("title")
                 .startAt(query)
                 .endAt(query + "\uf8ff") // \uf8ff es un punto de código muy alto en el rango de Unicode, por lo que la consulta incluirá todos los campos que comiencen con 'query'
-                .limit(10);
+                .limit(20);
         // Execute search query
         searchQuery.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -195,10 +196,10 @@ public class SearchActivity extends DashboardUserActivity {
     // Movies API
     private void fetchAdditionalMovieDetails(Movie movie) {
         OkHttpClient client = new OkHttpClient();
-        String baseUrl = "https://api.themoviedb.org/3/movie/";
-        String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE";
+        String baseUrl = ApiConstants.MOVIEDB_BASE_URL;
+        String token = ApiConstants.MOVIEDB_ACCESS_TOKEN;
         Request request = new Request.Builder()
-                .url(baseUrl + movie.getId()) // Asegúrate de que movie.getId() obtiene el ID correcto del objeto Movie
+                .url(baseUrl + movie.getId())
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", token)
@@ -218,11 +219,10 @@ public class SearchActivity extends DashboardUserActivity {
                 String jsonData = response.body().string();
                 try {
                     JSONObject movieJson = new JSONObject(jsonData);
-                    // Asumiendo que tienes un método en Movie para actualizar los datos
                     movie.updateDetails(
                             movieJson.getString("title"),
                             movieJson.getString("overview"),
-                            "https://image.tmdb.org/t/p/w500" + movieJson.getString("poster_path"),
+                            ApiConstants.MOVIEDB_IMAGE_URL + movieJson.getString("poster_path"),
                             movieJson.getString("vote_average"),
                             movieJson.getString("release_date")
                     );
@@ -241,8 +241,8 @@ public class SearchActivity extends DashboardUserActivity {
     // Songs API
     private void fetchAdditionalSongDetails(Song song) {
         OkHttpClient client = new OkHttpClient();
-        String tokenUrl = "https://accounts.spotify.com/api/token";
-        String credentials = Base64.encodeToString(("904e4d28994c4a70963a2fb5b5744729:fb988307f5fd400fb34e8400fd557ca8").getBytes(), Base64.NO_WRAP);
+        String tokenUrl = ApiConstants.SPOTIFY_TOKEN_URL;
+        String credentials = Base64.encodeToString((ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
 
         Request tokenRequest = new Request.Builder()
                 .url(tokenUrl)
@@ -267,7 +267,7 @@ public class SearchActivity extends DashboardUserActivity {
                     JSONObject jsonObject = new JSONObject(jsonData);
                     String accessToken = jsonObject.getString("access_token");
 
-                    String trackUrl = "https://api.spotify.com/v1/tracks/"+song.getId();
+                    String trackUrl = ApiConstants.SPOTIFY_TRACKS_URL+song.getId();
 
                     Request trackRequest = new Request.Builder()
                             .url(trackUrl)
@@ -302,8 +302,8 @@ public class SearchActivity extends DashboardUserActivity {
     private void fetchAdditionalBookDetails(Book book) {
         Log.i("BOOK", String.valueOf(book));
         OkHttpClient client = new OkHttpClient();
-        String baseUrl = "https://www.googleapis.com/books/v1/volumes/";
-        String apiKey = "AIzaSyAYXAuFSEO31onyneSK__KfxiYEdyyhIaA";
+        String baseUrl = ApiConstants.GOOGLE_BOOKS_VOLUMES_URL;
+        String apiKey = ApiConstants.GOOGLE_BOOKS_API_KEY;
         Request request = new Request.Builder()
                 .url(baseUrl + book.getId() + "?key=" + apiKey)
                 .build();
