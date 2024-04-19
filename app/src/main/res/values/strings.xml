@@ -41,6 +41,8 @@
     <string name="enter_review">Enter your review here</string>
     <string name="public_review">Make Review Public</string>
     <string name="submit_review">Submit Review</string>
+    <string name="rating">Rate this media</string>
+    <string name="submit_rating">Submit Rating</string>
 
 
     <string-array name="content_types">

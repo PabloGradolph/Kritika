@@ -53,7 +53,7 @@ public class ReviewActivity extends AppCompatActivity {
                     .add(review)
                     .addOnSuccessListener(documentReference -> {
                         Toast.makeText(ReviewActivity.this, "Review submitted successfully", Toast.LENGTH_SHORT).show();
-                        finish(); // Opcional: cierra la actividad después de enviar la revisión
+                        finish();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(ReviewActivity.this, "Failed to submit review", Toast.LENGTH_SHORT).show();
