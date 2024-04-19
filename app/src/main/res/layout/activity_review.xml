@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write a Review"
+        android:text="@string/review"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_marginBottom="20dp"/>
 
@@ -16,16 +16,22 @@
         android:id="@+id/etReview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your review here"
+        android:hint="@string/enter_review"
         android:minLines="5"
         android:maxLines="10"
         android:scrollbars="vertical"
         android:inputType="textMultiLine"/>
 
+    <CheckBox
+        android:id="@+id/chkIsPublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/public_review"/>
+
     <Button
         android:id="@+id/btnSubmitReview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit Review"
+        android:text="@string/submit_review"
         android:layout_marginTop="24dp"/>
 </LinearLayout>

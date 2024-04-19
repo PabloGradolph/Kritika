@@ -38,6 +38,10 @@
     <string name="rate">Rate Media</string>
     <string name="add_list">Add to List</string>
     <string name="review">Write a Review</string>
+    <string name="enter_review">Enter your review here</string>
+    <string name="public_review">Make Review Public</string>
+    <string name="submit_review">Submit Review</string>
+
 
     <string-array name="content_types">
         <item>Movies</item>

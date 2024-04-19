@@ -59,6 +59,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
 
     private void showBottomSheetMenu() {
         int movieId = getIntent().getIntExtra("id", 0);
+        String movieIdString = String.valueOf(movieId);
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(bottomSheetView);
@@ -67,24 +68,24 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
             // Iniciar RateActivity
             Intent intent = new Intent(this, RateActivity.class);
-            intent.putExtra("mediaId", movieId);
-            intent.putExtra("mediaType", "movie");
+            intent.putExtra("mediaId", movieIdString);
+            intent.putExtra("mediaType", "movies");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
             // Iniciar AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
-            intent.putExtra("mediaId", movieId);
-            intent.putExtra("mediaType", "movie");
+            intent.putExtra("mediaId", movieIdString);
+            intent.putExtra("mediaType", "movies");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
             // Iniciar ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
-            intent.putExtra("mediaId", movieId);
-            intent.putExtra("mediaType", "movie");
+            intent.putExtra("mediaId", movieIdString);
+            intent.putExtra("mediaType", "movies");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });

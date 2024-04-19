@@ -31,5 +31,6 @@ public class RateActivity extends AppCompatActivity {
             Toast.makeText(this, "Rating submitted: " + rating, Toast.LENGTH_SHORT).show();
             finish();
         });
+
     }
 }

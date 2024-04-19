@@ -68,7 +68,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
             // Iniciar RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", bookId);
-            intent.putExtra("mediaType", "book");
+            intent.putExtra("mediaType", "books");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
@@ -76,7 +76,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
             // Iniciar AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", bookId);
-            intent.putExtra("mediaType", "book");
+            intent.putExtra("mediaType", "books");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
@@ -84,7 +84,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
             // Iniciar ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", bookId);
-            intent.putExtra("mediaType", "book");
+            intent.putExtra("mediaType", "books");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });

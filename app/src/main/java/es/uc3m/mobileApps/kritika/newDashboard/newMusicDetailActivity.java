@@ -69,7 +69,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
             // Iniciar RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", trackId);
-            intent.putExtra("mediaType", "song");
+            intent.putExtra("mediaType", "songs");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
@@ -77,7 +77,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
             // Iniciar AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", trackId);
-            intent.putExtra("mediaType", "song");
+            intent.putExtra("mediaType", "songs");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
@@ -85,7 +85,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
             // Iniciar ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", trackId);
-            intent.putExtra("mediaType", "song");
+            intent.putExtra("mediaType", "songs");
             startActivity(intent);
             bottomSheetDialog.dismiss();
         });
