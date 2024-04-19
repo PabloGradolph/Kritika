@@ -13,6 +13,7 @@
     <string name="email">Email</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="login">Login</string>
+    <string name="media_title">Media Title</string>
     <string name="movies">Movies</string>
     <string name="movie_title">Movie title</string>
     <string name="movie_desc">Movie description</string>
@@ -24,9 +25,13 @@
     <string name="new_user_signup">New user? <b>SignUp</b></string>
     <string name="overview">Overview</string>
     <string name="password">Password</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="popular_songs">Popular Songs</string>
+    <string name="popular_books">Popular Books</string>
     <string name="please_login">Please Login</string>
     <string name="profile_icon">Profile Icon</string>
     <string name="register">Register</string>
+    <string name="reviews">Reviews</string>
     <string name="saved_n_favs">Saved and favourites</string>
     <string name="search">Search</string>
     <string name="title">Title</string>

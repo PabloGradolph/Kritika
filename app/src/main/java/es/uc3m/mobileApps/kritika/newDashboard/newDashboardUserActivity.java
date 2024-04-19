@@ -20,6 +20,7 @@ import es.uc3m.mobileApps.kritika.functionalities.Profile;
 import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
 import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
 import es.uc3m.mobileApps.kritika.music.MusicActivity;
+import es.uc3m.mobileApps.kritika.reviews.ShowReviewsActivity;
 
 
 public class newDashboardUserActivity extends AppCompatActivity {
@@ -43,13 +44,18 @@ public class newDashboardUserActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
 
-        // buttons
+        // TOP BAR: buttons
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
+        Button buttonOpenReviews = findViewById(R.id.button_open_reviews);
+
+        // BOTTOM BAR: buttons
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
+
+        // ADD MEDIA: buttons
         FloatingActionButton addMediaButton = findViewById(R.id.addMediaButton);
 
         // handle click, logout
@@ -62,23 +68,23 @@ public class newDashboardUserActivity extends AppCompatActivity {
         });
 
         // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch, addMediaButton);
 
 
-        // Carga el MoviesFragment
+        // Load MoviesFragment
         NewMoviesFragment moviesFragment = new NewMoviesFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.moviesFragmentContainer, moviesFragment)
                 .commit();
 
-        // Carga el SongsFragment
+        // Load SongsFragment
         newMusicFragment songsFragment = new newMusicFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.songsFragmentContainer, songsFragment)
                 .commit();
 
-        // Carga el BooksFragment
+        // Load BooksFragment
         NewBooksFragment booksFragment = new NewBooksFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.booksFragmentContainer, booksFragment)
@@ -88,7 +94,7 @@ public class newDashboardUserActivity extends AppCompatActivity {
 
     // Method to set click listeners for buttons
     protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic,
-                                      Button buttonOpenBooks, ImageButton buttonOpenProfile, // NEW BUTTON
+                                      Button buttonOpenBooks, Button buttonOpenReviews, ImageButton buttonOpenProfile,
                                       ImageButton buttonOpenHome, ImageButton buttonOpenSearch,
                                       FloatingActionButton addMediaButton) {
         buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +115,13 @@ public class newDashboardUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openBooks();
+            }
+        });
+
+        buttonOpenReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openReviews();
             }
         });
 
@@ -151,6 +164,11 @@ public class newDashboardUserActivity extends AppCompatActivity {
 
     public void openBooks() {
         Intent intent = new Intent(this, BooksActivity.class);
+        startActivity(intent);
+    }
+
+    public void openReviews() {
+        Intent intent = new Intent(this, ShowReviewsActivity.class);
         startActivity(intent);
     }
 

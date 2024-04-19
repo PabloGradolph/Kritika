@@ -58,16 +58,20 @@ public class SearchActivity extends DashboardUserActivity {
         // dropdown
         setupSpinner();
 
-        // buttons
+        // TOP BAR: buttons
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
+        Button buttonOpenReviews = findViewById(R.id.button_open_reviews);
+
+        // BOTTOM BAR: buttons
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
+
         // Set click listeners for buttons
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
 
         // vistas

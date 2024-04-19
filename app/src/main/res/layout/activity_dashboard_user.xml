@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="@string/movies"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:layout_marginStart="5dp"
             android:background="@android:color/transparent"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="@string/music"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:background="@android:color/transparent"
             android:layout_toEndOf="@+id/button_open_movies"
@@ -77,10 +77,23 @@
             android:layout_height="wrap_content"
             android:text="@string/books"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:background="@android:color/transparent"
             android:layout_toEndOf="@+id/button_open_music"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/button_open_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reviews"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button_open_books"
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"/>
 

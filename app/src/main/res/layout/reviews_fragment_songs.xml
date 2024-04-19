@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newDashboard.newMusicFragment">
+    tools:context=".reviews.ReviewsSongsFragment">
 
 
     <!-- Specific view layout -->
 
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSongs"
+        android:id="@+id/rvReviewsSongs"
         android:layout_width="400dp"
         android:layout_height="125dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="?actionBarSize"
         android:elevation="8dp"
@@ -22,18 +24,18 @@
         app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"  />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@color/KritikaPurple"
+        android:background="@color/gray01"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintStart_toStartOf="parent">
+
 
         <TextView
             android:id="@+id/textView2"
@@ -42,12 +44,11 @@
             android:layout_marginStart="15dp"
             android:layout_weight="1"
             android:gravity="center_vertical|start"
-            android:text="@string/popular_songs"
+            android:text="@string/music"
             android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="@color/KritikaPurple"
             android:textStyle="bold" />
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

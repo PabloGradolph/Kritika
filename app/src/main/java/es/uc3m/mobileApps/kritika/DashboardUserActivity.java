@@ -14,6 +14,7 @@ import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
 import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
 import es.uc3m.mobileApps.kritika.music.MusicActivity;
 import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
+import es.uc3m.mobileApps.kritika.reviews.ShowReviewsActivity;
 
 public class DashboardUserActivity extends AppCompatActivity {
 
@@ -28,10 +29,13 @@ public class DashboardUserActivity extends AppCompatActivity {
         binding = es.uc3m.mobileApps.kritika.databinding.ActivityDashboardUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        // TOP BAR: buttons
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
+        Button buttonOpenReviews = findViewById(R.id.button_open_reviews);
+
+        // BOTTOM BAR: buttons
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
@@ -40,14 +44,14 @@ public class DashboardUserActivity extends AppCompatActivity {
 
         // Set click listeners for buttons
 
-        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenProfile,
-                buttonOpenHome, buttonOpenSearch); // NEW BUTTON
+        setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
+                buttonOpenHome, buttonOpenSearch);
         // Start the dashboard with movies opened.
     }
 
     // Method to set click listeners for buttons
     protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic,
-                                      Button buttonOpenBooks, ImageButton buttonOpenProfile, // NEW BUTTON
+                                      Button buttonOpenBooks, Button buttonOpenReviews, ImageButton buttonOpenProfile,
                                       ImageButton buttonOpenHome, ImageButton buttonOpenSearch) {
         buttonOpenMovies.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +74,12 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
         });
 
-
+        buttonOpenReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openReviews();
+            }
+        });
         buttonOpenProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +116,11 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     public void openBooks() {
         Intent intent = new Intent(this, BooksActivity.class);
+        startActivity(intent);
+    }
+
+    public void openReviews() {
+        Intent intent = new Intent(this, ShowReviewsActivity.class);
         startActivity(intent);
     }
 

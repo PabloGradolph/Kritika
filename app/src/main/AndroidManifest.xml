@@ -19,6 +19,9 @@
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".reviews.ShowReviewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Actions.AddtoListActivity"
             android:exported="false" />
         <activity
