@@ -13,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.uc3m.mobileApps.kritika.R;
@@ -45,18 +47,46 @@ public class ReviewActivity extends AppCompatActivity {
             // Obtener el ID del usuario actualmente autenticado
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            // Crear una nueva instancia de Review
-            Review review = new Review(userId, reviewText, isPublic, mediaId, mediaType);
-
-            // Obtener una referencia a la colección "reviews" en Firestore y guardar la revisión
+            // Crear una referencia a la colección "reviews" y filtrar por el usuario y el medio
             db.collection("reviews")
-                    .add(review)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(ReviewActivity.this, "Review submitted successfully", Toast.LENGTH_SHORT).show();
-                        finish();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(ReviewActivity.this, "Failed to submit review", Toast.LENGTH_SHORT).show();
+                    .whereEqualTo("user", userId)
+                    .whereEqualTo("mediaId", mediaId)
+                    .limit(1)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                // No existe ninguna revisión, crear una nueva
+                                Review review = new Review(userId, reviewText, isPublic, mediaId, mediaType);
+                                db.collection("reviews")
+                                        .add(review)
+                                        .addOnSuccessListener(documentReference -> {
+                                            Toast.makeText(ReviewActivity.this, "Review submitted successfully", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(ReviewActivity.this, "Failed to submit review", Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                // Ya existe una revisión, actualizarla
+                                DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                                String reviewId = documentSnapshot.getId();
+                                DocumentReference reviewRef = db.collection("reviews").document(reviewId);
+
+                                // Actualizar la revisión existente
+                                reviewRef.update("reviewText", reviewText,
+                                                "public", isPublic)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(ReviewActivity.this, "Review updated successfully", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(ReviewActivity.this, "Failed to update review", Toast.LENGTH_SHORT).show();
+                                        });
+                            }
+                        } else {
+                            Toast.makeText(ReviewActivity.this, "Error checking existing review", Toast.LENGTH_SHORT).show();
+                        }
                     });
             finish();
         });
