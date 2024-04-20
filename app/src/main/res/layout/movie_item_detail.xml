@@ -7,18 +7,30 @@
 
     <ImageView
         android:id="@+id/imageViewPoster"
-        android:layout_width="399dp"
+        android:layout_width="0dp"
         android:layout_height="532dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="0dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Gradient overlay -->
+    <View
+        android:id="@+id/gradientOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="532dp"
+        android:background="@drawable/gradient_overlay"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="174dp"
         android:layout_height="38dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="220dp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -34,8 +46,8 @@
         android:id="@+id/tvOverview"
         android:layout_width="377dp"
         android:layout_height="88dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="7"
         android:text="@string/movie_desc"
@@ -47,8 +59,8 @@
         android:id="@+id/tvRating"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="28dp"
         android:text="@string/movie_rating"
         android:textColor="@color/KritikaPurple"
         android:textSize="16sp"
