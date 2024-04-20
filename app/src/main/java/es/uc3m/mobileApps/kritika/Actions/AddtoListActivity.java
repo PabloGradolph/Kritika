@@ -189,6 +189,7 @@ public class AddtoListActivity extends AppCompatActivity {
                                     .addOnSuccessListener(documentReference -> {
                                         // La lista se creó con éxito
                                         Toast.makeText(this, "Added to " + listName, Toast.LENGTH_SHORT).show();
+                                        NotificationHelper.mostrarNotificacion(this, "Add to List", "A media has been added to your list!", NotificationHelper.CHANNEL_ID_ADD_TO_LIST);
                                         finish();
                                     })
                                     .addOnFailureListener(e -> {
@@ -238,6 +239,7 @@ public class AddtoListActivity extends AppCompatActivity {
                                                     .addOnSuccessListener(aVoid -> {
                                                         // El medio se agregó con éxito a la lista
                                                         Toast.makeText(this, "Added to " + listName, Toast.LENGTH_SHORT).show();
+                                                        NotificationHelper.mostrarNotificacion(this, "Add to List", "A media has been added to your list.", NotificationHelper.CHANNEL_ID_ADD_TO_LIST);
                                                         finish();
                                                     })
                                                     .addOnFailureListener(e -> {

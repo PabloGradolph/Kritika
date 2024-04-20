@@ -62,6 +62,7 @@ public class ReviewActivity extends AppCompatActivity {
                                         .add(review)
                                         .addOnSuccessListener(documentReference -> {
                                             Toast.makeText(ReviewActivity.this, "Review submitted successfully", Toast.LENGTH_SHORT).show();
+                                            NotificationHelper.mostrarNotificacion(this, "New Review", "You have made a new review!", NotificationHelper.CHANNEL_ID_REVIEW);
                                             finish();
                                         })
                                         .addOnFailureListener(e -> {
@@ -78,6 +79,7 @@ public class ReviewActivity extends AppCompatActivity {
                                                 "public", isPublic)
                                         .addOnSuccessListener(aVoid -> {
                                             Toast.makeText(ReviewActivity.this, "Review updated successfully", Toast.LENGTH_SHORT).show();
+                                            NotificationHelper.mostrarNotificacion(this, "New Review", "You have updated your review!", NotificationHelper.CHANNEL_ID_REVIEW);
                                             finish();
                                         })
                                         .addOnFailureListener(e -> {

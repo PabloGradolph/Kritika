@@ -80,6 +80,7 @@ public class RateActivity extends AppCompatActivity {
                                         .add(finalRating)
                                         .addOnSuccessListener(documentReference -> {
                                             Toast.makeText(this, "Rating submitted successfully", Toast.LENGTH_SHORT).show();
+                                            NotificationHelper.mostrarNotificacion(this, "New Rating", "You have made a rating!", NotificationHelper.CHANNEL_ID_RATING);
                                             finish();
                                         })
                                         .addOnFailureListener(e -> {
@@ -95,6 +96,7 @@ public class RateActivity extends AppCompatActivity {
                                 ratingRef.update("rating", finalRating.getRating())
                                         .addOnSuccessListener(aVoid -> {
                                             Toast.makeText(this, "Rating updated successfully", Toast.LENGTH_SHORT).show();
+                                            NotificationHelper.mostrarNotificacion(this, "New Rating", "You have updated your rating!", NotificationHelper.CHANNEL_ID_RATING);
                                             finish();
                                         })
                                         .addOnFailureListener(e -> {

@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import es.uc3m.mobileApps.kritika.Actions.NotificationHelper;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.databinding.ActivityAddMediaBinding;
@@ -243,6 +244,7 @@ public class AddMediaActivity extends DashboardUserActivity {
                 .addOnSuccessListener(documentReference -> {
                     progressDialog.dismiss();
                     Toast.makeText(this, "Data added successfully!", Toast.LENGTH_SHORT).show();
+                    NotificationHelper.mostrarNotificacion(this, "Add Media", "You have added a new media to Kritika!", NotificationHelper.CHANNEL_ID_ADD_MEDIA);
                     onSuccess.run();
                 })
                 .addOnFailureListener(e -> {
