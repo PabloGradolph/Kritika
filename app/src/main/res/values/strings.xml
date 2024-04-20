@@ -48,6 +48,9 @@
     <string name="submit_review">Submit Review</string>
     <string name="rating">Rate this media</string>
     <string name="submit_rating">Submit Rating</string>
+    <string name="profile_ratings">Ratings</string>
+    <string name="profile_reviews">Reviews</string>
+    <string name="profile_lists">Lists</string>
 
 
     <string-array name="content_types">

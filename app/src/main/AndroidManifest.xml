@@ -47,7 +47,7 @@
             android:name=".newDashboard.NewBooksDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".functionalities.Profile"
+            android:name=".Profile.Profile"
             android:exported="false" />
         <activity
             android:name=".functionalities.SearchActivity"

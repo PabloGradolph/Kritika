@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.uc3m.mobileApps.kritika.books.BooksActivity;
-import es.uc3m.mobileApps.kritika.functionalities.Profile;
+import es.uc3m.mobileApps.kritika.Profile.Profile;
 import es.uc3m.mobileApps.kritika.functionalities.SearchActivity;
 import es.uc3m.mobileApps.kritika.movies.MoviesActivity;
 import es.uc3m.mobileApps.kritika.music.MusicActivity;

@@ -1,4 +1,4 @@
-package es.uc3m.mobileApps.kritika.functionalities;
+package es.uc3m.mobileApps.kritika.Profile;
 
 import android.os.Bundle;
 import android.widget.Button;
