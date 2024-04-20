@@ -41,7 +41,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:src="@drawable/images"
+            android:src="@drawable/default_user_picture"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
