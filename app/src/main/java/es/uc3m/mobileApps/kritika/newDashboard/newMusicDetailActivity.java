@@ -39,10 +39,10 @@ public class newMusicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_music_item_detail);
 
-        String songName = getIntent().getStringExtra("name");
+        String songId = getIntent().getStringExtra("id");
 
-        if (songName != null) {
-            new newMusicDetailActivity.FetchMusicDetailsTask().execute(songName);
+        if (songId != null) {
+            new newMusicDetailActivity.FetchMusicDetailsTask().execute(songId);
         } else {
             // Manejar el caso de que no se encuentre un nombre válido
             Toast.makeText(this, "Song name not provided", Toast.LENGTH_SHORT).show();
@@ -94,7 +94,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
 
     private class FetchMusicDetailsTask extends AsyncTask<String, Void, Song> {
         @Override
-        protected Song doInBackground(String... songNames) {
+        protected Song doInBackground(String... songIds) {
             final OkHttpClient client = new OkHttpClient();
             String tokenUrl = ApiConstants.SPOTIFY_TOKEN_URL;
             String credentials = Base64.encodeToString((ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
@@ -112,7 +112,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String accessToken = jsonObject.getString("access_token");
 
-                String searchUrl = ApiConstants.SPOTIFY_SEARCH_URL + songNames[0] + "&type=track";
+                String searchUrl = ApiConstants.SPOTIFY_TRACKS_URL + songIds[0];
 
                 Request tracksRequest = new Request.Builder()
                         .url(searchUrl)
@@ -121,9 +121,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
 
                 Response trackResponse = client.newCall(tracksRequest).execute();
                 String trackjsonData = trackResponse.body().string();
-                JSONObject trackjsonObject = new JSONObject(trackjsonData);
-
-                JSONObject track = trackjsonObject.getJSONObject("tracks").getJSONArray("items").getJSONObject(0);
+                JSONObject track = new JSONObject(trackjsonData);
 
                 // Extract relevant details like name, artist, URL, and image URL
                 String trackId = track.getString("id");

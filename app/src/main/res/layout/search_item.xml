@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="212dp"
+        android:layout_marginEnd="252dp"
         android:text="@string/artist"
         android:textColor="@color/JetBlack"
         app:layout_constraintEnd_toEndOf="parent"
