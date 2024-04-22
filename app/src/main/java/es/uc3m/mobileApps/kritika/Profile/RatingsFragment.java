@@ -40,7 +40,7 @@ public class RatingsFragment extends Fragment {
         ratingsList = new ArrayList<>();
         ratingsAdapter = new RatingsAdapter(getContext(), ratingsList);
         rvRatings.setAdapter(ratingsAdapter);
-        rvRatings.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvRatings.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         return rootView;
     }

@@ -51,7 +51,14 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsAdapter.RatingVi
     @Override
     public void onBindViewHolder(@NonNull RatingViewHolder holder, int position) {
         Rating rating = ratingsList.get(position);
-        holder.titleTextView.setText(rating.getTitle());
+
+        String title = rating.getTitle();
+        int maxLength = 15;
+        if (title.length() > maxLength) {
+            title = title.substring(0, maxLength) + "...";
+        }
+        holder.titleTextView.setText(title);
+
         holder.ratingTextView.setText(String.valueOf(rating.getRating()));
         // Carga la imagen del media utilizando Glide
         Glide.with(context).load(rating.getImageUrl()).into(holder.mediaImageViewPoster);
