@@ -3,25 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back01"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imageViewPoster"
-        android:layout_width="408dp"
+        android:layout_width="match_parent"
         android:layout_height="448dp"
-        android:layout_marginStart="4dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <View
+        android:id="@+id/gradientOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="448dp"
+        android:background="@drawable/gradient_overlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/musicTitle"
         android:layout_width="300dp"
         android:layout_height="38dp"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="18dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:elevation="1dp"
         android:text="@string/music_title"
         android:textColor="@color/KritikaPurple"
         android:textSize="26sp"
@@ -35,7 +44,7 @@
         android:layout_width="150dp"
         android:layout_height="34dp"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="58dp"
         android:layout_marginEnd="244dp"
         android:text="@string/artist"
         android:textColor="@color/KritikaPurple"
@@ -56,5 +65,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"/>
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="448dp"
+        android:background="@drawable/gradient_overlay_2"
+        android:elevation="0dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back01"
+
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imageViewThumbnail"
-        android:layout_width="399dp"
-        android:layout_height="532dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="448dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +25,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/book_title"
+        android:elevation="1dp"
         android:textColor="@color/KritikaPurple"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -68,4 +71,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"/>
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="448dp"
+        android:background="@drawable/gradient_overlay_2"
+        android:elevation="0dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
