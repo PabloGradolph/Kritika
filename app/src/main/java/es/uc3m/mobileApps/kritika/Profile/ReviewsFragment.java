@@ -1,4 +1,13 @@
 package es.uc3m.mobileApps.kritika.Profile;
 
-public class ReviewsFragment {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.viewmodel.CreationExtras;
+
+public class ReviewsFragment extends Fragment {
+    @NonNull
+    @Override
+    public CreationExtras getDefaultViewModelCreationExtras() {
+        return super.getDefaultViewModelCreationExtras();
+    }
 }

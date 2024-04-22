@@ -33,6 +33,17 @@ public class Profile extends DashboardUserActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.ratingsMediaFragmentContainer, ratingsFragment)
                 .commit();
+
+        // Agrega los fragmentos al contenedor correspondiente
+        ReviewsFragment reviewsFragment = new ReviewsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.reviewsMediaFragmentContainer, reviewsFragment)
+                .commit();
+
+        ListsFragment listsFragment = new ListsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.listsMediaFragmentContainer, listsFragment)
+                .commit();
     }
 
 
