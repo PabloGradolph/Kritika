@@ -27,6 +27,12 @@ public class Profile extends DashboardUserActivity {
         // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);// You can add any specific initialization code for the Profile activity here
+
+        // Agregar el fragmento RatingsFragment al contenedor ratingsMediaFragmentContainer
+        RatingsFragment ratingsFragment = new RatingsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.ratingsMediaFragmentContainer, ratingsFragment)
+                .commit();
     }
 
 
