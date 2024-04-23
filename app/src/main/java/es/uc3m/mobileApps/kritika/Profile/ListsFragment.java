@@ -1,5 +1,9 @@
 package es.uc3m.mobileApps.kritika.Profile;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,14 +24,19 @@ import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.MediaList;
+import es.uc3m.mobileApps.kritika.model.Movie;
+import es.uc3m.mobileApps.kritika.newDashboard.NewMoviesAdapter;
+import es.uc3m.mobileApps.kritika.newDashboard.NewMoviesDetailActivity;
 
 public class ListsFragment extends Fragment {
     private RecyclerView rvLists;
     private List<MediaList> listsList;
     private ListsAdapter listsAdapter;
-
     int listsProcessed = 0;
     int totalLists;
+    private Context fragmentContext;
+    private MediaList selectedList;
+    private String selectedMediaType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +49,16 @@ public class ListsFragment extends Fragment {
         listsAdapter = new ListsAdapter(getContext(), listsList);
         rvLists.setAdapter(listsAdapter);
         rvLists.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        listsAdapter.setOnItemClickListener(new ListsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(MediaList list) {
+                fragmentContext = getContext();
+                selectedMediaType = list.getMediaType();
+
+                showMediaTitlesDialog(fragmentContext, list.getMediaIds(), selectedMediaType);
+            }
+        });
 
         return rootView;
     }
@@ -138,6 +157,71 @@ public class ListsFragment extends Fragment {
 
     public interface OnListProcessedListener {
         void onListProcessed();
+    }
+
+    private static void showMediaTitlesDialog(Context context, List<String> mediaIds, String mediaType) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Media Titles");
+
+        // Crea una cadena con los títulos de los medios
+        StringBuilder stringBuilder = new StringBuilder();
+
+        // Variable para realizar un seguimiento de cuántos títulos se han obtenido
+        final int[] titlesFetched = {0};
+
+        // Itera sobre cada mediaId y obtén su título utilizando MediaInfoFetcher
+        for (int i = 0; i < mediaIds.size(); i++) {
+            String mediaId = mediaIds.get(i);
+            MediaInfoFetcher.fetchTitle(mediaId, mediaType, new MediaInfoFetcher.OnTitleFetchedListener() {
+                @Override
+                public void onTitleFetched(String title) {
+                    // Agrega el título a la cadena
+                    stringBuilder.append("- ").append(title).append("\n");
+
+                    // Incrementa el contador de títulos obtenidos
+                    titlesFetched[0]++;
+
+                    // Verifica si se han obtenido todos los títulos
+                    if (titlesFetched[0] == mediaIds.size()) {
+                        // Todos los títulos se han obtenido, así que actualiza el mensaje del diálogo y muestra el diálogo
+                        builder.setMessage(stringBuilder.toString());
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                }
+
+                @Override
+                public void onTitleFetchFailed() {
+                    // Maneja el caso en el que no se pudo obtener el título
+                    Log.e("showMediaTitlesDialog", "Error fetching title for mediaId: " + mediaId);
+
+                    // Incrementa el contador de títulos obtenidos incluso si falla la obtención del título
+                    titlesFetched[0]++;
+
+                    // Verifica si se han obtenido todos los títulos
+                    if (titlesFetched[0] == mediaIds.size()) {
+                        // Todos los títulos se han obtenido (aunque algunos hayan fallado), así que actualiza el mensaje del diálogo y muestra el diálogo
+                        builder.setMessage(stringBuilder.toString());
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                }
+            });
+        }
     }
 }
 

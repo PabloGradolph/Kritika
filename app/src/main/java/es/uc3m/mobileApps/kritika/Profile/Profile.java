@@ -2,13 +2,21 @@ package es.uc3m.mobileApps.kritika.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.MainActivity;
@@ -85,11 +93,41 @@ public class Profile extends DashboardUserActivity {
             finish();
         } else {
             // logged in, get user info
-            String UserName = firebaseUser.getEmail();
-            // set in textview of toolbar
-            TextView subTitleTv = findViewById(R.id.subTitleTv);
-            subTitleTv.setText(UserName);
+            String userName = firebaseUser.getDisplayName();
+            // Si el nombre de usuario no está configurado en Firebase Auth, intenta obtenerlo de la base de datos
+            if (userName == null || userName.isEmpty()) {
+                Log.d("Profile", "Estamos aquí");
+                // Obtiene la referencia del documento del usuario en Firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
 
+                userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // Obtiene el nombre de usuario del documento de usuario en Firestore
+                            String databaseUserName = documentSnapshot.getString("name");
+                            // Establece el nombre de usuario en el TextView de la barra de herramientas
+                            TextView subTitleTv = findViewById(R.id.userName);
+                            subTitleTv.setText(databaseUserName);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Exception: ", e.toString());
+                    }
+                });
+            } else {
+                Log.d("Profile", "Estamos alla");
+                // Establece el nombre de usuario en el TextView de la barra de herramientas
+                TextView subTitleTv = findViewById(R.id.userName);
+                subTitleTv.setText(userName);
+            }
+
+            String email = firebaseUser.getEmail();
+            TextView subTitleTv = findViewById(R.id.subTitleTv);
+            subTitleTv.setText(email);
         }
     }
 }

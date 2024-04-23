@@ -1,6 +1,9 @@
 package es.uc3m.mobileApps.kritika.Profile;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +64,16 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHold
 
         holder.listTextView.setText(String.valueOf(list.getMediaIds().size() + " items in this list"));
         Glide.with(context).load(list.getImageUrl()).into(holder.mediaImageViewPoster);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
+                if (listener != null) {
+                    listener.onItemClick(list);
+                }
+            }
+        });
     }
 
     @Override
