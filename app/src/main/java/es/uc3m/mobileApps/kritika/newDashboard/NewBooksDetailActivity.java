@@ -20,8 +20,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uc3m.mobileApps.kritika.Actions.RateActivity;
 import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
+import es.uc3m.mobileApps.kritika.Actions.RateActivity;
 import es.uc3m.mobileApps.kritika.Actions.ReviewActivity;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
@@ -40,10 +40,10 @@ public class NewBooksDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_book_item_detail);
 
-        String bookTitle = getIntent().getStringExtra("title");
+        String bookId = getIntent().getStringExtra("id");
 
-        if (bookTitle != null) {
-            new FetchBooksDetailsTask().execute(bookTitle);
+        if (bookId != null) {
+            new FetchBooksDetailsTask().execute(bookId);
         } else {
             // Manejar el caso de que no se encuentre un ID válido
         }
@@ -93,11 +93,10 @@ public class NewBooksDetailActivity extends AppCompatActivity {
 
     private class FetchBooksDetailsTask extends AsyncTask<String, Void, Book> {
         @Override
-        protected Book doInBackground(String... bookTitles) {
+        protected Book doInBackground(String... bookIds) {
             OkHttpClient client = new OkHttpClient();
-            String bookTitleQuery = bookTitles[0].replace(" ", "+"); // Reemplaza los espacios con el símbolo '+' para la request a la API
             String apiKey = ApiConstants.GOOGLE_BOOKS_API_KEY;
-            String baseUrl = ApiConstants.GOOGLE_BOOKS_SEARCH_URL + bookTitleQuery + "&key=" + apiKey;
+            String baseUrl = ApiConstants.GOOGLE_BOOKS_VOLUMES_URL + bookIds[0] + "?key=" + apiKey;
 
             Request request = new Request.Builder()
                     .url(baseUrl)
@@ -107,27 +106,23 @@ public class NewBooksDetailActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 String jsonData = response.body().string();
                 JSONObject jsonObject = new JSONObject(jsonData);
-                JSONArray items = jsonObject.getJSONArray("items");
 
-                for (int i = 0; i < items.length(); i++) {
-                    JSONObject item = items.getJSONObject(i);
-                    JSONObject volumeInfo = item.getJSONObject("volumeInfo");
-                    JSONArray authorsJsonArray = volumeInfo.optJSONArray("authors");
-                    List<String> authors = new ArrayList<>();
-                    if (authorsJsonArray != null) {
-                        for (int j = 0; j < authorsJsonArray.length(); j++) {
-                            authors.add(authorsJsonArray.getString(j));
-                        }
+                JSONObject volumeInfo = jsonObject.getJSONObject("volumeInfo");
+                JSONArray authorsJsonArray = volumeInfo.optJSONArray("authors");
+                List<String> authors = new ArrayList<>();
+                if (authorsJsonArray != null) {
+                    for (int j = 0; j < authorsJsonArray.length(); j++) {
+                        authors.add(authorsJsonArray.getString(j));
                     }
-                    String title = volumeInfo.getString("title");
-                    String publisher = volumeInfo.optString("publisher", "N/A");
-                    String publishedDate = volumeInfo.optString("publishedDate", "N/A");
-                    String description = volumeInfo.optString("description", "No description available.");
-                    String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
-                    thumbnail = thumbnail.replace("http://", "https://");
-                    double averageRating = volumeInfo.optDouble("averageRating", 0.0);
+                String title = volumeInfo.getString("title");
+                String publisher = volumeInfo.optString("publisher", "N/A");
+                String publishedDate = volumeInfo.optString("publishedDate", "N/A");
+                String description = volumeInfo.optString("description", "No description available.");
+                String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
+                thumbnail = thumbnail.replace("http://", "https://");
+                double averageRating = volumeInfo.optDouble("averageRating", 0.0);
 
-                    return new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating);
+                return new Book(jsonObject.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
