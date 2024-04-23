@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
-import es.uc3m.mobileApps.kritika.model.Rating;
-import es.uc3m.mobileApps.kritika.Profile.RatingsAdapter;
 import es.uc3m.mobileApps.kritika.model.Review;
 
 public class ReviewsFragment extends Fragment {

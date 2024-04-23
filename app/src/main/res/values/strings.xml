@@ -51,8 +51,10 @@
     <string name="profile_ratings">Ratings</string>
     <string name="profile_reviews">Reviews</string>
     <string name="profile_lists">Lists</string>
-    <string name="profile_media_title">Título del Media</string>
+    <string name="profile_media_title">Media Title</string>
     <string name="profile_media_rating">4.5</string>
+    <string name="profile_list_title">List Title</string>
+    <string name="profile_list_items">4 items in this list</string>
 
 
     <string-array name="content_types">
