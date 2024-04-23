@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,7 @@ import es.uc3m.mobileApps.kritika.model.Review;
 public class ReviewsMoviesAdapter extends RecyclerView.Adapter<ReviewsMoviesAdapter.ReviewsViewHolder> {
     private static List<Review> reviews;
     private LayoutInflater inflater;
+    private Context context;
 
     public ReviewsMoviesAdapter(Context context, List<Review> reviews) {
         this.inflater = LayoutInflater.from(context);
@@ -51,7 +54,6 @@ public class ReviewsMoviesAdapter extends RecyclerView.Adapter<ReviewsMoviesAdap
         Review currentReview = reviews.get(position);
         holder.tvText.setText(currentReview.getReviewText());
 
-
         // Get Media Title from DB (Firestore)
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(currentReview.getMediaType()).document(currentReview.getMediaId()).get()
@@ -69,6 +71,13 @@ public class ReviewsMoviesAdapter extends RecyclerView.Adapter<ReviewsMoviesAdap
                     if (documentSnapshot.exists()) {
                         String username = documentSnapshot.getString("name");
                         holder.tvUser.setText(username);
+
+                        // Obtener la URL de la imagen de perfil del usuario
+                        String profileImageUrl = documentSnapshot.getString("profileImage");
+                        if (profileImageUrl != null && !profileImageUrl.isEmpty() && holder.itemView.isAttachedToWindow()) {
+                            // Si la URL de la imagen está disponible y la vista está adjunta, cargar la imagen desde Firebase Storage
+                            Glide.with(holder.itemView.getContext()).load(profileImageUrl).into(holder.imageView);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> Log.d(TAG, "Error getting user details", e));
@@ -90,12 +99,14 @@ public class ReviewsMoviesAdapter extends RecyclerView.Adapter<ReviewsMoviesAdap
 
     static class ReviewsViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle, tvUser, tvText;
+        final ImageView imageView;
 
         ReviewsViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvUser = itemView.findViewById(R.id.tvUser);
             tvText = itemView.findViewById(R.id.tvText);
+            imageView = itemView.findViewById(R.id.imageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

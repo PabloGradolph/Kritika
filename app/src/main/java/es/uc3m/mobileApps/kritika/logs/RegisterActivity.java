@@ -134,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
         hashMap.put("uid", uid);
         hashMap.put("email", email);
         hashMap.put("name", name);
-        hashMap.put("profileImage", "gs://uc3m-it-2024-16504-g08.appspot.com/users_pictures/images.png");
+        hashMap.put("profileImage", "https://firebasestorage.googleapis.com/v0/b/uc3m-it-2024-16504-g08.appspot.com/o/users_pictures%2Fimages.png?alt=media&token=4b912db9-bb61-4746-bfcf-b6f912df0516");
         hashMap.put("userType", "user"); // possible values are [user, admin]. Will make admin manually in firebase realtime database by changing this value
         hashMap.put("timestamp", timestamp);
 

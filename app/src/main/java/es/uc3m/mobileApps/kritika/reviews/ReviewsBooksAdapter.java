@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -69,6 +71,13 @@ public class ReviewsBooksAdapter extends RecyclerView.Adapter<ReviewsBooksAdapte
                     if (documentSnapshot.exists()) {
                         String username = documentSnapshot.getString("name");
                         holder.tvUser.setText(username);
+
+                        // Obtener la URL de la imagen de perfil del usuario
+                        String profileImageUrl = documentSnapshot.getString("profileImage");
+                        if (profileImageUrl != null && !profileImageUrl.isEmpty() && holder.itemView.isAttachedToWindow()) {
+                            // Si la URL de la imagen está disponible y la vista está adjunta, cargar la imagen desde Firebase Storage
+                            Glide.with(holder.itemView.getContext()).load(profileImageUrl).into(holder.imageView);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> Log.d(TAG, "Error getting user details", e));
@@ -90,12 +99,14 @@ public class ReviewsBooksAdapter extends RecyclerView.Adapter<ReviewsBooksAdapte
 
     static class ReviewsViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle, tvUser, tvText;
+        final ImageView imageView;
 
         ReviewsViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvUser = itemView.findViewById(R.id.tvUser);
             tvText = itemView.findViewById(R.id.tvText);
+            imageView = itemView.findViewById(R.id.imageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
