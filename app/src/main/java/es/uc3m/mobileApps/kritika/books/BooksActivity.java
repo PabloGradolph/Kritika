@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
@@ -36,6 +41,7 @@ public class BooksActivity extends DashboardUserActivity {
     private RecyclerView rvBooks;
     private BooksAdapter adapter;
     private List<Book> bookList = new ArrayList<>();
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,19 @@ public class BooksActivity extends DashboardUserActivity {
             }
         });
         rvBooks.setAdapter(adapter);
+
+        // init firebase auth
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkUser();
+
+        ImageButton buttonLogOut = findViewById(R.id.logoutBtn);
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                checkUser();
+            }
+        });
 
         // TOP BAR: buttons
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
@@ -151,6 +170,23 @@ public class BooksActivity extends DashboardUserActivity {
             } else {
                 Toast.makeText(BooksActivity.this, "Failed to fetch books data!", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private void checkUser() {
+        // get current user
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null){
+            // not logged in, go to main screen
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        } else {
+            // logged in, get user info
+            String UserName = firebaseUser.getEmail();
+            // set in textview of toolbar
+            TextView subTitleTv = findViewById(R.id.subTitleTv);
+            subTitleTv.setText(UserName);
+
         }
     }
 }

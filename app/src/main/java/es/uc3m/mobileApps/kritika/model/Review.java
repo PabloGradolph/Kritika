@@ -14,6 +14,8 @@ public class Review {
     private boolean isPublic;
     private String mediaId;
     private String mediaType;
+    private String title;
+    private String imageUrl;
 
     // Constructor vacío requerido para Firestore
     public Review() {
@@ -69,19 +71,19 @@ public class Review {
         this.mediaType = mediaType;
     }
 
-    // Método para guardar la review en Firestore
-    public void saveReviewToFirestore() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Obtener una referencia a la colección "reviews" en Firestore
-        DocumentReference reviewRef = db.collection("reviews").document();
+    public String getTitle() {
+        return title;
+    }
 
-        // Guardar la review en Firestore
-        reviewRef.set(this)
-                .addOnSuccessListener(aVoid -> {
-                    // Éxito al guardar la review
-                })
-                .addOnFailureListener(e -> {
-                    // Error al guardar la review
-                });
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

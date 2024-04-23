@@ -25,7 +25,7 @@ import es.uc3m.mobileApps.kritika.Profile.RatingsAdapter;
 public class RatingsFragment extends Fragment {
     private RecyclerView rvRatings;
     private List<Rating> ratingsList;
-    private RatingsAdapter ratingsAdapter; // Aquí deberías crear tu adaptador para los ratings
+    private RatingsAdapter ratingsAdapter;
 
     int ratingsProcessed = 0;
     int totalRatings;

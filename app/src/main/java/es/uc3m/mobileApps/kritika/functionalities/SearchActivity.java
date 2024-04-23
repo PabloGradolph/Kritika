@@ -1,5 +1,6 @@
 package es.uc3m.mobileApps.kritika.functionalities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -9,11 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
+import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Book;
@@ -45,6 +50,7 @@ public class SearchActivity extends DashboardUserActivity {
     private EditText searchBar;
     private Spinner contentTypeSpinner;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth firebaseAuth;
     private SearchAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -54,6 +60,19 @@ public class SearchActivity extends DashboardUserActivity {
 
         // layout
         setContentView(R.layout.search_activity);
+
+        // init firebase auth
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkUser();
+
+        ImageButton buttonLogOut = findViewById(R.id.logoutBtn);
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                checkUser();
+            }
+        });
 
         // dropdown
         setupSpinner();
@@ -359,6 +378,22 @@ public class SearchActivity extends DashboardUserActivity {
         });
     }
 
+    private void checkUser() {
+        // get current user
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null){
+            // not logged in, go to main screen
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        } else {
+            // logged in, get user info
+            String UserName = firebaseUser.getEmail();
+            // set in textview of toolbar
+            TextView subTitleTv = findViewById(R.id.subTitleTv);
+            subTitleTv.setText(UserName);
+
+        }
+    }
 
 }
 
