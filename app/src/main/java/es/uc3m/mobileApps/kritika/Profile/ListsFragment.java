@@ -119,6 +119,13 @@ public class ListsFragment extends Fragment {
     private void fetchMediaInfo(MediaList list, OnListProcessedListener listener) {
 
         List<String> mediaIds = list.getMediaIds();
+        // Verificar si la lista de mediaIds está vacía
+        if (mediaIds == null || mediaIds.isEmpty()) {
+            // Lista vacía, notificar que la operación de la lista ha sido procesada
+            listener.onListProcessed();
+            return;
+        }
+
         String firstMediaId = mediaIds.get(0);
 
         MediaInfoFetcher.fetchTitle(firstMediaId, list.getMediaType(), new MediaInfoFetcher.OnTitleFetchedListener() {
