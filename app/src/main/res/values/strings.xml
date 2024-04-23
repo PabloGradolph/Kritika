@@ -55,7 +55,8 @@
     <string name="profile_media_rating">4.5</string>
     <string name="profile_list_title">List Title</string>
     <string name="profile_list_items">4 items in this list</string>
-
+    <string name="forgot_password2">Forgot Password</string>
+    <string name="enter_email">Enter your registered email address to reset your password.</string>
 
     <string-array name="content_types">
         <item>Movies</item>
