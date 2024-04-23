@@ -155,7 +155,7 @@ public class BooksDetailActivity extends AppCompatActivity {
                         .into(imageViewPoster);
 
             }else {
-                Toast.makeText(BooksDetailActivity.this, "Error al cargar los detalles del libro.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BooksDetailActivity.this, "Error fetching book data.", Toast.LENGTH_SHORT).show();
             }
         }
     }

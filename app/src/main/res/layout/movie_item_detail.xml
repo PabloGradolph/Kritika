@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back01"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageViewPoster"
+        android:id="@+id/movieImageViewPoster"
         android:layout_width="0dp"
         android:layout_height="532dp"
-        android:layout_marginStart="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,62 +22,78 @@
         android:layout_width="match_parent"
         android:layout_height="532dp"
         android:background="@drawable/gradient_overlay"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="174dp"
         android:layout_height="38dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="220dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="204dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/movie_title"
         android:textColor="@color/KritikaPurple"
         android:textSize="26sp"
+        android:elevation="1dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPoster"
-        app:layout_constraintWidth_default="wrap" />
-
-    <TextView
-        android:id="@+id/tvOverview"
-        android:layout_width="377dp"
-        android:layout_height="88dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
-        android:ellipsize="end"
-        android:maxLines="7"
-        android:text="@string/movie_desc"
-        android:textColor="@color/JetBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPoster" />
-
-    <TextView
-        android:id="@+id/tvRating"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="28dp"
-        android:text="@string/movie_rating"
-        android:textColor="@color/KritikaPurple"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPoster"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
         app:layout_constraintWidth_default="wrap" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/openMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/KritikaPurple"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tvOverview"
+        android:layout_width="373dp"
+        android:layout_height="134dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="4dp"
+        android:ellipsize="end"
+        android:maxLines="7"
+        android:text="@string/movie_desc"
+        android:textColor="@color/JetBlack"
+        android:textSize="16sp"
+        android:textStyle="normal|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster" />
+
+
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/movie_rating"
+        android:textColor="@color/KritikaPurple"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
+        app:layout_constraintWidth_default="wrap" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="532dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="0dp"
+        android:background="@drawable/gradient_overlay_2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
