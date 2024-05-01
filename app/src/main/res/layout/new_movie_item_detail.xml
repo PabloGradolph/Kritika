@@ -45,6 +45,7 @@
                 android:id="@+id/openMenuButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/rate"
                 android:src="@android:drawable/ic_input_add"
                 app:backgroundTint="@color/KritikaPurple" />
 

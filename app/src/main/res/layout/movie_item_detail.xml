@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/movieImageViewPoster"
+            android:id="@+id/imageViewPoster"
             android:layout_width="0dp"
             android:layout_height="532dp"
             android:scaleType="centerCrop"
@@ -65,7 +65,7 @@
             android:elevation="1dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewPoster"
             app:layout_constraintWidth_default="wrap" />
 
         <!-- Round button removed from ScrollView -->
@@ -82,7 +82,7 @@
             android:textColor="@color/JetBlack"
             android:textSize="16sp"
             android:textStyle="normal|bold"
-            app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewPoster"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
@@ -97,7 +97,7 @@
             android:textStyle="bold"
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieImageViewPoster"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewPoster"
             app:layout_constraintWidth_default="wrap" />
 
         <com.google.android.material.appbar.MaterialToolbar
