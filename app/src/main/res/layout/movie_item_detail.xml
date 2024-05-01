@@ -77,7 +77,6 @@
             android:layout_marginTop="56dp"
             android:layout_marginEnd="4dp"
             android:ellipsize="end"
-            android:maxLines="7"
             android:text="@string/movie_desc"
             android:textColor="@color/JetBlack"
             android:textSize="16sp"

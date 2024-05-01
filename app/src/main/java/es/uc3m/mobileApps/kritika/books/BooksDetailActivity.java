@@ -151,10 +151,7 @@ public class BooksDetailActivity extends AppCompatActivity {
                 ImageView imageViewPoster = findViewById(R.id.imageViewThumbnail);
 
                 tvTitle.setText(book.getTitle());
-                String shortDescription = book.getDescription().length() > 100
-                        ? book.getDescription().substring(0, 100) + "..."
-                        : book.getDescription();
-                tvOverview.setText(shortDescription);
+                tvOverview.setText(book.getDescription());
                 tvAuthor.setText(String.join(", ", book.getAuthors()));
                 // Cargar imagen de portada con Glide
                 Glide.with(BooksDetailActivity.this)

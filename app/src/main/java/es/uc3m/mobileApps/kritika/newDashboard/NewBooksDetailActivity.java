@@ -140,6 +140,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
 
 
         protected void onPostExecute(Book book) {
+
             super.onPostExecute(book);
             if (book != null) {
                 TextView tvTitle = findViewById(R.id.tvTitle);
@@ -148,17 +149,14 @@ public class NewBooksDetailActivity extends AppCompatActivity {
                 ImageView imageViewPoster = findViewById(R.id.imageViewThumbnail);
 
                 tvTitle.setText(book.getTitle());
-                String shortDescription = book.getDescription().length() > 100
-                        ? book.getDescription().substring(0, 100) + "..."
-                        : book.getDescription();
-                tvOverview.setText(shortDescription);
+                tvOverview.setText(book.getDescription());
                 tvAuthor.setText(String.join(", ", book.getAuthors()));
                 // Cargar imagen de portada con Glide
                 Glide.with(NewBooksDetailActivity.this)
                         .load(book.getThumbnail())
                         .into(imageViewPoster);
 
-            }else {
+            } else {
                 Toast.makeText(NewBooksDetailActivity.this, "Error al cargar los detalles del libro.", Toast.LENGTH_SHORT).show();
             }
         }
