@@ -117,7 +117,8 @@ public class NewBooksDetailActivity extends AppCompatActivity {
                 String title = volumeInfo.getString("title");
                 String publisher = volumeInfo.optString("publisher", "N/A");
                 String publishedDate = volumeInfo.optString("publishedDate", "N/A");
-                String description = volumeInfo.optString("description", "No description available.");
+                String rawDescription = volumeInfo.optString("description", "No description available.");
+                String description = stripHtml(rawDescription); //After parsing
                 String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                 thumbnail = thumbnail.replace("http://", "https://");
                 double averageRating = volumeInfo.optDouble("averageRating", 0.0);
@@ -131,7 +132,11 @@ public class NewBooksDetailActivity extends AppCompatActivity {
             return null;
         }
 
-
+        public String stripHtml(String html) {
+            // Remove HTML tags using a regular expression
+            String cleanHtml = html.replaceAll("&quot;", "\"");
+            return cleanHtml.replaceAll("\\<.*?\\>", "");
+        }
 
 
         protected void onPostExecute(Book book) {

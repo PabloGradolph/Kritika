@@ -31,6 +31,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
+
+
 public class BooksDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton openMenuButton;
@@ -118,7 +120,8 @@ public class BooksDetailActivity extends AppCompatActivity {
                     String title = volumeInfo.getString("title");
                     String publisher = volumeInfo.optString("publisher", "N/A");
                     String publishedDate = volumeInfo.optString("publishedDate", "N/A");
-                    String description = volumeInfo.optString("description", "No description available.");
+                    String rawDescription = volumeInfo.optString("description", "No description available.");
+                    String description = stripHtml(rawDescription); //After parsing
                     String thumbnail = volumeInfo.getJSONObject("imageLinks").optString("thumbnail", "");
                     thumbnail = thumbnail.replace("http://", "https://");
                     double averageRating = volumeInfo.optDouble("averageRating", 0.0);
@@ -133,7 +136,11 @@ public class BooksDetailActivity extends AppCompatActivity {
         }
 
 
-
+        public String stripHtml(String html) {
+            // Remove HTML tags using a regular expression
+            String cleanHtml = html.replaceAll("&quot;", "\"");
+            return cleanHtml.replaceAll("\\<.*?\\>", "");
+        }
 
         protected void onPostExecute(Book book) {
             super.onPostExecute(book);
