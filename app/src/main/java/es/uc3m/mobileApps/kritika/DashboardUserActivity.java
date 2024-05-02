@@ -19,11 +19,13 @@ import es.uc3m.mobileApps.kritika.music.MusicActivity;
 import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 import es.uc3m.mobileApps.kritika.reviews.ShowReviewsActivity;
 
+/**
+ * Dashboard activity for logged-in users.
+ */
 public class DashboardUserActivity extends AppCompatActivity {
 
     // view binding
     private es.uc3m.mobileApps.kritika.databinding.ActivityDashboardUserBinding binding;
-
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -47,6 +49,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
+        // Logout Button
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +59,6 @@ public class DashboardUserActivity extends AppCompatActivity {
         });
 
         // Set click listeners for buttons
-
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
         // Start the dashboard with movies opened.
@@ -72,41 +74,37 @@ public class DashboardUserActivity extends AppCompatActivity {
                 openMovies();
             }
         });
-
         buttonOpenMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openMusic();
             }
         });
-
         buttonOpenBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openBooks();
             }
         });
-
         buttonOpenReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openReviews();
             }
         });
+
         buttonOpenProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openProfile();
             }
         });
-
         buttonOpenHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openHome();
             }
         });
-
         buttonOpenSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,9 +112,7 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
         });
     }
-
-    // HAGO METODOS PUBLICOS PARA PODER REUTILIZARLOS EN OTRAS PANTALLAS
-
+    // Methods to open different activities
     public void openMovies() {
         Intent intent = new Intent(this, MoviesActivity.class);
         startActivity(intent);
@@ -150,6 +146,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Method to check if the user is logged in
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -162,8 +159,6 @@ public class DashboardUserActivity extends AppCompatActivity {
             String UserName = firebaseUser.getEmail();
             // set in textview of toolbar
             binding.subTitleTv.setText(UserName);
-
         }
     }
-
 }

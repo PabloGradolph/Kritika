@@ -14,9 +14,11 @@ import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.R;
 
+/**
+ * Activity class for displaying reviews.
+ */
 public class ShowReviewsActivity extends DashboardUserActivity {
 
-    private es.uc3m.mobileApps.kritika.databinding.NewActivityDashboardUserBinding binding;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -30,6 +32,7 @@ public class ShowReviewsActivity extends DashboardUserActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
 
+        // Logout Button
         ImageButton buttonLogOut = findViewById(R.id.logoutBtn);
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +53,9 @@ public class ShowReviewsActivity extends DashboardUserActivity {
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
 
-        // ADD MEDIA: buttons
-        //FloatingActionButton addMediaButton = findViewById(R.id.addMediaButton);
-
-
         // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
-
 
         // Load MoviesFragment
         ReviewsMoviesFragment moviesFragment = new ReviewsMoviesFragment();
@@ -78,6 +76,9 @@ public class ShowReviewsActivity extends DashboardUserActivity {
                 .commit();
     }
 
+    /**
+     * Checks if the user is logged in.
+     */
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -91,7 +92,6 @@ public class ShowReviewsActivity extends DashboardUserActivity {
             // set in textview of toolbar
             TextView subTitleTv = findViewById(R.id.subTitleTv);
             subTitleTv.setText(UserName);
-
         }
     }
 }

@@ -24,6 +24,9 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Review;
 
+/**
+ * Fragment class for displaying public reviews for movies.
+ */
 public class ReviewsMoviesFragment extends Fragment {
     private RecyclerView rvReviewMovies;
     private ReviewsMoviesAdapter adapter;
@@ -32,22 +35,17 @@ public class ReviewsMoviesFragment extends Fragment {
     // Firestore instance
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    // Constructor vacío requerido
+    // Required empty constructor.
     public ReviewsMoviesFragment() { }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla el layout para este fragmento
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.reviews_fragment_movies, container, false);
-
         rvReviewMovies = view.findViewById(R.id.rvReviewsMovies);
         rvReviewMovies.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new ReviewsMoviesAdapter(getContext(), reviewsMovieList);
-
-
         rvReviewMovies.setAdapter(adapter);
-
-
 
         // Load reviews
         loadPublicReviews();
@@ -55,7 +53,9 @@ public class ReviewsMoviesFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Loads public reviews for movies from Firestore.
+     */
     private void loadPublicReviews() {
         db.collection("reviews")
                 .whereEqualTo("public", true)
@@ -65,7 +65,7 @@ public class ReviewsMoviesFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            reviewsMovieList.clear(); // Limpiar la lista antes de agregar los nuevos elementos
+                            reviewsMovieList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Review review = document.toObject(Review.class);
                                 reviewsMovieList.add(review);
@@ -77,6 +77,5 @@ public class ReviewsMoviesFragment extends Fragment {
                     }
                 });
     }
-
 }
 

@@ -8,13 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import es.uc3m.mobileApps.kritika.databinding.ActivityMainBinding;
 import es.uc3m.mobileApps.kritika.logs.LoginActivity;
-import es.uc3m.mobileApps.kritika.newDashboard.newDashboardUserActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     // view binding
     private ActivityMainBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +27,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
-
     };
 }

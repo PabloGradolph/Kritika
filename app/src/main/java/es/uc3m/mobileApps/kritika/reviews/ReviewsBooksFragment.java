@@ -24,6 +24,9 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Review;
 
+/**
+ * Fragment class for displaying public reviews for books.
+ */
 public class ReviewsBooksFragment extends Fragment {
     private RecyclerView rvReviewsBooks;
     private ReviewsBooksAdapter adapter;
@@ -32,22 +35,18 @@ public class ReviewsBooksFragment extends Fragment {
     // Firestore instance
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    // Constructor vacío requerido
+    // Required empty constructor.
     public ReviewsBooksFragment() { }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla el layout para este fragmento
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.reviews_fragment_books, container, false);
 
         rvReviewsBooks = view.findViewById(R.id.rvReviewsBooks);
         rvReviewsBooks.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new ReviewsBooksAdapter(getContext(), reviewsBooksList);
-
-
         rvReviewsBooks.setAdapter(adapter);
-
-
 
         // Load reviews
         loadPublicReviews();
@@ -55,7 +54,9 @@ public class ReviewsBooksFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Loads public reviews for books from Firestore.
+     */
     private void loadPublicReviews() {
         db.collection("reviews")
                 .whereEqualTo("public", true)
@@ -77,6 +78,5 @@ public class ReviewsBooksFragment extends Fragment {
                     }
                 });
     }
-
 }
 
