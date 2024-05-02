@@ -11,11 +11,9 @@ public class MediaList {
     private String title;
     private String imageUrl;
 
-    // Constructor vacío requerido para Firestore
     public MediaList() {
     }
 
-    // Constructor con parámetros
     public MediaList(String userId, String listName, String mediaType) {
         this.userId = userId;
         this.listName = listName;
@@ -24,20 +22,9 @@ public class MediaList {
     }
 
     // Getters y setters
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getListName() {
         return listName;
-    }
-
-    public void setListName(String listName) {
-        this.listName = listName;
     }
 
     public String getMediaType() {
@@ -52,9 +39,6 @@ public class MediaList {
         return mediaIds;
     }
 
-    public void setMediaIds(List<String> mediaIds) {
-        this.mediaIds = mediaIds;
-    }
     public String getTitle() {
         return title;
     }

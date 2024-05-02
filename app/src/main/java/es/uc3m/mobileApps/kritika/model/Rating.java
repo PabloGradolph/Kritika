@@ -1,16 +1,13 @@
 package es.uc3m.mobileApps.kritika.model;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
 public class Rating {
     private String userId;
     private String mediaId;
     private String mediaType;
-    private float rating; // Puntuación del 1 al 5
+    private float rating;
     private String title;
     private String imageUrl;
 
-    // Constructor vacío requerido para Firestore
     public Rating() {
     }
 
@@ -22,13 +19,6 @@ public class Rating {
     }
 
     // Getters y setters
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getMediaId() {
         return mediaId;

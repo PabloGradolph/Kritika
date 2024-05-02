@@ -1,13 +1,5 @@
 package es.uc3m.mobileApps.kritika.model;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 public class Review {
     private String user;
     private String reviewText;
@@ -17,11 +9,9 @@ public class Review {
     private String title;
     private String imageUrl;
 
-    // Constructor vacío requerido para Firestore
     public Review() {
     }
 
-    // Constructor con parámetros
     public Review(String user, String reviewText, boolean isPublic, String mediaId, String mediaType) {
         this.user = user;
         this.reviewText = reviewText;
@@ -41,10 +31,6 @@ public class Review {
 
     public String getReviewText() {
         return reviewText;
-    }
-
-    public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
     }
 
     public boolean isPublic() {

@@ -8,11 +8,9 @@ public class Movie implements SearchInterface {
     private String rating;
     private String releaseDate;
 
-    // Constructor vacío requerido por Firebase
     public Movie() {
     }
 
-    // Constructor para nuestra comodidad
     public Movie(int id, String title, String overview, String posterPath, String rating, String releaseDate) {
         this.id = id;
         this.title = title;
@@ -29,23 +27,16 @@ public class Movie implements SearchInterface {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
-
-
     public String getOverview() { return overview; }
-    public void setOverview(String overview) { this.overview = overview; }
 
     public String getPosterPath() { return posterPath; }
 
     public String getImagePath() { return posterPath; } // for interface
-    public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
 
     public String getRating() { return rating; }
     public void setRating(String rating) { this.rating = rating; }
 
-    public String getReleaseDate() { return releaseDate; }
-    public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
-
-    // Método para actualizar los detalles de la película
+    // Method for updating movie details
     public void updateDetails(String title, String overview, String posterPath, String rating, String releaseDate) {
         this.title = title;
         this.overview = overview;

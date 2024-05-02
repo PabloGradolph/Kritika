@@ -31,6 +31,9 @@ import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.databinding.ActivityAddMediaBinding;
 
+/**
+ * Activity to add new media (movies, music, books) to the application.
+ */
 public class AddMediaActivity extends DashboardUserActivity {
 
     //view binding
@@ -97,7 +100,6 @@ public class AddMediaActivity extends DashboardUserActivity {
                 openImageSelector();
             }
         });
-
         binding.submitMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +114,6 @@ public class AddMediaActivity extends DashboardUserActivity {
                 openImageSelector();
             }
         });
-
         binding.submitMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +128,6 @@ public class AddMediaActivity extends DashboardUserActivity {
                 openImageSelector();
             }
         });
-
         binding.submitBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,13 +135,16 @@ public class AddMediaActivity extends DashboardUserActivity {
             }
         });
     }
+
+    /**
+     * Handle image selection result.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
 
-            // Actualizar el ImageView correspondiente
             if (layoutMovies.getVisibility() == View.VISIBLE) {
                 ImageView imageView = binding.imageMovieIv;
                 imageView.setImageURI(imageUri);
@@ -157,6 +160,9 @@ public class AddMediaActivity extends DashboardUserActivity {
 
     private Uri imageUri = null;
 
+    /**
+     * Update visibility of form elements based on selected media type.
+     */
     private void updateFormVisibility(int typeIndex) {
         layoutMovies.setVisibility(View.GONE);
         layoutMusic.setVisibility(View.GONE);
@@ -175,6 +181,9 @@ public class AddMediaActivity extends DashboardUserActivity {
         }
     }
 
+    /**
+     * Open image selector for choosing media cover image.
+     */
     private void openImageSelector() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -182,12 +191,18 @@ public class AddMediaActivity extends DashboardUserActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    /**
+     * Get file extension from URI.
+     */
     private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    /**
+     * Clear form data after media addition.
+     */
     private void clearFormData() {
         binding.TitleMovieEt.setText("");
         binding.OverviewMovieEt.setText("");
@@ -203,6 +218,9 @@ public class AddMediaActivity extends DashboardUserActivity {
         imageUri = null;
     }
 
+    /**
+     * Upload image to Firebase Storage.
+     */
     private void uploadImage(Uri imageUri, String folderPath, Consumer<String> onSuccess, Consumer<String> onFailure) {
         if (imageUri != null) {
             progressDialog.setMessage("Uploading image...");
@@ -226,6 +244,9 @@ public class AddMediaActivity extends DashboardUserActivity {
         }
     }
 
+    /**
+     * Add media document to Firestore.
+     */
     private void addDocumentToFirestore(Map<String, Object> data, String collectionPath, Runnable onSuccess, Consumer<String> onFailure) {
         db.collection(collectionPath).add(data)
                 .addOnSuccessListener(documentReference -> {
@@ -240,8 +261,10 @@ public class AddMediaActivity extends DashboardUserActivity {
                 });
     }
 
+    /**
+     * Validate and submit movie data.
+     */
     private void validateMovieData() {
-        // Asumiendo que tienes EditText para el título y la descripción como se mostró anteriormente
         String title = binding.TitleMovieEt.getText().toString().trim();
         String overview = binding.OverviewMovieEt.getText().toString().trim();
 
@@ -258,7 +281,6 @@ public class AddMediaActivity extends DashboardUserActivity {
             return;
         }
 
-        // Procedemos a subir la imagen y luego los datos del movie
         uploadImage(imageUri, "movie_covers",
                 imageUrl -> {
                     Map<String, Object> movieData = new HashMap<>();
@@ -273,8 +295,10 @@ public class AddMediaActivity extends DashboardUserActivity {
         );
     }
 
+    /**
+     * Validate and submit music data.
+     */
     private void validateMusicData() {
-        // Suponiendo que tienes EditText para title y artist
         String title = binding.TitleMusicEt.getText().toString().trim();
         String artistsInput = binding.ArtistsMusicEt.getText().toString().trim();
 
@@ -316,6 +340,9 @@ public class AddMediaActivity extends DashboardUserActivity {
         );
     }
 
+    /**
+     * Validate and submit book data.
+     */
     private void validateBookData() {
         String title = binding.TitleBookEt.getText().toString().trim();
         String authorsInput = binding.AuthorsBookEt.getText().toString().trim();
@@ -377,5 +404,4 @@ public class AddMediaActivity extends DashboardUserActivity {
                 errorMessage -> Toast.makeText(this, "Failed to upload image: " + errorMessage, Toast.LENGTH_SHORT).show()
         );
     }
-
 }

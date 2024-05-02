@@ -6,18 +6,13 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
-import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.databinding.ActivityForgotPasswordBinding;
 
 public class ForgotPasswordActivity extends AppCompatActivity {

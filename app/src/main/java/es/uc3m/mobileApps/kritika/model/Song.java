@@ -8,7 +8,6 @@ public class Song implements SearchInterface {
     private String url;
     private String imageUrl;
 
-    // Constructor, getters y setters
     public Song() {
     }
 
@@ -34,7 +33,6 @@ public class Song implements SearchInterface {
     public void setName(String name) { this.name = name; }
 
     public String getArtistName() { return artistName; }
-    public void setArtistName(String artistName) { this.artistName = artistName; }
 
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
@@ -43,7 +41,7 @@ public class Song implements SearchInterface {
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
 
-    // Método para actualizar los detalles
+    // Method for updating details
     public void updateDetails(String name, String artistName, String url, String imageUrl) {
         this.name = name;
         this.artistName = artistName;
