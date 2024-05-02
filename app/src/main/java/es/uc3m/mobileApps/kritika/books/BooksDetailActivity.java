@@ -30,9 +30,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
-
-
+/**
+ * This activity displays the details of a book and provides options for rating, adding to list, and reviewing.
+ */
 public class BooksDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton openMenuButton;
@@ -46,8 +46,6 @@ public class BooksDetailActivity extends AppCompatActivity {
 
         if (bookId != null) {
             new FetchBooksDetailsTask().execute(bookId);
-        } else {
-            // Manejar el caso de que no se encuentre un ID válido
         }
 
         openMenuButton = findViewById(R.id.openMenuButton);
@@ -60,6 +58,9 @@ public class BooksDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Show the bottom sheet menu for rating, adding to list, and reviewing the book.
+     */
     private void showBottomSheetMenu() {
         String bookId = getIntent().getStringExtra("id");
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
@@ -68,7 +69,7 @@ public class BooksDetailActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
-            // Iniciar RateActivity
+            // Start RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", bookId);
             intent.putExtra("mediaType", "books");
@@ -76,7 +77,7 @@ public class BooksDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
-            // Iniciar AddToListActivity
+            // Start AddtoListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", bookId);
             intent.putExtra("mediaType", "books");
@@ -84,7 +85,7 @@ public class BooksDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
-            // Iniciar ReviewActivity
+            // Start ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", bookId);
             intent.putExtra("mediaType", "books");
@@ -93,6 +94,9 @@ public class BooksDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * AsyncTask to fetch book details from Google Books API.
+     */
     private class FetchBooksDetailsTask extends AsyncTask<String, Void, Book> {
         @Override
         protected Book doInBackground(String... bookIds) {
@@ -135,7 +139,9 @@ public class BooksDetailActivity extends AppCompatActivity {
             return null;
         }
 
-
+        /**
+         * Strip HTML tags from the given string.
+         */
         public String stripHtml(String html) {
             // Remove HTML tags using a regular expression
             String cleanHtml = html.replaceAll("&quot;", "\"");
@@ -153,12 +159,11 @@ public class BooksDetailActivity extends AppCompatActivity {
                 tvTitle.setText(book.getTitle());
                 tvOverview.setText(book.getDescription());
                 tvAuthor.setText(String.join(", ", book.getAuthors()));
-                // Cargar imagen de portada con Glide
                 Glide.with(BooksDetailActivity.this)
                         .load(book.getThumbnail())
                         .into(imageViewPoster);
 
-            }else {
+            } else {
                 Toast.makeText(BooksDetailActivity.this, "Error fetching book data.", Toast.LENGTH_SHORT).show();
             }
         }

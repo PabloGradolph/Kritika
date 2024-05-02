@@ -9,29 +9,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -244,7 +231,7 @@ public class AddMediaActivity extends DashboardUserActivity {
                 .addOnSuccessListener(documentReference -> {
                     progressDialog.dismiss();
                     Toast.makeText(this, "Data added successfully!", Toast.LENGTH_SHORT).show();
-                    NotificationHelper.mostrarNotificacion(this, "Add Media", "You have added a new media to Kritika!", NotificationHelper.CHANNEL_ID_ADD_MEDIA);
+                    NotificationHelper.showNotification(this, "Add Media", "You have added a new media to Kritika!", NotificationHelper.CHANNEL_ID_ADD_MEDIA);
                     onSuccess.run();
                 })
                 .addOnFailureListener(e -> {

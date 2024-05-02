@@ -37,6 +37,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Activity for displaying a list of books and fetching book data from Google Books API.
+ */
 public class BooksActivity extends DashboardUserActivity {
     private RecyclerView rvBooks;
     private BooksAdapter adapter;
@@ -48,10 +51,10 @@ public class BooksActivity extends DashboardUserActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books);
 
+        // Initialize RecyclerView
         rvBooks = findViewById(R.id.rvBooks);
         rvBooks.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BooksAdapter(this, bookList);
-        //Funcionalidad para hacer click
         adapter.setOnItemClickListener(new BooksAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Book book) {
@@ -63,10 +66,11 @@ public class BooksActivity extends DashboardUserActivity {
         });
         rvBooks.setAdapter(adapter);
 
-        // init firebase auth
+        // Initialize Firebase authentication
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
 
+        // Set logout button click listener
         ImageButton buttonLogOut = findViewById(R.id.logoutBtn);
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,23 +80,24 @@ public class BooksActivity extends DashboardUserActivity {
             }
         });
 
-        // TOP BAR: buttons
+        // Set click listeners for top and bottom bar buttons
         Button buttonOpenMovies = findViewById(R.id.button_open_movies);
         Button buttonOpenMusic = findViewById(R.id.button_open_music);
         Button buttonOpenBooks = findViewById(R.id.button_open_books);
         Button buttonOpenReviews = findViewById(R.id.button_open_reviews);
-
-        // BOTTOM BAR: buttons
         ImageButton buttonOpenProfile = findViewById(R.id.profileButton);
         ImageButton buttonOpenHome = findViewById(R.id.houseButton);
         ImageButton buttonOpenSearch = findViewById(R.id.searchButton);
-
-        // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
+
+        // Fetch books data from Google Books API
         new DiscoverBooksTask().execute();
     }
 
+    /**
+     * AsyncTask to fetch books data from Google Books API.
+     */
     private class DiscoverBooksTask extends AsyncTask<Void, Void, List<Book>> {
         @Override
         protected List<Book> doInBackground(Void... voids) {
@@ -146,12 +151,11 @@ public class BooksActivity extends DashboardUserActivity {
                 bookList.addAll(books);
                 adapter.notifyDataSetChanged();
 
-                // Guardar las películas en Firestore
+                // Save books data to Firestore
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference booksRef = db.collection("books");
 
                 for (Book book : books) {
-                    // Comprobar si el documento existe en Firestore basado en su ID
                     DocumentReference docRef = booksRef.document(String.valueOf(book.getId()));
                     docRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -173,6 +177,9 @@ public class BooksActivity extends DashboardUserActivity {
         }
     }
 
+    /**
+     * Method to check if the user is authenticated.
+     */
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
