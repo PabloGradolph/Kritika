@@ -21,11 +21,13 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Review;
 
+/**
+ * Fragment for displaying user reviews.
+ */
 public class ReviewsFragment extends Fragment {
     private RecyclerView rvReviews;
     private List<Review> reviewsList;
     private ReviewsAdapter reviewsAdapter;
-
     int reviewsProcessed = 0;
     int totalReviews;
 
@@ -34,7 +36,7 @@ public class ReviewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_reviews_fragment, container, false);
 
-        // Inicializa el RecyclerView y el adaptador
+        // Initialize RecyclerView and adapter
         rvReviews = rootView.findViewById(R.id.rvReviews);
         reviewsList = new ArrayList<>();
         reviewsAdapter = new ReviewsAdapter(getContext(), reviewsList);
@@ -48,7 +50,7 @@ public class ReviewsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // Realiza la consulta a Firebase Firestore para obtener los ratings del usuario
+        // Query Firebase Firestore to get user reviews
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userId = currentUser.getUid();
@@ -65,7 +67,6 @@ public class ReviewsFragment extends Fragment {
                             Log.d("ReviewsFragment", "Reviews: " + review.getReviewText());
                             reviewsList.add(review);
                         }
-                        Log.d("ReviewsFragment", "Reviewss obtenidos correctamente: " + reviewsList.size());
                         totalReviews = reviewsList.size();
 
                         for (Review review : reviewsList) {
@@ -75,12 +76,12 @@ public class ReviewsFragment extends Fragment {
                                 public void onReviewProcessed() {
                                     reviewsProcessed++;
                                     if (reviewsProcessed == totalReviews) {
-                                        // Todas las operaciones asincrónicas han finalizado, ahora podemos imprimir los ratings
+                                        // All asynchronous operations have finished, now we can print the reviews
                                         for (Review r : reviewsList) {
                                             Log.d("ReviewsFragment", "Review: " + r.getTitle() + " - " + r.getReviewText() + " - " + r.getImageUrl());
                                         }
 
-                                        // Evita la excepción CalledFromWrongThreadException usando runOnUiThread.
+                                        // Avoid CalledFromWrongThreadException using runOnUiThread.
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -92,8 +93,7 @@ public class ReviewsFragment extends Fragment {
                             });
                         }
                     } else {
-                        // Manejar errores
-                        Log.e("ReviewsFragment", "Error al obtener reviews: " + task.getException());
+                        Log.e("ReviewsFragment", "Error getting reviews: " + task.getException());
                     }
                 });
     }
@@ -105,14 +105,14 @@ public class ReviewsFragment extends Fragment {
             public void onTitleFetched(String title) {
                 review.setTitle(title);
                 if (review.getImageUrl() != null) {
-                    // Si se han obtenido ambos, notifica que la operación del rating ha sido procesada
+                    // If both are obtained, notify that the review operation has been processed
                     listener.onReviewProcessed();
                 }
             }
 
             @Override
             public void onTitleFetchFailed() {
-                Log.e("ReviewsFragment", "Error al obtener el título del media");
+                Log.e("ReviewsFragment", "Error fetching media title");
             }
         });
 
@@ -122,14 +122,14 @@ public class ReviewsFragment extends Fragment {
             public void onImageUrlFetched(String imageUrl) {
                 review.setImageUrl(imageUrl);
                 if (review.getTitle() != null) {
-                    // Si se han obtenido ambos, notifica que la operación del rating ha sido procesada
+                    // If both are obtained, notify that the review operation has been processed
                     listener.onReviewProcessed();
                 }
             }
 
             @Override
             public void onImageUrlFetchFailed() {
-                Log.e("ReviewsFragment", "Error al obtener la URL de la imagen del media");
+                Log.e("ReviewsFragment", "Error fetching media image URL");
             }
         });
     }

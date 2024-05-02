@@ -43,7 +43,6 @@ public class NewBooksAdapter extends RecyclerView.Adapter<NewBooksAdapter.BookVi
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         Book currentBook = books.get(position);
 
-        // Cargar imagen de portada con Glide
         Glide.with(holder.bookImageViewPoster.getContext())
                 .load(currentBook.getThumbnail())
                 .into(holder.bookImageViewPoster);
@@ -51,7 +50,6 @@ public class NewBooksAdapter extends RecyclerView.Adapter<NewBooksAdapter.BookVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
                 if (listener != null) {
                     listener.onItemClick(currentBook);
                 }

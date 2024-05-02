@@ -16,6 +16,9 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Song;
 
+/**
+ * Adapter class for the RecyclerView to display songs.
+ */
 public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongViewHolder> {
     private static List<Song> songs;
     private LayoutInflater inflater;
@@ -25,6 +28,9 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
         this.songs = songs;
     }
 
+    /**
+     * Interface to handle item click events.
+     */
     public interface OnItemClickListener {
         void onItemClick(Song song);
     }
@@ -42,7 +48,7 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         Song currentSong = songs.get(position);
-        // Cargar imagen con Glide
+
         Glide.with(holder.songsImageViewPoster.getContext())
                 .load(currentSong.getImageUrl())
                 .into(holder.songsImageViewPoster);
@@ -50,7 +56,6 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
                 if (listener != null) {
                     listener.onItemClick(currentSong);
                 }
@@ -69,7 +74,6 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
         SongViewHolder(View itemView) {
             super(itemView);
             songsImageViewPoster = itemView.findViewById(R.id.songsImageViewPoster);
-            // Inicializa aquí otros elementos de la vista
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -80,7 +84,6 @@ public class newSongsAdapter extends RecyclerView.Adapter<newSongsAdapter.SongVi
                 }
             });
         }
-
     }
 }
 

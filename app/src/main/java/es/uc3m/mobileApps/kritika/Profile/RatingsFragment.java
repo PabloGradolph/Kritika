@@ -20,8 +20,10 @@ import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Rating;
-import es.uc3m.mobileApps.kritika.Profile.RatingsAdapter;
 
+/**
+ * Fragment responsible for displaying user ratings.
+ */
 public class RatingsFragment extends Fragment {
     private RecyclerView rvRatings;
     private List<Rating> ratingsList;
@@ -35,7 +37,7 @@ public class RatingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_ratings_fragment, container, false);
 
-        // Inicializa el RecyclerView y el adaptador
+        // Initialize RecyclerView and adapter
         rvRatings = rootView.findViewById(R.id.rvRatings);
         ratingsList = new ArrayList<>();
         ratingsAdapter = new RatingsAdapter(getContext(), ratingsList);
@@ -49,7 +51,7 @@ public class RatingsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // Realiza la consulta a Firebase Firestore para obtener los ratings del usuario
+        // Query Firebase Firestore to get user ratings
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userId = currentUser.getUid();
@@ -64,11 +66,11 @@ public class RatingsFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Rating rating = document.toObject(Rating.class);
                             Log.d("RatingsFragment", "Ratings: " + rating.getRating());
-                            // Después de obtener los ratings del usuario, llamas a los métodos para obtener el título y
+                            // After getting user ratings, call methods to get title and media image
                             ratingsList.add(rating);
                         }
                         Log.d("RatingsFragment", "Ratings obtenidos correctamente: " + ratingsList.size());
-                        // Después de obtener los ratings del usuario, llamas a los métodos para obtener el título y la imagen del media
+                        // After getting user ratings, call methods to get title and media image
                         totalRatings = ratingsList.size();
 
                         for (Rating rating : ratingsList) {
@@ -78,12 +80,12 @@ public class RatingsFragment extends Fragment {
                                 public void onRatingProcessed() {
                                     ratingsProcessed++;
                                     if (ratingsProcessed == totalRatings) {
-                                        // Todas las operaciones asincrónicas han finalizado, ahora podemos imprimir los ratings
+                                        // All asynchronous operations have finished, now we can print the ratings
                                         for (Rating r : ratingsList) {
                                             Log.d("RatingsFragment", "Rating: " + r.getTitle() + " - " + r.getRating() + " - " + r.getImageUrl());
                                         }
 
-                                        // Evita la excepción CalledFromWrongThreadException usando runOnUiThread.
+                                        // Avoid CalledFromWrongThreadException by using runOnUiThread.
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -95,12 +97,17 @@ public class RatingsFragment extends Fragment {
                             });
                         }
                     } else {
-                        // Manejar errores
                         Log.e("RatingsFragment", "Error al obtener ratings: " + task.getException());
                     }
                 });
     }
 
+    /**
+     * Method to fetch media information.
+     *
+     * @param rating   The rating object.
+     * @param listener Listener to notify when the rating processing is done.
+     */
     private void fetchMediaInfo(Rating rating, OnRatingProcessedListener listener) {
 
         MediaInfoFetcher.fetchTitle(rating.getMediaId(), rating.getMediaType(), new MediaInfoFetcher.OnTitleFetchedListener() {
@@ -108,14 +115,14 @@ public class RatingsFragment extends Fragment {
             public void onTitleFetched(String title) {
                 rating.setTitle(title);
                 if (rating.getImageUrl() != null) {
-                    // Si se han obtenido ambos, notifica que la operación del rating ha sido procesada
+                    // If both are obtained, notify that the rating operation has been processed
                     listener.onRatingProcessed();
                 }
             }
 
             @Override
             public void onTitleFetchFailed() {
-                Log.e("RatingsFragment", "Error al obtener el título del media");
+                Log.e("RatingsFragment", "Error in obtaining the media title");
             }
         });
 
@@ -125,18 +132,21 @@ public class RatingsFragment extends Fragment {
             public void onImageUrlFetched(String imageUrl) {
                 rating.setImageUrl(imageUrl);
                 if (rating.getTitle() != null) {
-                    // Si se han obtenido ambos, notifica que la operación del rating ha sido procesada
+                    // If both are obtained, notify that the rating operation has been processed
                     listener.onRatingProcessed();
                 }
             }
 
             @Override
             public void onImageUrlFetchFailed() {
-                Log.e("RatingsFragment", "Error al obtener la URL de la imagen del media");
+                Log.e("RatingsFragment", "Error retrieving media image URL");
             }
         });
     }
 
+    /**
+     * Listener interface for rating processing.
+     */
     public interface OnRatingProcessedListener {
         void onRatingProcessed();
     }

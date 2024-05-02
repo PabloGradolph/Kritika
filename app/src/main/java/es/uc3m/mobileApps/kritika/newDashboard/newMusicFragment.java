@@ -26,48 +26,44 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
+/**
+ * Fragment to display a list of songs.
+ */
 public class newMusicFragment extends Fragment {
     private RecyclerView rvSongs;
     private newSongsAdapter adapter;
     private List<Song> songsList = new ArrayList<>();
 
-    // Constructor vacío requerido
+    // Empty constructor required
     public newMusicFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla el layout para este fragmento
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.new_fragment_music, container, false);
 
         rvSongs = view.findViewById(R.id.rvSongs);
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new newSongsAdapter(getContext(), songsList);
-        // funcionalidad para hacer click
         adapter.setOnItemClickListener(new newSongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Song song) {
-                // En los Fragmentos, usa getActivity() para obtener el contexto de la actividad
                 Intent intent = new Intent(getActivity(), newMusicDetailActivity.class);
                 intent.putExtra("name", song.getName());
                 intent.putExtra("id", song.getId());
                 startActivity(intent);
             }
         });
-
         rvSongs.setAdapter(adapter);
 
-        // No necesitas los botones de navegación aquí si los gestionas en la actividad principal o a través de un Navigation Component
-
-        // Iniciar la tarea asincrónica para obtener las canciones
         new RetrieveSongsTask().execute();
-
         return view;
     }
 
-    //Comment testea si funciona esta llamada a la API a la que tengas WIFI
-    // KEY: 96f13ee809056c77d25defbd0f813024
+    /**
+     * AsyncTask to retrieve songs from the Spotify API.
+     */
     private class RetrieveSongsTask extends AsyncTask<Void, Void, List<Song>> {
 
         @Override
@@ -75,10 +71,10 @@ public class newMusicFragment extends Fragment {
             OkHttpClient client = new OkHttpClient();
             List<Song> songs = new ArrayList<>();
 
-            // Esta URL es para pedir un token de acceso de cliente
+            // URL for requesting a client access token
             String tokenUrl = ApiConstants.SPOTIFY_TOKEN_URL;
 
-            // Usa Base64 para codificar Client ID y Client Secret
+            // Use Base64 to encode Client ID and Client Secret
             String credentials = Base64.encodeToString((ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
 
             Request tokenRequest = new Request.Builder()

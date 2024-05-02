@@ -27,19 +27,21 @@ import com.google.firebase.storage.UploadTask;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.R;
-import es.uc3m.mobileApps.kritika.databinding.ProfileBinding;
 
+/**
+ * Activity for user profile management.
+ */
 public class Profile extends DashboardUserActivity {
 
     private FirebaseAuth firebaseAuth;
 
-    // Constante para identificar la solicitud de selección de imagen
+    // Constant to identify image selection request
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    // Referencia al almacenamiento de Firebase
+    // Firebase storage reference
     private StorageReference storageRef;
 
-    // Uri de la imagen seleccionada
+    // Selected image Uri
     private Uri imageUri;
 
     @Override
@@ -51,7 +53,7 @@ public class Profile extends DashboardUserActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
 
-        // Inicializar la referencia al almacenamiento de Firebase
+        // Initialize Firebase storage reference
         storageRef = FirebaseStorage.getInstance().getReference();
 
         ImageButton buttonLogOut = findViewById(R.id.logoutBtn);
@@ -63,17 +65,17 @@ public class Profile extends DashboardUserActivity {
             }
         });
 
-        // Obtener referencia al ImageView de la foto de perfil
+        // Get reference to profile picture ImageView
         ImageView profileThumbnail = findViewById(R.id.profileThumbnail);
-        // Agregar OnClickListener al ImageView de la foto de perfil
+        // Add OnClickListener to profile picture ImageView
         profileThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Iniciar una actividad para seleccionar una imagen de la galería
+                // Start an activity to select an image from gallery
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Seleccionar imagen"), PICK_IMAGE_REQUEST);
+                startActivityForResult(Intent.createChooser(intent, "Select image"), PICK_IMAGE_REQUEST);
             }
         });
 
@@ -90,9 +92,9 @@ public class Profile extends DashboardUserActivity {
 
         // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
-                buttonOpenHome, buttonOpenSearch);// You can add any specific initialization code for the Profile activity here
+                buttonOpenHome, buttonOpenSearch);
 
-        // Agregamos los fragmentos
+        // Add fragments
         RatingsFragment ratingsFragment = new RatingsFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.ratingsMediaFragmentContainer, ratingsFragment)
@@ -116,6 +118,9 @@ public class Profile extends DashboardUserActivity {
         // You can handle this method differently if needed
     }
 
+    /**
+     * Check if user is logged in. If not, redirect to main screen.
+     */
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -126,9 +131,9 @@ public class Profile extends DashboardUserActivity {
         } else {
             // logged in, get user info
             String userName = firebaseUser.getDisplayName();
-            // Si el nombre de usuario no está configurado en Firebase Auth, intenta obtenerlo de la base de datos
+            // If username is not set in Firebase Auth, try to fetch it from database
             if (userName == null || userName.isEmpty()) {
-                // Obtiene la referencia del documento del usuario en Firestore
+                // Get reference to user document in Firestore
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
 
@@ -136,16 +141,16 @@ public class Profile extends DashboardUserActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            // Obtiene el nombre de usuario del documento de usuario en Firestore
+                            // Get username from user document in Firestore
                             String databaseUserName = documentSnapshot.getString("name");
-                            // Establece el nombre de usuario en el TextView de la barra de herramientas
+                            // Set username in toolbar TextView
                             TextView subTitleTv = findViewById(R.id.userName);
                             subTitleTv.setText(databaseUserName);
 
-                            // Obtener la URL de la imagen de perfil del usuario
+                            // Get user profile image URL
                             String profileImageUrl = documentSnapshot.getString("profileImage");
                             if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
-                                // Si la URL de la imagen está disponible, cargar la imagen desde Firebase Storage
+                                // If image URL is available, load the image from Firebase Storage
                                 ImageView profileThumbnail = findViewById(R.id.profileThumbnail);
                                 Glide.with(Profile.this).load(profileImageUrl).into(profileThumbnail);
                             }
@@ -158,7 +163,7 @@ public class Profile extends DashboardUserActivity {
                     }
                 });
             } else {
-                // Establece el nombre de usuario en el TextView de la barra de herramientas
+                // Set username in toolbar TextView
                 TextView subTitleTv = findViewById(R.id.userName);
                 subTitleTv.setText(userName);
             }
@@ -169,36 +174,36 @@ public class Profile extends DashboardUserActivity {
         }
     }
 
-    // Método para manejar el resultado de la selección de imagen
+    // Method to handle result of image selection
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Obtener la Uri de la imagen seleccionada
+            // Get Uri of the selected image
             imageUri = data.getData();
 
-            // Subir la imagen seleccionada a Firebase Storage
+            // Upload the selected image to Firebase Storage
             uploadImageToStorage();
         }
     }
 
-    // Método para subir la imagen seleccionada a Firebase Storage
+    // Method to upload selected image to Firebase Storage
     private void uploadImageToStorage() {
         if (imageUri != null) {
-            // Crear una referencia al archivo en Firebase Storage con un nombre único
+            // Create reference to file in Firebase Storage with a unique name
             StorageReference profileImageRef = storageRef.child("users_pictures/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-            // Subir la imagen a Firebase Storage
+            // Upload the image to Firebase Storage
             profileImageRef.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Obtener la URL de la imagen almacenada en Firebase Storage
+                            // Get the URL of the image stored in Firebase Storage
                             profileImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    // Actualizar la URL de la imagen de perfil del usuario en Firestore con la nueva URL
+                                    // Update user profile image URL in Firestore with the new URL
                                     updateProfileImageUri(uri.toString());
                                 }
                             });
@@ -207,26 +212,25 @@ public class Profile extends DashboardUserActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Manejar el fallo de la subida de la imagen
                             Log.e("Profile", "Error al subir la imagen", e);
                         }
                     });
         }
     }
 
-    // Método para actualizar la URL de la imagen de perfil del usuario en Firestore
+    // Method to update user profile image URL in Firestore
     private void updateProfileImageUri(String imageUrl) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference userRef = db.collection("users").document(user.getUid());
 
-            // Actualizar la URL de la imagen de perfil del usuario en Firestore
+            // Update user profile image URL in Firestore
             userRef.update("profileImage", imageUrl)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            // Actualizar la imagen de perfil en la actividad de perfil
+                            // Update profile image in profile activity
                             ImageView profileThumbnail = findViewById(R.id.profileThumbnail);
                             profileThumbnail.setImageURI(imageUri);
                         }
@@ -234,7 +238,6 @@ public class Profile extends DashboardUserActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Manejar el fallo de la actualización de la URL de la imagen de perfil en Firestore
                             Log.e("Profile", "Error al actualizar la URL de la imagen de perfil", e);
                         }
                     });

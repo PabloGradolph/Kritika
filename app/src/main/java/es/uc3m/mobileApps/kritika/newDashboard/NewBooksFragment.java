@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
-import es.uc3m.mobileApps.kritika.books.BooksActivity;
-import es.uc3m.mobileApps.kritika.books.BooksAdapter;
-import es.uc3m.mobileApps.kritika.books.BooksDetailActivity;
 import es.uc3m.mobileApps.kritika.model.Book;
 import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 
@@ -28,23 +25,33 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * A fragment that displays a list of new books.
+ */
 public class NewBooksFragment extends Fragment {
     private RecyclerView rvBooks;
     private NewBooksAdapter adapter;
     private List<Book> bookList = new ArrayList<>();
 
-    // Constructor vacío requerido
+    // Required empty constructor for fragment.
     public NewBooksFragment() { }
 
+    /**
+     * Inflates the layout for this fragment and initializes UI components.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          The parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return                   The root view of the inflated layout.
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla el layout para este fragmento
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.new_fragment_book, container, false);
 
         rvBooks = view.findViewById(R.id.rvBooks);
         rvBooks.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new NewBooksAdapter(getContext(), bookList);
-        // Funcionalidad para hacer click
         adapter.setOnItemClickListener(new NewBooksAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Book book) {
@@ -54,18 +61,15 @@ public class NewBooksFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         rvBooks.setAdapter(adapter);
 
-        // No necesitas los botones de navegación aquí si los gestionas en la actividad principal o a través de un Navigation Component
-
-        // Iniciar la tarea asincrónica para obtener las canciones
         new NewBooksFragment.RetrieveBooksTask().execute();
-
         return view;
     }
 
-
+    /**
+     * AsyncTask to retrieve books from Google Books API in the background.
+     */
     private class RetrieveBooksTask extends AsyncTask<Void, Void, List<Book>> {
         @Override
         protected List<Book> doInBackground(Void... voids) {

@@ -19,10 +19,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Class responsible for fetching media information.
+ */
 public class MediaInfoFetcher {
 
     private static final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
+    /**
+     * Fetches the title of the media.
+     *
+     * @param mediaId   The ID of the media.
+     * @param mediaType The type of media.
+     * @param listener  Listener to be notified when the title is fetched or fetch fails.
+     */
     public static void fetchTitle(String mediaId, String mediaType, OnTitleFetchedListener listener) {
         firestore.collection(mediaType)
                 .document(mediaId)
@@ -38,6 +48,13 @@ public class MediaInfoFetcher {
                 .addOnFailureListener(e -> listener.onTitleFetchFailed());
     }
 
+    /**
+     * Fetches the image URL of the media.
+     *
+     * @param mediaId   The ID of the media.
+     * @param mediaType The type of media.
+     * @param listener  Listener to be notified when the image URL is fetched or fetch fails.
+     */
     public static void fetchImageUrl(String mediaId, String mediaType, OnImageUrlFetchedListener listener) {
         firestore.collection(mediaType)
                 .document(mediaId)
@@ -51,14 +68,14 @@ public class MediaInfoFetcher {
                             }
                             listener.onImageUrlFetched(imagePath);
                         } else if (documentSnapshot.contains("image")) {
-                            // Si no contiene "imagePath", comprobar si contiene "image" y usarlo como URL de la imagen
+                            // If it doesn't contain "imagePath", check if it contains "image" and use it as image URL
                             String imageUrl = documentSnapshot.getString("image");
                             if (mediaType.equals("movies")){
                                 imageUrl = ApiConstants.MOVIEDB_IMAGE_URL + imageUrl;
                             }
                             listener.onImageUrlFetched(imageUrl);
                         } else {
-                            // Si no contiene "imagePath" ni "image", llamar a una API para obtener la URL de la imagen
+                            // If it doesn't contain "imagePath" nor "image", call an API to fetch image URL
                             fetchImageUrlFromAPI(mediaId, mediaType, listener);
                         }
                     } else {
@@ -68,6 +85,13 @@ public class MediaInfoFetcher {
                 .addOnFailureListener(e -> listener.onImageUrlFetchFailed());
     }
 
+    /**
+     * Fetches the image URL from the corresponding API based on media type and ID.
+     *
+     * @param mediaId   The ID of the media.
+     * @param mediaType The type of media.
+     * @param listener  Listener to be notified when the image URL is fetched or fetch fails.
+     */
     private static void fetchImageUrlFromAPI(String mediaId, String mediaType, OnImageUrlFetchedListener listener) {
         MediaInfoFetcher mediaInfoFetcher = new MediaInfoFetcher();
 
@@ -82,22 +106,27 @@ public class MediaInfoFetcher {
                 mediaInfoFetcher.fetchImageUrlFromGoogleBooksAPI(mediaId, listener);
                 break;
             default:
-                // Si el mediaType no es reconocido, simplemente devuelve una URL de imagen ficticia
                 String fakeImageUrl = "https://example.com/image.jpg";
                 listener.onImageUrlFetched(fakeImageUrl);
         }
     }
 
+    /**
+     * Fetches the image URL from the Spotify API for the given track ID.
+     *
+     * @param trackId   The ID of the track.
+     * @param listener  Listener to be notified when the image URL is fetched or fetch fails.
+     */
     private void fetchImageUrlFromSpotifyAPI(String trackId, OnImageUrlFetchedListener listener) {
         OkHttpClient client = new OkHttpClient();
 
         Log.d("MediaInfoFetcher", "Solicitando token de acceso a Spotify API");
 
-        // Construye las credenciales codificadas para la autenticación
+        // Builds encrypted credentials for authentication
         String credentials = ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET;
         String base64Credentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
-        // Solicita un token de acceso a la API de Spotify
+        // Request a Spotify API Access Token
         Request tokenRequest = new Request.Builder()
                 .url(ApiConstants.SPOTIFY_TOKEN_URL)
                 .post(new FormBody.Builder().add("grant_type", "client_credentials").build())
@@ -115,7 +144,7 @@ public class MediaInfoFetcher {
             public void onResponse(Call call, Response tokenResponse) throws IOException {
                 if (!tokenResponse.isSuccessful()) {
                     listener.onImageUrlFetchFailed();
-                    Log.e("MediaInfoFetcher", "Respuesta no exitosa al solicitar el token de acceso a Spotify API");
+                    Log.e("MediaInfoFetcher", "Unsuccessful response when requesting Spotify API access token");
                     throw new IOException("Unexpected code " + tokenResponse);
                 }
 
@@ -123,7 +152,7 @@ public class MediaInfoFetcher {
                     JSONObject tokenJson = new JSONObject(tokenResponse.body().string());
                     String accessToken = tokenJson.getString("access_token");
 
-                    // Utiliza el token de acceso para hacer la solicitud al endpoint de tracks
+                    // Use the access token to make the request to the tracks endpoint.
                     String searchUrl = ApiConstants.SPOTIFY_TRACKS_URL + trackId;
                     Request request = new Request.Builder()
                             .url(searchUrl)
@@ -135,14 +164,14 @@ public class MediaInfoFetcher {
                         public void onFailure(Call call, IOException e) {
                             e.printStackTrace();
                             listener.onImageUrlFetchFailed();
-                            Log.e("MediaInfoFetcher", "Error al obtener la información del track desde Spotify API");
+                            Log.e("MediaInfoFetcher", "Error when getting track information from Spotify API");
                         }
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
                             if (!response.isSuccessful()) {
                                 listener.onImageUrlFetchFailed();
-                                Log.e("MediaInfoFetcher", "Respuesta no exitosa al solicitar la información del track desde Spotify API");
+                                Log.e("MediaInfoFetcher", "Unsuccessful response when requesting the track information from Spotify API");
                                 throw new IOException("Unexpected code " + response);
                             }
 
@@ -150,37 +179,39 @@ public class MediaInfoFetcher {
                                 String jsonData = response.body().string();
                                 JSONObject track = new JSONObject(jsonData);
 
-                                // Obtener la URL de la imagen del track
+                                // Get the URL of the track image
                                 JSONArray images = track.getJSONObject("album").getJSONArray("images");
                                 if (images.length() > 0) {
                                     String imageUrl = images.getJSONObject(0).getString("url");
                                     listener.onImageUrlFetched(imageUrl);
-                                    Log.d("MediaInfoFetcher", "URL de la imagen del track: " + imageUrl);
                                 } else {
                                     listener.onImageUrlFetchFailed();
-                                    Log.e("MediaInfoFetcher", "No se encontraron imágenes del track");
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 listener.onImageUrlFetchFailed();
-                                Log.e("MediaInfoFetcher", "Error al procesar la respuesta JSON del track");
                             }
                         }
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     listener.onImageUrlFetchFailed();
-                    Log.e("MediaInfoFetcher", "Error al procesar la respuesta JSON del token de acceso a Spotify API");
                 }
             }
         });
     }
 
+    /**
+     * Fetches the image URL from the MovieDB API for the given movie ID.
+     *
+     * @param mediaId   The ID of the movie.
+     * @param listener  Listener to be notified when the image URL is fetched or fetch fails.
+     */
     private void fetchImageUrlFromMovieDBAPI(String mediaId, OnImageUrlFetchedListener listener) {
         int movieId = Integer.parseInt(mediaId);
         OkHttpClient client = new OkHttpClient();
 
-        // Construye la solicitud para obtener detalles de la película por su ID
+        // Build the request to obtain details of the movie by its ID
         Request request = new Request.Builder()
                 .url(ApiConstants.MOVIEDB_BASE_URL + movieId)
                 .get()
@@ -206,7 +237,7 @@ public class MediaInfoFetcher {
                     String jsonData = response.body().string();
                     JSONObject movieJson = new JSONObject(jsonData);
 
-                    // Extrae la URL de la imagen de la respuesta JSON
+                    // Extracts the URL of the image from the JSON response
                     String posterPath = movieJson.getString("poster_path");
                     if (!posterPath.isEmpty()) {
                         String imageUrl = ApiConstants.MOVIEDB_IMAGE_URL + posterPath;
@@ -222,6 +253,12 @@ public class MediaInfoFetcher {
         });
     }
 
+    /**
+     * Fetches the image URL from the Google Books API for the given book ID.
+     *
+     * @param mediaId   The ID of the book.
+     * @param listener  Listener to be notified when the image URL is fetched or fetch fails.
+     */
     private void fetchImageUrlFromGoogleBooksAPI(String mediaId, OnImageUrlFetchedListener listener) {
         OkHttpClient client = new OkHttpClient();
         String apiKey = ApiConstants.GOOGLE_BOOKS_API_KEY;
@@ -266,12 +303,18 @@ public class MediaInfoFetcher {
         });
     }
 
+    /**
+     * Listener interface for receiving title fetch results.
+     */
     public interface OnTitleFetchedListener {
         void onTitleFetched(String title);
 
         void onTitleFetchFailed();
     }
 
+    /**
+     * Listener interface for receiving image URL fetch results.
+     */
     public interface OnImageUrlFetchedListener {
         void onImageUrlFetched(String imageUrl);
 

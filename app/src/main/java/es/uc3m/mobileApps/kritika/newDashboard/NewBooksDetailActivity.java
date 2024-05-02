@@ -44,12 +44,9 @@ public class NewBooksDetailActivity extends AppCompatActivity {
 
         if (bookId != null) {
             new FetchBooksDetailsTask().execute(bookId);
-        } else {
-            // Manejar el caso de que no se encuentre un ID válido
         }
 
         openMenuButton = findViewById(R.id.openMenuButton);
-
         openMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +63,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
-            // Iniciar RateActivity
+            // Start RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", bookId);
             intent.putExtra("mediaType", "books");
@@ -74,7 +71,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
-            // Iniciar AddToListActivity
+            // Start AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", bookId);
             intent.putExtra("mediaType", "books");
@@ -82,7 +79,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
-            // Iniciar ReviewActivity
+            // Start ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", bookId);
             intent.putExtra("mediaType", "books");
@@ -151,7 +148,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
                 tvTitle.setText(book.getTitle());
                 tvOverview.setText(book.getDescription());
                 tvAuthor.setText(String.join(", ", book.getAuthors()));
-                // Cargar imagen de portada con Glide
+
                 Glide.with(NewBooksDetailActivity.this)
                         .load(book.getThumbnail())
                         .into(imageViewPoster);

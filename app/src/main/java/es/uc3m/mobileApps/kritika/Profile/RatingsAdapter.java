@@ -11,35 +11,50 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide; // Importa Glide
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.model.Rating;
 import es.uc3m.mobileApps.kritika.R;
 
+/**
+ * Adapter class for displaying ratings in a RecyclerView.
+ */
 public class RatingsAdapter extends RecyclerView.Adapter<RatingsAdapter.RatingViewHolder> {
     private Context context;
     private static List<Rating> ratingsList;
-
     private LayoutInflater inflater;
 
+    /**
+     * Constructor for RatingsAdapter.
+     *
+     * @param context     The context.
+     * @param ratingsList The list of ratings.
+     */
     public RatingsAdapter(Context context, List<Rating> ratingsList) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.ratingsList = ratingsList;
     }
 
+    /**
+     * Interface for item click listener.
+     */
     public interface OnItemClickListener {
         void onItemClick(Rating ratingsList);
     }
 
     private static RatingsAdapter.OnItemClickListener listener;
 
+    /**
+     * Sets the item click listener.
+     *
+     * @param listener The listener to set.
+     */
     public void setOnItemClickListener(RatingsAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
-
 
     @NonNull
     @Override
@@ -57,18 +72,10 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsAdapter.RatingVi
         if (title.length() > maxLength) {
             title = title.substring(0, maxLength) + "...";
         }
+
         holder.titleTextView.setText(title);
-
         holder.ratingTextView.setText(String.valueOf(rating.getRating()));
-        // Carga la imagen del media utilizando Glide
         Glide.with(context).load(rating.getImageUrl()).into(holder.mediaImageViewPoster);
-
-        Log.d("Adapter", "Tamaño de ratingsList: " + ratingsList.size());
-        Log.d("Adapter", "Tamaño de ratingsList: " + getItemCount());
-        Log.d("Adapter", "Posición: " + position);
-        Log.d("Adapter", "Título: " + rating.getTitle());
-        Log.d("Adapter", "Rating: " + rating.getRating());
-        Log.d("Adapter", "URL de la imagen: " + rating.getImageUrl());
     }
 
     @Override
@@ -76,6 +83,9 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsAdapter.RatingVi
         return ratingsList.size();
     }
 
+    /**
+     * ViewHolder class for ratings.
+     */
     public static class RatingViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, ratingTextView;
         ImageView mediaImageViewPoster;

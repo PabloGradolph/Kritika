@@ -1,10 +1,6 @@
 package es.uc3m.mobileApps.kritika.Profile;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide; // Importa Glide
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.model.MediaList;
 import es.uc3m.mobileApps.kritika.R;
 
+/**
+ * Adapter class for the RecyclerView to display lists in the profile.
+ */
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHolder> {
     private Context context;
     private static List<MediaList> listsList;
-
     private LayoutInflater inflater;
 
     public ListsAdapter(Context context, List<MediaList> listsList) {
@@ -33,6 +31,9 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHold
         this.listsList = listsList;
     }
 
+    /**
+     * Interface to handle item click events.
+     */
     public interface OnItemClickListener {
         void onItemClick(MediaList listsList);
     }
@@ -42,7 +43,6 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHold
     public void setOnItemClickListener(ListsAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
-
 
     @NonNull
     @Override
@@ -68,7 +68,6 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
                 if (listener != null) {
                     listener.onItemClick(list);
                 }
@@ -81,6 +80,9 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHold
         return listsList.size();
     }
 
+    /**
+     * ViewHolder class for the list item.
+     */
     public static class ListViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, listTextView;
         ImageView mediaImageViewPoster;

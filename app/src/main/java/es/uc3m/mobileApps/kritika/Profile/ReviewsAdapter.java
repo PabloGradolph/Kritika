@@ -11,18 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide; // Importa Glide
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import es.uc3m.mobileApps.kritika.model.Rating;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Review;
 
+/**
+ * Adapter for displaying user reviews.
+ */
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder> {
     private Context context;
     private static List<Review> reviewsList;
-
     private LayoutInflater inflater;
 
     public ReviewsAdapter(Context context, List<Review> reviewsList) {
@@ -41,7 +42,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         this.listener = listener;
     }
 
-
     @NonNull
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,22 +54,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         Review review = reviewsList.get(position);
 
         String title = review.getTitle();
-        //int maxLength = 15;
-        //if (title.length() > maxLength) {
-            //title = title.substring(0, maxLength) + "...";
-        //}
         holder.titleTextView.setText(title);
-
         holder.reviewTextView.setText(String.valueOf(review.getReviewText()));
-        // Carga la imagen del media utilizando Glide
         Glide.with(context).load(review.getImageUrl()).into(holder.mediaImageViewPoster);
-
-        Log.d("Adapter", "Tamaño de ratingsList: " + reviewsList.size());
-        Log.d("Adapter", "Tamaño de ratingsList: " + getItemCount());
-        Log.d("Adapter", "Posición: " + position);
-        Log.d("Adapter", "Título: " + review.getTitle());
-        Log.d("Adapter", "Review: " + review.getReviewText());
-        Log.d("Adapter", "URL de la imagen: " + review.getImageUrl());
     }
 
     @Override
@@ -77,6 +64,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         return reviewsList.size();
     }
 
+    /**
+     * ViewHolder class for reviews.
+     */
     public static class ReviewViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, reviewTextView;
         ImageView mediaImageViewPoster;

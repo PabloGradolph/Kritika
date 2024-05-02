@@ -33,7 +33,7 @@ public class newDashboardUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Carga el layout
+        // Load the layout
         setContentView(R.layout.new_activity_dashboard_user);
 
         // binding
@@ -71,7 +71,6 @@ public class newDashboardUserActivity extends AppCompatActivity {
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch, addMediaButton);
 
-
         // Load MoviesFragment
         NewMoviesFragment moviesFragment = new NewMoviesFragment();
         getSupportFragmentManager().beginTransaction()
@@ -90,7 +89,6 @@ public class newDashboardUserActivity extends AppCompatActivity {
                 .replace(R.id.booksFragmentContainer, booksFragment)
                 .commit();
     }
-
 
     // Method to set click listeners for buttons
     protected void setButtonListeners(Button buttonOpenMovies, Button buttonOpenMusic,
@@ -190,6 +188,7 @@ public class newDashboardUserActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Method to check user authentication status
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();

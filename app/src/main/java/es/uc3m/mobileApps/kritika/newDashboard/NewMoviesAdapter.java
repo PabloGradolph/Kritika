@@ -17,6 +17,9 @@ import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 
+/**
+ * Adapter for displaying a list of new movies in a RecyclerView.
+ */
 public class NewMoviesAdapter extends RecyclerView.Adapter<NewMoviesAdapter.MovieViewHolder> {
     private static List<Movie> movies;
     private LayoutInflater inflater;
@@ -26,7 +29,9 @@ public class NewMoviesAdapter extends RecyclerView.Adapter<NewMoviesAdapter.Movi
         this.movies = movies;
     }
 
-
+    /**
+     * Interface for handling item clicks in the RecyclerView.
+     */
     public interface OnItemClickListener {
         void onItemClick(Movie movie);
     }
@@ -48,16 +53,15 @@ public class NewMoviesAdapter extends RecyclerView.Adapter<NewMoviesAdapter.Movi
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie currentMovie = movies.get(position);
 
-        // Cargar imagen con Glide
+        // Load image using Glide
         Glide.with(holder.movieImageViewPoster.getContext())
-                .load(ApiConstants.MOVIEDB_IMAGE_URL + currentMovie.getPosterPath()) // Cambia la URL base según sea necesario
+                .load(ApiConstants.MOVIEDB_IMAGE_URL + currentMovie.getPosterPath())
                 .into(holder.movieImageViewPoster);
 
-        // Configuración del OnClickListener
+        // Set OnClickListener
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
                 if (listener != null) {
                     listener.onItemClick(currentMovie);
                 }
@@ -70,15 +74,16 @@ public class NewMoviesAdapter extends RecyclerView.Adapter<NewMoviesAdapter.Movi
         return movies.size();
     }
 
+    /**
+     * ViewHolder class for holding views of each movie item.
+     */
     static class MovieViewHolder extends RecyclerView.ViewHolder {
-        public ImageView movieImageViewPoster; // Asegúrate de declarar el ImageView
+        public ImageView movieImageViewPoster;
 
         MovieViewHolder(View itemView) {
             super(itemView);
-
             movieImageViewPoster = itemView.findViewById(R.id.movieImageViewPoster); // Inicializa el ImageView
 
-            // Inicializa aquí otros elementos de la vista
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

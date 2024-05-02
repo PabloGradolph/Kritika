@@ -3,7 +3,6 @@ package es.uc3m.mobileApps.kritika.Profile;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,10 +23,10 @@ import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.MediaList;
-import es.uc3m.mobileApps.kritika.model.Movie;
-import es.uc3m.mobileApps.kritika.newDashboard.NewMoviesAdapter;
-import es.uc3m.mobileApps.kritika.newDashboard.NewMoviesDetailActivity;
 
+/**
+ * Fragment for displaying lists associated with the user's profile.
+ */
 public class ListsFragment extends Fragment {
     private RecyclerView rvLists;
     private List<MediaList> listsList;
@@ -35,7 +34,6 @@ public class ListsFragment extends Fragment {
     int listsProcessed = 0;
     int totalLists;
     private Context fragmentContext;
-    private MediaList selectedList;
     private String selectedMediaType;
 
     @Override
@@ -43,7 +41,7 @@ public class ListsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_lists_fragment, container, false);
 
-        // Inicializa el RecyclerView y el adaptador
+        // Initialize RecyclerView and adapter
         rvLists = rootView.findViewById(R.id.rvLists);
         listsList = new ArrayList<>();
         listsAdapter = new ListsAdapter(getContext(), listsList);
@@ -67,7 +65,7 @@ public class ListsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // Realiza la consulta a Firebase Firestore para obtener las listas del usuario
+        // Query Firebase Firestore to fetch user's lists
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userId = currentUser.getUid();
@@ -93,12 +91,12 @@ public class ListsFragment extends Fragment {
                                 public void onListProcessed() {
                                     listsProcessed++;
                                     if (listsProcessed == totalLists) {
-                                        // Todas las operaciones asincrónicas han finalizado, ahora podemos imprimir los ratings
+                                        // All asynchronous operations have finished, now we can print the lists
                                         for (MediaList l : listsList) {
                                             Log.d("ListsFragment", "List: " + l.getTitle() + " - " + l.getListName() + " - " + l.getImageUrl());
                                         }
 
-                                        // Evita la excepción CalledFromWrongThreadException usando runOnUiThread.
+                                        // Avoid CalledFromWrongThreadException using runOnUiThread.
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -110,18 +108,22 @@ public class ListsFragment extends Fragment {
                             });
                         }
                     } else {
-                        // Manejar errores
                         Log.e("ListsFragment", "Error al obtener listas: " + task.getException());
                     }
                 });
     }
 
+    /**
+     * Fetches additional media information for the given list.
+     * @param list The media list to fetch information for.
+     * @param listener Listener to be notified when the processing of the list is complete.
+     */
     private void fetchMediaInfo(MediaList list, OnListProcessedListener listener) {
 
         List<String> mediaIds = list.getMediaIds();
-        // Verificar si la lista de mediaIds está vacía
+        // Check if mediaIds list is empty
         if (mediaIds == null || mediaIds.isEmpty()) {
-            // Lista vacía, notificar que la operación de la lista ha sido procesada
+            // Empty list, notify that list operation has been processed
             listener.onListProcessed();
             return;
         }
@@ -133,7 +135,7 @@ public class ListsFragment extends Fragment {
             public void onTitleFetched(String title) {
                 list.setTitle(title);
                 if (list.getImageUrl() != null) {
-                    // Si se han obtenido ambos, notifica que la operación del rating ha sido procesada
+                    // If both are obtained, notify that rating operation has been processed
                     listener.onListProcessed();
                 }
             }
@@ -150,7 +152,7 @@ public class ListsFragment extends Fragment {
             public void onImageUrlFetched(String imageUrl) {
                 list.setImageUrl(imageUrl);
                 if (list.getTitle() != null) {
-                    // Si se han obtenido ambos, notifica que la operación del rating ha sido procesada
+                    // If both are obtained, notify that rating operation has been processed
                     listener.onListProcessed();
                 }
             }
@@ -162,35 +164,44 @@ public class ListsFragment extends Fragment {
         });
     }
 
+    /**
+     * Interface for notifying when a list has been processed.
+     */
     public interface OnListProcessedListener {
         void onListProcessed();
     }
 
+    /**
+     * Displays a dialog with media titles.
+     * @param context The context to display the dialog in.
+     * @param mediaIds The list of media IDs.
+     * @param mediaType The type of media.
+     */
     private static void showMediaTitlesDialog(Context context, List<String> mediaIds, String mediaType) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Media Titles");
 
-        // Crea una cadena con los títulos de los medios
+        // Create a string with media titles
         StringBuilder stringBuilder = new StringBuilder();
 
-        // Variable para realizar un seguimiento de cuántos títulos se han obtenido
+        // Variable to keep track of how many titles have been fetched
         final int[] titlesFetched = {0};
 
-        // Itera sobre cada mediaId y obtén su título utilizando MediaInfoFetcher
+        // Iterate over each mediaId and fetch its title using MediaInfoFetcher
         for (int i = 0; i < mediaIds.size(); i++) {
             String mediaId = mediaIds.get(i);
             MediaInfoFetcher.fetchTitle(mediaId, mediaType, new MediaInfoFetcher.OnTitleFetchedListener() {
                 @Override
                 public void onTitleFetched(String title) {
-                    // Agrega el título a la cadena
+                    // Add the title to the string
                     stringBuilder.append("- ").append(title).append("\n");
 
-                    // Incrementa el contador de títulos obtenidos
+                    // Increment the counter of fetched titles
                     titlesFetched[0]++;
 
-                    // Verifica si se han obtenido todos los títulos
+                    // Check if all titles have been fetched
                     if (titlesFetched[0] == mediaIds.size()) {
-                        // Todos los títulos se han obtenido, así que actualiza el mensaje del diálogo y muestra el diálogo
+                        // All titles have been fetched, so update dialog message and show the dialog
                         builder.setMessage(stringBuilder.toString());
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -206,15 +217,15 @@ public class ListsFragment extends Fragment {
 
                 @Override
                 public void onTitleFetchFailed() {
-                    // Maneja el caso en el que no se pudo obtener el título
+                    // Handle case where title couldn't be fetched
                     Log.e("showMediaTitlesDialog", "Error fetching title for mediaId: " + mediaId);
 
-                    // Incrementa el contador de títulos obtenidos incluso si falla la obtención del título
+                    // Increment the counter of fetched titles even if title fetching fails
                     titlesFetched[0]++;
 
-                    // Verifica si se han obtenido todos los títulos
+                    // Check if all titles have been fetched
                     if (titlesFetched[0] == mediaIds.size()) {
-                        // Todos los títulos se han obtenido (aunque algunos hayan fallado), así que actualiza el mensaje del diálogo y muestra el diálogo
+                        // All titles have been fetched (even if some failed), so update dialog message and show the dialog
                         builder.setMessage(stringBuilder.toString());
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override

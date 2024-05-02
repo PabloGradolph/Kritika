@@ -29,7 +29,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
+/**
+ * Activity to display details of a music track.
+ */
 public class newMusicDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton openMenuButton;
@@ -44,13 +46,11 @@ public class newMusicDetailActivity extends AppCompatActivity {
         if (songId != null) {
             new newMusicDetailActivity.FetchMusicDetailsTask().execute(songId);
         } else {
-            // Manejar el caso de que no se encuentre un nombre válido
             Toast.makeText(this, "Song name not provided", Toast.LENGTH_SHORT).show();
 
         }
 
         openMenuButton = findViewById(R.id.openMenuButton);
-
         openMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +59,9 @@ public class newMusicDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Show the bottom sheet menu for rating, adding to list, and reviewing.
+     */
     private void showBottomSheetMenu() {
         String trackId = getIntent().getStringExtra("id");
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
@@ -67,7 +70,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
-            // Iniciar RateActivity
+            // Start RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", trackId);
             intent.putExtra("mediaType", "songs");
@@ -75,7 +78,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
-            // Iniciar AddToListActivity
+            // Start AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", trackId);
             intent.putExtra("mediaType", "songs");
@@ -83,7 +86,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
-            // Iniciar ReviewActivity
+            // Start ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", trackId);
             intent.putExtra("mediaType", "songs");
@@ -92,6 +95,9 @@ public class newMusicDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * AsyncTask to fetch music details from Spotify API.
+     */
     private class FetchMusicDetailsTask extends AsyncTask<String, Void, Song> {
         @Override
         protected Song doInBackground(String... songIds) {
@@ -106,7 +112,6 @@ public class newMusicDetailActivity extends AppCompatActivity {
                     .build();
 
             try {
-                // INTEGRAR
                 Response tokenResponse = client.newCall(tokenRequest).execute();
                 String jsonData = tokenResponse.body().string();
                 JSONObject jsonObject = new JSONObject(jsonData);
@@ -130,7 +135,6 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 String url = track.getJSONObject("external_urls").getString("spotify");
                 String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url");
 
-
                 return new Song(trackId, name, artistName, url, imageUrl);
 
             } catch (Exception e) {
@@ -138,7 +142,6 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 return null;
             }
         }
-
 
         @Override
         protected void onPostExecute(Song song) {
@@ -151,7 +154,6 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 musicTitle.setText(song.getName());
                 musicArtist.setText(song.getArtistName());
 
-                // Asegúrate de que la URL del póster sea completa y válida
                 String posterUrl = song.getImageUrl();
                 Glide.with(newMusicDetailActivity.this)
                         .load(posterUrl)
@@ -160,6 +162,5 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 Toast.makeText(newMusicDetailActivity.this, "Failed to fetch song details.", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 }

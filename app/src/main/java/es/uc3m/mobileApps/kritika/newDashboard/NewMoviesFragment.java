@@ -27,53 +27,50 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+/**
+ * Fragment to display a list of new movies.
+ */
 public class NewMoviesFragment extends Fragment {
     private RecyclerView rvMovies;
     private NewMoviesAdapter adapter;
     private List<Movie> movieList = new ArrayList<>();
 
-    // Constructor vacío requerido
+    // Required empty public constructor
     public NewMoviesFragment() { }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla el layout para este fragmento
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.new_fragment_movies, container, false);
 
         rvMovies = view.findViewById(R.id.rvMovies);
         rvMovies.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new NewMoviesAdapter(getContext(), movieList);
-        // funcionalidad para hacer click
         adapter.setOnItemClickListener(new NewMoviesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                // En los Fragmentos, usa getActivity() para obtener el contexto de la actividad
                 Intent intent = new Intent(getActivity(), NewMoviesDetailActivity.class);
                 intent.putExtra("id", movie.getId());
                 startActivity(intent);
             }
         });
-
         rvMovies.setAdapter(adapter);
 
-        // No necesitas los botones de navegación aquí si los gestionas en la actividad principal o a través de un Navigation Component
-
-        // Iniciar la tarea asincrónica para obtener las canciones
         new NewMoviesFragment.RetrieveMoviesTask().execute();
-
         return view;
     }
 
-
-
+    /**
+     * AsyncTask to retrieve movies from the API.
+     */
     protected class RetrieveMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         @Override
         protected List<Movie> doInBackground(Void... voids) {
-            // Crear el interceptor de logging y configurar el nivel de log
+            // Create logging interceptor and set log level
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            // Construir el cliente OkHttpClient e incluir el interceptor de logging
+            // Build OkHttpClient client and include logging interceptor
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build();
@@ -82,7 +79,7 @@ public class NewMoviesFragment extends Fragment {
             String baseUrl = ApiConstants.MOVIEDB_POPULAR_MOVIES_URL;
             String token = ApiConstants.MOVIEDB_ACCESS_TOKEN;
 
-            for (int page = 1; page <= 3; page++) { // Ajusta según el número de páginas que desees obtener
+            for (int page = 1; page <= 3; page++) {
                 Request request = new Request.Builder()
                         .url(baseUrl + page)
                         .get()
@@ -123,8 +120,6 @@ public class NewMoviesFragment extends Fragment {
                 movieList.clear();
                 movieList.addAll(movies);
                 adapter.notifyDataSetChanged();
-            } else {
-                // Mostrar mensaje de error
             }
         }
     }

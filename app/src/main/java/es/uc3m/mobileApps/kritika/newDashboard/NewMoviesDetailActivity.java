@@ -30,7 +30,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
+/**
+ * Activity to display details of a movie.
+ */
 public class NewMoviesDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton openMenuButton;
@@ -44,12 +46,9 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
 
         if (movieId != -1) {
             new FetchMovieDetailsTask().execute(movieId);
-        } else {
-            // Manejar el caso de que no se encuentre un ID válido
         }
 
         openMenuButton = findViewById(R.id.openMenuButton);
-
         openMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +57,9 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Show the bottom sheet menu for additional actions.
+     */
     private void showBottomSheetMenu() {
         int movieId = getIntent().getIntExtra("id", 0);
         String movieIdString = String.valueOf(movieId);
@@ -67,7 +69,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
-            // Iniciar RateActivity
+            // Start RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", movieIdString);
             intent.putExtra("mediaType", "movies");
@@ -75,7 +77,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
-            // Iniciar AddToListActivity
+            // Start AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", movieIdString);
             intent.putExtra("mediaType", "movies");
@@ -83,7 +85,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
-            // Iniciar ReviewActivity
+            // Start ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", movieIdString);
             intent.putExtra("mediaType", "movies");
@@ -92,6 +94,9 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * AsyncTask to fetch details of the movie from an API.
+     */
     private class FetchMovieDetailsTask extends AsyncTask<Integer, Void, Movie> {
         @Override
         protected Movie doInBackground(Integer... movieIds) {
@@ -112,7 +117,6 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
                 String jsonData = response.body().string();
                 JSONObject movieJson = new JSONObject(jsonData);
 
-                // Asegúrate de que estos nombres de campo coinciden con la respuesta de la API.
                 return new Movie(
                         movieJson.getInt("id"),
                         movieJson.getString("title"),
@@ -128,7 +132,6 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
             }
         }
 
-
         @Override
         protected void onPostExecute(Movie movie) {
             super.onPostExecute(movie);
@@ -142,7 +145,6 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
                 tvOverview.setText(movie.getOverview());
                 tvRating.setText(String.format(Locale.getDefault(), "Rating: %s", movie.getRating()));
 
-                // Asegúrate de que la URL del póster sea completa y válida
                 String posterUrl = ApiConstants.MOVIEDB_IMAGE_URL + movie.getPosterPath();
                 Glide.with(NewMoviesDetailActivity.this)
                         .load(posterUrl)
@@ -151,6 +153,5 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
                 Toast.makeText(NewMoviesDetailActivity.this, "Error al cargar los detalles de la película.", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 }
