@@ -114,7 +114,7 @@ public class newMusicFragment extends Fragment {
                     String trackUrl = track.getJSONObject("external_urls").getString("spotify");
                     String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(1).getString("url");
 
-                    Song song = new Song(trackId, trackName, artistName, trackUrl, imageUrl);
+                    Song song = new Song(trackId, trackName, artistName, trackUrl, imageUrl, "songs");
                     songs.add(song);
                 }
             } catch (Exception e) {

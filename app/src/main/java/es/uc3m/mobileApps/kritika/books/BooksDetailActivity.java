@@ -130,7 +130,7 @@ public class BooksDetailActivity extends AppCompatActivity {
                     thumbnail = thumbnail.replace("http://", "https://");
                     double averageRating = volumeInfo.optDouble("averageRating", 0.0);
 
-                    return new Book(jsonObject.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating);
+                    return new Book(jsonObject.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating, "books");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

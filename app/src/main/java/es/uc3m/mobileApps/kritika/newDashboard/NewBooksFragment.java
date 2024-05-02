@@ -106,7 +106,7 @@ public class NewBooksFragment extends Fragment {
                     thumbnail = thumbnail.replace("http://", "https://");
                     double averageRating = volumeInfo.optDouble("averageRating", 0.0);
 
-                    books.add(new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating));
+                    books.add(new Book(item.getString("id"), title, authors, publisher, publishedDate, description, thumbnail, averageRating, "books"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

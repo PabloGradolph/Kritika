@@ -135,7 +135,7 @@ public class MusicDetailActivity extends AppCompatActivity {
                 String url = track.getJSONObject("external_urls").getString("spotify");
                 String imageUrl = track.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url");
 
-                return new Song(trackId, name, artistName, url, imageUrl);
+                return new Song(trackId, name, artistName, url, imageUrl, "songs");
 
             } catch (Exception e) {
                 Log.e("MusicDetail", "Error fetching music details", e);

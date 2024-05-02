@@ -101,7 +101,8 @@ public class NewMoviesFragment extends Fragment {
                                 movieJson.getString("overview"),
                                 movieJson.getString("poster_path"),
                                 movieJson.getString("vote_average"),
-                                movieJson.getString("release_date")
+                                movieJson.getString("release_date"),
+                                "movies"
                         );
                         movies.add(movie);
                     }

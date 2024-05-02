@@ -288,6 +288,7 @@ public class AddMediaActivity extends DashboardUserActivity {
                     movieData.put("overview", overview);
                     movieData.put("image", imageUrl);
                     movieData.put("timestamp", System.currentTimeMillis());
+                    movieData.put("type", "movies");
                     addDocumentToFirestore(movieData, "movies", this::clearFormData,
                             errorMessage -> Toast.makeText(this, "Failed to add movie: " + errorMessage, Toast.LENGTH_SHORT).show());
                 },
@@ -333,6 +334,7 @@ public class AddMediaActivity extends DashboardUserActivity {
                     musicData.put("artists", artists); // Using a list to store multiple artists
                     musicData.put("image", imageUrl);
                     musicData.put("timestamp", System.currentTimeMillis());
+                    musicData.put("type", "songs");
                     addDocumentToFirestore(musicData, "songs", this::clearFormData,
                             errorMessage -> Toast.makeText(this, "Failed to add music: " + errorMessage, Toast.LENGTH_SHORT).show());
                 },
@@ -398,6 +400,7 @@ public class AddMediaActivity extends DashboardUserActivity {
                     bookData.put("categories", categories);
                     bookData.put("image", imageUrl);
                     bookData.put("timestamp", System.currentTimeMillis());
+                    bookData.put("type", "books");
                     addDocumentToFirestore(bookData, "books", this::clearFormData,
                             errorMessage -> Toast.makeText(this, "Failed to add book: " + errorMessage, Toast.LENGTH_SHORT).show());
                 },

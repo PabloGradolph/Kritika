@@ -6,4 +6,7 @@ public interface SearchInterface {
 
     String getImagePath();
 
+    String getType();
+
+    String retrieveId();
 }

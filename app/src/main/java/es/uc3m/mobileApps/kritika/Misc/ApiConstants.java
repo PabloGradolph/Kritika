@@ -22,7 +22,6 @@ public class ApiConstants {
     public static final String MOVIEDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     // MovieDB API access token
     public static final String MOVIEDB_ACCESS_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzBmM2FmNjcyNjM5YTJjZmUyNmY4NDMyMjk5NjNmNCIsInN1YiI6IjY1ZDg5ZjZiMTQ5NTY1MDE2MmY1YTZhNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Io4x374YopHoiG57NIBLZEroKn2vInK1Dzfddkp-ECE";
-
     // Books
     public static final String GOOGLE_BOOKS_BASE_URL = "https://www.googleapis.com/books/v1/";
     public static final String GOOGLE_BOOKS_VOLUMES_URL = GOOGLE_BOOKS_BASE_URL + "volumes/";

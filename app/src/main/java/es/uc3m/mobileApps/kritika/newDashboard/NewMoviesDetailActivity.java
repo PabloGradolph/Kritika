@@ -123,7 +123,8 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
                         movieJson.getString("overview"),
                         movieJson.getString("poster_path"),
                         movieJson.getString("vote_average"),
-                        movieJson.getString("release_date")
+                        movieJson.getString("release_date"),
+                        "movies"
                 );
 
             } catch (Exception e) {

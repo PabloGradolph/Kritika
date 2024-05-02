@@ -21,12 +21,13 @@ public class Book implements SearchInterface {
     private String thumbnail;
     private String previewLink;
     private String infoLink;
+    private String type;
 
     public Book() {
     }
 
     public Book(String id, String title, List<String> authors, String publisher, String publishedDate,
-                String description, String thumbnail, double averageRating) {
+                String description, String thumbnail, double averageRating, String type) {
         this.id = id;
         this.title = title;
         this.authors = authors;
@@ -35,6 +36,7 @@ public class Book implements SearchInterface {
         this.description = description;
         this.thumbnail = thumbnail;
         this.averageRating = averageRating;
+        this.type = type;
     }
 
     public Book(String id, String title, List<String> authors, String publisher, String publishedDate,
@@ -65,6 +67,8 @@ public class Book implements SearchInterface {
         return id;
     }
 
+    public String retrieveId() { return id; }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -76,6 +80,11 @@ public class Book implements SearchInterface {
     @Override
     public String getImagePath() { // for search interface
         return this.thumbnail;
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
     }
 
     public void setTitle(String title) {
