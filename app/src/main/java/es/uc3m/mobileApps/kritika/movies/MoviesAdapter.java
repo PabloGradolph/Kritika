@@ -18,22 +18,36 @@ import es.uc3m.mobileApps.kritika.Misc.ApiConstants;
 import es.uc3m.mobileApps.kritika.R;
 import es.uc3m.mobileApps.kritika.model.Movie;
 
+/**
+ * Adapter for displaying a list of movies in a RecyclerView.
+ */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
     private static List<Movie> movies;
     private LayoutInflater inflater;
 
+    /**
+     * Constructor for the MoviesAdapter.
+     * @param context The context of the activity or fragment.
+     * @param movies The list of movies to display.
+     */
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.inflater = LayoutInflater.from(context);
         this.movies = movies;
     }
 
-
+    /**
+     * Interface definition for a callback to be invoked when a movie item is clicked.
+     */
     public interface OnItemClickListener {
         void onItemClick(Movie movie);
     }
 
     private static OnItemClickListener listener;
 
+    /**
+     * Sets the click listener for movie items.
+     * @param listener The listener to set.
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -51,18 +65,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         holder.tvTitle.setText(currentMovie.getTitle());
         holder.tvOverview.setText(currentMovie.getOverview());
         holder.tvRating.setText(currentMovie.getRating());
-        // Aquí puedes continuar asignando los demás datos de la película a los elementos de la vista
 
-        // Cargar imagen con Glide
+        // Load image using Glide
         Glide.with(holder.imageViewPoster.getContext())
-                .load(ApiConstants.MOVIEDB_IMAGE_URL + currentMovie.getPosterPath()) // Cambia la URL base según sea necesario
+                .load(ApiConstants.MOVIEDB_IMAGE_URL + currentMovie.getPosterPath())
                 .into(holder.imageViewPoster);
 
-        // Configuración del OnClickListener
+        // Set OnClickListener
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
                 if (listener != null) {
                     listener.onItemClick(currentMovie);
                 }
@@ -75,18 +87,21 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return movies.size();
     }
 
+    /**
+     * ViewHolder class for movie items.
+     */
     static class MovieViewHolder extends RecyclerView.ViewHolder {
-        final TextView tvTitle, tvOverview, tvRating; // Declara aquí otros elementos de la vista si es necesario
-        public ImageView imageViewPoster; // Asegúrate de declarar el ImageView
+        final TextView tvTitle, tvOverview, tvRating;
+        public ImageView imageViewPoster;
 
         MovieViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
-            imageViewPoster = itemView.findViewById(R.id.imageViewPoster); // Inicializa el ImageView
+            imageViewPoster = itemView.findViewById(R.id.imageViewPoster);
             tvRating = itemView.findViewById(R.id.tvRating);
 
-            // Inicializa aquí otros elementos de la vista
+            // Initialize other view elements here
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

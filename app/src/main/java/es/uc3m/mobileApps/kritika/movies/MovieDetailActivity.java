@@ -44,8 +44,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         if (movieId != -1) {
             new FetchMovieDetailsTask().execute(movieId);
-        } else {
-            // Manejar el caso de que no se encuentre un ID válido
         }
 
         openMenuButton = findViewById(R.id.openMenuButton);
@@ -58,6 +56,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Display bottom sheet menu.
+     */
     private void showBottomSheetMenu() {
         int movieId = getIntent().getIntExtra("id", 0);
         String movieIdString = String.valueOf(movieId);
@@ -67,7 +68,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         bottomSheetView.findViewById(R.id.rateButton).setOnClickListener(v -> {
-            // Iniciar RateActivity
+            // Start RateActivity
             Intent intent = new Intent(this, RateActivity.class);
             intent.putExtra("mediaId", movieIdString);
             intent.putExtra("mediaType", "movies");
@@ -75,7 +76,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.addToListButton).setOnClickListener(v -> {
-            // Iniciar AddToListActivity
+            // Start AddToListActivity
             Intent intent = new Intent(this, AddtoListActivity.class);
             intent.putExtra("mediaId", movieIdString);
             intent.putExtra("mediaType", "movies");
@@ -83,7 +84,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
         });
         bottomSheetView.findViewById(R.id.reviewButton).setOnClickListener(v -> {
-            // Iniciar ReviewActivity
+            // Start ReviewActivity
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("mediaId", movieIdString);
             intent.putExtra("mediaType", "movies");
@@ -92,6 +93,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Asynchronous task to fetch movie details from API.
+     */
     private class FetchMovieDetailsTask extends AsyncTask<Integer, Void, Movie> {
         @Override
         protected Movie doInBackground(Integer... movieIds) {
@@ -112,7 +116,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 String jsonData = response.body().string();
                 JSONObject movieJson = new JSONObject(jsonData);
 
-                // Asegúrate de que estos nombres de campo coinciden con la respuesta de la API.
                 return new Movie(
                         movieJson.getInt("id"),
                         movieJson.getString("title"),
@@ -142,7 +145,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 tvOverview.setText(movie.getOverview());
                 tvRating.setText(String.format(Locale.getDefault(), "Rating: %s", movie.getRating()));
 
-                // URL del póster
+                // Poster URL
                 String posterUrl = ApiConstants.MOVIEDB_IMAGE_URL + movie.getPosterPath();
                 Glide.with(MovieDetailActivity.this)
                         .load(posterUrl)

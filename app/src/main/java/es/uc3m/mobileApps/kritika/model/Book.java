@@ -96,6 +96,11 @@ public class Book implements SearchInterface {
         }
     }
 
+    // Getter and Setter for description
+    public String getDescription() {
+        return description;
+    }
+
     public String getThumbnail() {
         return thumbnail;
     }

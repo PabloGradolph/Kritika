@@ -38,6 +38,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+/**
+ * Activity to display a list of movies and allow users to interact with them.
+ */
 public class MoviesActivity extends DashboardUserActivity {
     private RecyclerView rvMovies;
     private MoviesAdapter adapter;
@@ -49,10 +52,10 @@ public class MoviesActivity extends DashboardUserActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
+        // Initialize RecyclerView
         rvMovies = findViewById(R.id.rvMovies);
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MoviesAdapter(this, movieList);
-        // listener de clic en tu adaptador
         adapter.setOnItemClickListener(new MoviesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
@@ -67,6 +70,7 @@ public class MoviesActivity extends DashboardUserActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
 
+        // Logout button click listener
         ImageButton buttonLogOut = findViewById(R.id.logoutBtn);
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,17 +94,22 @@ public class MoviesActivity extends DashboardUserActivity {
         // Set click listeners for buttons
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
+
+        // Fetch upcoming movies asynchronously
         new DiscoverMoviesTask().execute();
     }
 
+    /**
+     * AsyncTask to fetch upcoming movies from the MovieDB API.
+     */
     protected class DiscoverMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         @Override
         protected List<Movie> doInBackground(Void... voids) {
-            // Crear el interceptor de logging y configurar el nivel de log
+            // Create logging interceptor and set log level
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            // Construir el cliente OkHttpClient e incluir el interceptor de logging
+            // Build OkHttpClient and add logging interceptor
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build();
@@ -109,7 +118,8 @@ public class MoviesActivity extends DashboardUserActivity {
             String baseUrl = ApiConstants.MOVIEDB_UPCOMING_MOVIES_URL;
             String token = ApiConstants.MOVIEDB_ACCESS_TOKEN;
 
-            for (int page = 1; page <= 3; page++) { // Ajusta según el número de páginas que desees obtener
+            // Iterate over pages to fetch movie data
+            for (int page = 1; page <= 3; page++) {
                 Request request = new Request.Builder()
                         .url(baseUrl + page)
                         .get()
@@ -123,6 +133,7 @@ public class MoviesActivity extends DashboardUserActivity {
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
 
+                    // Parse JSON data and create Movie objects
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject movieJson = results.getJSONObject(i);
                         Movie movie = new Movie(
@@ -147,22 +158,23 @@ public class MoviesActivity extends DashboardUserActivity {
         protected void onPostExecute(List<Movie> movies) {
             super.onPostExecute(movies);
             if (movies != null) {
+                // Update movie list and notify adapter
                 movieList.clear();
                 movieList.addAll(movies);
                 adapter.notifyDataSetChanged();
 
-                // Guardar las películas en Firestore
+                // Save movies to Firestore if they don't already exist
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference moviesRef = db.collection("movies");
 
                 for (Movie movie : movies) {
-                    // Comprobar si el documento existe en Firestore basado en su ID
+                    // Check if the document exists in Firestore based on its ID
                     DocumentReference docRef = moviesRef.document(String.valueOf(movie.getId()));
                     docRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (!document.exists()) {
-                                // La película no existe en Firestore, guardarla
+                                // Movie doesn't exist in Firestore, save it
                                 moviesRef.document(String.valueOf(movie.getId())).set(movie);
                             }
                         } else {
@@ -170,12 +182,13 @@ public class MoviesActivity extends DashboardUserActivity {
                         }
                     });
                 }
-            } else {
-                // Mostrar mensaje de error
             }
         }
     }
 
+    /**
+     * Check if a user is logged in. If not, redirect to the main screen.
+     */
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();

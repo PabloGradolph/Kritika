@@ -12,10 +12,11 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import es.uc3m.mobileApps.kritika.R;
-import es.uc3m.mobileApps.kritika.model.Movie;
 import es.uc3m.mobileApps.kritika.model.Song;
-import es.uc3m.mobileApps.kritika.movies.MoviesAdapter;
 
+/**
+ * Adapter class for displaying songs in a RecyclerView.
+ */
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
     private List<Song> songs;
     private LayoutInflater inflater;
@@ -44,7 +45,8 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         Song currentSong = songs.get(position);
         holder.tvName.setText(currentSong.getName());
         holder.tvArtistName.setText(currentSong.getArtistName());
-        // Cargar imagen con Glide
+
+        // Load image using Glide
         Glide.with(holder.imageView.getContext())
                 .load(currentSong.getImageUrl())
                 .into(holder.imageView);
@@ -52,7 +54,6 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Asegúrate de que la actividad contenedora implementa la interfaz OnItemClickListener
                 if (listener != null) {
                     listener.onItemClick(currentSong);
                 }

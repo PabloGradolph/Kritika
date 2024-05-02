@@ -39,6 +39,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Activity to display music-related content.
+ */
 public class MusicActivity extends DashboardUserActivity {
 
     private RecyclerView rvSongs;
@@ -54,7 +57,6 @@ public class MusicActivity extends DashboardUserActivity {
         rvSongs = findViewById(R.id.rvSongs);
         rvSongs.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SongsAdapter(this, songsList);
-        //Falta funcionalidad para hacer click, la meto aqui
         adapter.setOnItemClickListener(new SongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Song song) {
@@ -64,7 +66,6 @@ public class MusicActivity extends DashboardUserActivity {
                 startActivity(intent);
             }
         });
-
         rvSongs.setAdapter(adapter);
 
         // init firebase auth
@@ -96,8 +97,10 @@ public class MusicActivity extends DashboardUserActivity {
                 buttonOpenHome, buttonOpenSearch);
         new MusicActivity.DiscoverSongsTask().execute();
     }
-    //Comment testea si funciona esta llamada a la API a la que tengas WIFI
-    // KEY: 96f13ee809056c77d25defbd0f813024
+
+    /**
+     * AsyncTask to fetch and display songs.
+     */
     private class DiscoverSongsTask extends AsyncTask<Void, Void, List<Song>> {
 
         @Override
@@ -105,10 +108,10 @@ public class MusicActivity extends DashboardUserActivity {
             OkHttpClient client = new OkHttpClient();
             List<Song> songs = new ArrayList<>();
 
-            // Esta URL es para pedir un token de acceso de cliente
+            // URL to request client access token
             String tokenUrl = ApiConstants.SPOTIFY_TOKEN_URL;
 
-            // Usa Base64 para codificar Client ID y Client Secret
+            // Use Base64 to encode Client ID and Client Secret
             String credentials = Base64.encodeToString((ApiConstants.S_CLIENT_ID + ":" + ApiConstants.S_CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
 
             Request tokenRequest = new Request.Builder()
@@ -165,12 +168,12 @@ public class MusicActivity extends DashboardUserActivity {
                 songsList.addAll(songs);
                 adapter.notifyDataSetChanged();
 
-                // Guardar las películas en Firestore
+                // Save songs to Firestore
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference songsRef = db.collection("songs");
 
                 for (Song song: songs) {
-                    // Comprobar si el documento existe en Firestore basado en su ID
+                    // Check if the document exists in Firestore based on its ID
                     DocumentReference docRef = songsRef.document(String.valueOf(song.getId()));
                     docRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -189,6 +192,9 @@ public class MusicActivity extends DashboardUserActivity {
         }
     }
 
+    /**
+     * Check if the user is logged in.
+     */
     private void checkUser() {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
