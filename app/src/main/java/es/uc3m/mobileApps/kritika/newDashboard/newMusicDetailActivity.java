@@ -15,8 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
 import es.uc3m.mobileApps.kritika.Actions.RateActivity;
@@ -43,12 +47,15 @@ public class newMusicDetailActivity extends AppCompatActivity {
 
         String songId = getIntent().getStringExtra("id");
 
+        Log.d("songId", songId);
+
         if (songId != null) {
-            new newMusicDetailActivity.FetchMusicDetailsTask().execute(songId);
+            fetchSongFromDB(songId);
         } else {
             Toast.makeText(this, "Song name not provided", Toast.LENGTH_SHORT).show();
-
         }
+
+
 
         openMenuButton = findViewById(R.id.openMenuButton);
         openMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -162,5 +169,51 @@ public class newMusicDetailActivity extends AppCompatActivity {
                 Toast.makeText(newMusicDetailActivity.this, "Failed to fetch song details.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+    /**
+     * AsyncTask to fetch details of the song from the DB.
+     */
+    private void fetchSongFromDB(String songId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("songs").document(songId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+
+                    if (document.contains("image")) {
+                        updateUIWithSongDetails(document);
+                    } else {
+                        new newMusicDetailActivity.FetchMusicDetailsTask().execute(songId);
+                    }
+                    //
+                    Log.d("document", String.valueOf(document));
+                } else {
+                    Log.e("SongDetail", "No such document");
+                    Toast.makeText(newMusicDetailActivity.this, "No movie details found.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.e("SongDetail", "Error fetching song details", task.getException());
+                Toast.makeText(newMusicDetailActivity.this, "Error loading song details.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateUIWithSongDetails(DocumentSnapshot song) {
+        TextView musicTitle = findViewById(R.id.musicTitle);
+        TextView musicArtist = findViewById(R.id.musicArtist);
+        ImageView imageViewPoster = findViewById(R.id.imageViewPoster);
+
+        musicTitle.setText(song.getString("title"));
+
+        List<String> artists = (List<String>) song.get("artists");
+        String artistsText = String.join(", ", artists);
+        musicArtist.setText(artistsText);
+
+        String posterUrl = song.getString("image");
+        Glide.with(this)
+                .load(posterUrl)
+                .into(imageViewPoster);
     }
 }

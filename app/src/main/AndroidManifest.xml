@@ -74,9 +74,6 @@
             android:name=".movies.MovieDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardAdminActivity"
-            android:exported="false" />
-        <activity
             android:name=".DashboardUserActivity"
             android:exported="false" />
         <activity
