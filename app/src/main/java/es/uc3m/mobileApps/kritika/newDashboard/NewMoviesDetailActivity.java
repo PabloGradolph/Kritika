@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
 
@@ -42,11 +44,30 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_movie_item_detail);
 
-        int movieId = getIntent().getIntExtra("id", -1);
 
-        if (movieId != -1) {
-            new FetchMovieDetailsTask().execute(movieId);
+        // Get "id" depending of its type (int or String)
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.containsKey("id")) {
+                Object idObj = extras.get("id");
+                if (idObj instanceof Integer) {
+                    // If it's an Int, use it directly
+                    Integer movieIdInt = (Integer) idObj;
+                    // Retrieve details of the movie from API
+                    new FetchMovieFromAPI().execute(movieIdInt);
+                } else if (idObj instanceof String) {
+                    String movieIdString = "";
+                    // If it's a String, try to parse it to an integer
+                    movieIdString = (String) idObj;
+                    // Retrieve details of the movie from DB
+                    fetchMovieFromDB(movieIdString);
+
+                }
+            }
         }
+
+
+
 
         openMenuButton = findViewById(R.id.openMenuButton);
         openMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +118,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
     /**
      * AsyncTask to fetch details of the movie from an API.
      */
-    private class FetchMovieDetailsTask extends AsyncTask<Integer, Void, Movie> {
+    private class FetchMovieFromAPI extends AsyncTask<Integer, Void, Movie> {
         @Override
         protected Movie doInBackground(Integer... movieIds) {
             final OkHttpClient client = new OkHttpClient();
@@ -154,5 +175,42 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
                 Toast.makeText(NewMoviesDetailActivity.this, "Error al cargar los detalles de la película.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    /**
+     * AsyncTask to fetch details of the movie from the DB.
+     */
+    private void fetchMovieFromDB(String movieId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("movies").document(movieId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    updateUIWithMovieDetails(document);
+                } else {
+                    Log.e("MovieDetail", "No such document");
+                    Toast.makeText(NewMoviesDetailActivity.this, "No movie details found.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.e("MovieDetail", "Error fetching movie details", task.getException());
+                Toast.makeText(NewMoviesDetailActivity.this, "Error loading movie details.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateUIWithMovieDetails(DocumentSnapshot movie) {
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        TextView tvOverview = findViewById(R.id.tvOverview);
+        TextView tvRating = findViewById(R.id.tvRating);
+        ImageView movieImageViewPoster = findViewById(R.id.movieImageViewPoster);
+
+        tvTitle.setText(movie.getString("title"));
+        tvOverview.setText(movie.getString("overview"));
+        tvRating.setText("None");
+
+        String posterUrl = movie.getString("image");
+        Glide.with(this)
+                .load(posterUrl)
+                .into(movieImageViewPoster);
     }
 }

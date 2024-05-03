@@ -27,6 +27,9 @@ import java.util.List;
 import es.uc3m.mobileApps.kritika.DashboardUserActivity;
 import es.uc3m.mobileApps.kritika.MainActivity;
 import es.uc3m.mobileApps.kritika.R;
+import es.uc3m.mobileApps.kritika.newDashboard.NewBooksDetailActivity;
+import es.uc3m.mobileApps.kritika.newDashboard.NewMoviesDetailActivity;
+import es.uc3m.mobileApps.kritika.newDashboard.newMusicDetailActivity;
 
 public class SearchActivity extends DashboardUserActivity {
 
@@ -111,12 +114,36 @@ public class SearchActivity extends DashboardUserActivity {
         adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot item) {
-                Intent intent = new Intent(SearchActivity.this, SearchDetailActivity.class);
-                intent.putExtra("id", item.getId());
-                intent.putExtra("type", item.getString("type"));
+                String type = item.getString("type");
+                Intent intent = new Intent();
+
+                switch (type) {
+                    case "movies":
+                        // Start movie detail activity
+                        intent = new Intent(SearchActivity.this, NewMoviesDetailActivity.class);
+                        try {
+                            intent.putExtra("id", Integer.parseInt(item.getId()));
+                        } catch (NumberFormatException e) {
+                            intent.putExtra("id", item.getId());
+                        }
+                        break;
+                    case "songs":
+                        // Start song detail activity
+                        intent = new Intent(SearchActivity.this, newMusicDetailActivity.class);
+                        intent.putExtra("id", item.getId());
+                        break;
+                    case "books":
+                        // Start book detail activity
+                        intent = new Intent(SearchActivity.this, NewBooksDetailActivity.class);
+                        intent.putExtra("id", item.getId());
+                        break;
+                }
+                // Add common data to intent
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });
+
 
 
 
