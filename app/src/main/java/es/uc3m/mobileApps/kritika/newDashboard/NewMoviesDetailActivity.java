@@ -51,13 +51,11 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
             if (extras.containsKey("id")) {
                 Object idObj = extras.get("id");
                 if (idObj instanceof Integer) {
-                    // If it's an Int, use it directly
                     Integer movieIdInt = (Integer) idObj;
                     // Retrieve details of the movie from API
                     new FetchMovieFromAPI().execute(movieIdInt);
                 } else if (idObj instanceof String) {
                     String movieIdString = "";
-                    // If it's a String, try to parse it to an integer
                     movieIdString = (String) idObj;
                     // Retrieve details of the movie from DB
                     fetchMovieFromDB(movieIdString);
@@ -172,7 +170,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
                         .load(posterUrl)
                         .into(movieImageViewPoster);
             } else {
-                Toast.makeText(NewMoviesDetailActivity.this, "Error al cargar los detalles de la película.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewMoviesDetailActivity.this, "Error loading details of movie.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -198,6 +196,9 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Task to update the UI with the details from the API
+     */
     private void updateUIWithMovieDetails(DocumentSnapshot movie) {
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvOverview = findViewById(R.id.tvOverview);
@@ -206,7 +207,7 @@ public class NewMoviesDetailActivity extends AppCompatActivity {
 
         tvTitle.setText(movie.getString("title"));
         tvOverview.setText(movie.getString("overview"));
-        tvRating.setText("None");
+        tvRating.setText("Rating: None");
 
         String posterUrl = movie.getString("image");
         Glide.with(this)

@@ -45,10 +45,8 @@ public class newMusicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_music_item_detail);
 
+        // Get id of song and fetch details from DB
         String songId = getIntent().getStringExtra("id");
-
-        Log.d("songId", songId);
-
         if (songId != null) {
             fetchSongFromDB(songId);
         } else {
@@ -105,7 +103,7 @@ public class newMusicDetailActivity extends AppCompatActivity {
     /**
      * AsyncTask to fetch music details from Spotify API.
      */
-    private class FetchMusicDetailsTask extends AsyncTask<String, Void, Song> {
+    private class FetchMusicFromAPI extends AsyncTask<String, Void, Song> {
         @Override
         protected Song doInBackground(String... songIds) {
             final OkHttpClient client = new OkHttpClient();
@@ -185,13 +183,13 @@ public class newMusicDetailActivity extends AppCompatActivity {
                     if (document.contains("image")) {
                         updateUIWithSongDetails(document);
                     } else {
-                        new newMusicDetailActivity.FetchMusicDetailsTask().execute(songId);
+                        new newMusicDetailActivity.FetchMusicFromAPI().execute(songId);
                     }
                     //
                     Log.d("document", String.valueOf(document));
                 } else {
                     Log.e("SongDetail", "No such document");
-                    Toast.makeText(newMusicDetailActivity.this, "No movie details found.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(newMusicDetailActivity.this, "No song details found.", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Log.e("SongDetail", "Error fetching song details", task.getException());
@@ -200,6 +198,10 @@ public class newMusicDetailActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Task to update the UI with the details from the API
+     */
     private void updateUIWithSongDetails(DocumentSnapshot song) {
         TextView musicTitle = findViewById(R.id.musicTitle);
         TextView musicArtist = findViewById(R.id.musicArtist);

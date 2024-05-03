@@ -79,7 +79,7 @@ public class SearchActivity extends DashboardUserActivity {
         setButtonListeners(buttonOpenMovies, buttonOpenMusic, buttonOpenBooks, buttonOpenReviews, buttonOpenProfile,
                 buttonOpenHome, buttonOpenSearch);
 
-        // vistas
+        // views
         searchBar = findViewById(R.id.searchBar);
         contentTypeSpinner = findViewById(R.id.contentTypeSpinner);
         recyclerView = findViewById(R.id.rvSearchResults);
@@ -93,15 +93,15 @@ public class SearchActivity extends DashboardUserActivity {
         // Search functionality
         ImageButton buttonSearch = findViewById(R.id.buttonSearch);
 
-        // Establece un OnClickListener al botón de búsqueda
+        // OnClickListener in search button
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtén el texto de la barra de búsqueda y el tipo de contenido seleccionado
+                // search query and type of media
                 String searchQuery = searchBar.getText().toString().trim();
                 String contentType = contentTypeSpinner.getSelectedItem().toString();
 
-                // Verifica que el campo de búsqueda no esté vacío antes de realizar la búsqueda
+                // Check search query is not empty before searching
                 if (!searchQuery.isEmpty()) {
                     performSearch(searchQuery, contentType);
                 } else {
@@ -143,14 +143,11 @@ public class SearchActivity extends DashboardUserActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-
     }
 
-
+    /**
+     * Task to set up the Spinner for the search
+     */
     private void setupSpinner() {
         Spinner spinner = findViewById(R.id.contentTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -159,7 +156,9 @@ public class SearchActivity extends DashboardUserActivity {
         spinner.setAdapter(adapter);
     }
 
-    // Search in Firebase
+    /**
+     * Task to perform a search from the API
+     */
     private void performSearch(String query, String type) {
         // convert type of media ("movies", "songs", "books") to name of the collection
         String collectionPath = type.toLowerCase();
@@ -168,13 +167,13 @@ public class SearchActivity extends DashboardUserActivity {
         Query searchQuery = db.collection(collectionPath)
                 .orderBy("title")
                 .startAt(query)
-                .endAt(query + "\uf8ff") // \uf8ff es un punto de código muy alto en el rango de Unicode, por lo que la consulta incluirá todos los campos que comiencen con 'query'
+                .endAt(query + "\uf8ff") // \uf8ff unicode, to incluse all fields containing "query"
                 .limit(20);
         // Execute search query
         searchQuery.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                // actualizar un RecyclerView con los resultados
+                // update RecyclerView with results of the search
                 updateUIWithResults(documents);
             } else {
                 Toast.makeText(SearchActivity.this, "Search failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -183,7 +182,9 @@ public class SearchActivity extends DashboardUserActivity {
     }
 
 
-    // Update layout
+    /**
+     * Task to update the UI with the details from the API
+     */
     private void updateUIWithResults(List<DocumentSnapshot> results) {
         List<Object> searchables = new ArrayList<>();
         for (DocumentSnapshot document : results) {

@@ -3,7 +3,6 @@ package es.uc3m.mobileApps.kritika.functionalities;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,10 +51,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Searchable
         return new SearchableViewHolder(itemView);
     }
 
+    /**
+     * onBindViewHolder for the results of the search
+     */
     @Override
     public void onBindViewHolder(@NonNull SearchableViewHolder holder, int position) {
         DocumentSnapshot item = (DocumentSnapshot) items.get(position);
-        Log.d("SearchAdapter Data", item.getId() + " => " + item.getData());
 
         String type = item.getString("type");
         if (type != null) {
@@ -67,8 +68,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Searchable
                     handleArtists(item, holder.tvArtistName);
                     break;
                 case "books":
-                    String authors = item.getString("authors");
-                    holder.tvArtistName.setText(formatAuthors(authors));
+                    Object authors = item.get("authors");
+                    String authorsText = handleAuthors(authors);
+                    holder.tvArtistName.setText(formatAuthors(authorsText));
                     break;
             }
 
@@ -85,7 +87,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Searchable
         } else {
             holder.tvArtistName.setText("No type specified");
             holder.titleTextView.setText("Unknown Item");
-            holder.imageView.setImageResource(R.drawable.default_user_picture);  // Ensure you have this default image in your resources
+            holder.imageView.setImageResource(R.drawable.default_user_picture);
         }
 
         // Click listener
@@ -97,6 +99,61 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Searchable
 
     }
 
+
+    /**
+     * Task for fetching the image given the type of media.
+     */
+    private void fetchImageBasedOnType(String imagePath, String type, ImageView imageView) {
+        if (type.equals("movies")) {
+            imagePath = ApiConstants.MOVIEDB_IMAGE_URL + imagePath;
+        }
+        loadIntoGlide(imageView, imagePath);
+    }
+
+    /**
+     * Task for fetching the image url from the API given a media.
+     */
+    private void fetchImageUrlFromAPI(String mediaId, String type, ImageView imageView) {
+        MediaInfoFetcher.fetchImageUrl(mediaId, type, new MediaInfoFetcher.OnImageUrlFetchedListener() {
+            @Override
+            public void onImageUrlFetched(String imageUrl) {
+                loadIntoGlide(imageView, imageUrl);
+            }
+
+            @Override
+            public void onImageUrlFetchFailed() {
+                imageView.setImageResource(R.drawable.default_user_picture);
+            }
+        });
+    }
+
+
+    /**
+     * Task for using glide to show the image.
+     */
+    private void loadIntoGlide(ImageView imageView, String url) {
+        //Handler that uses the Main Looper to ensure updates are done on the main thread
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(() -> {
+            Glide.with(imageView.getContext())
+                    .load(url != null ? url : R.drawable.default_user_picture)
+                    .placeholder(R.drawable.default_user_picture)
+                    .error(R.drawable.default_user_picture)
+                    .into(imageView);
+        });
+    }
+
+
+
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    /**
+     * Task to handle correctly the artists depending on the fields that the item have.
+     */
     private void handleArtists(DocumentSnapshot item, TextView tvArtistName) {
         if (item.contains("artists")) {
             List<String> artists = (List<String>) item.get("artists");
@@ -111,48 +168,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Searchable
         }
     }
 
-    private void fetchImageBasedOnType(String imagePath, String type, ImageView imageView) {
-        if (type.equals("movies")) {
-            imagePath = ApiConstants.MOVIEDB_IMAGE_URL + imagePath;
+    /**
+     * Formats a field that could be a List or a single String.
+     * @param field The object that might be a String or List.
+     * @return A formatted String.
+     */
+    private String handleAuthors(Object field) {
+        if (field instanceof List) {
+            List<?> list = (List<?>) field;
+            return list.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(", "));
+        } else if (field instanceof String) {
+            return (String) field;
+        } else {
+            return ""; // Default case, should ideally never hit unless data is malformed.
         }
-        loadIntoGlide(imageView, imagePath);
     }
 
-    private void fetchImageUrlFromAPI(String mediaId, String type, ImageView imageView) {
-        MediaInfoFetcher.fetchImageUrl(mediaId, type, new MediaInfoFetcher.OnImageUrlFetchedListener() {
-            @Override
-            public void onImageUrlFetched(String imageUrl) {
-                loadIntoGlide(imageView, imageUrl);
-            }
-
-            @Override
-            public void onImageUrlFetchFailed() {
-                imageView.setImageResource(R.drawable.default_user_picture);  // Load default image on failure
-            }
-        });
-    }
-
-
-    private void loadIntoGlide(ImageView imageView, String url) {
-        // Create a handler that uses the Main Looper to ensure updates are done on the main thread
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-        mainHandler.post(() -> {
-            Glide.with(imageView.getContext())
-                    .load(url != null ? url : R.drawable.default_user_picture) // Use a default image if the URL is null
-                    .placeholder(R.drawable.default_user_picture) // Optional: placeholder while loading
-                    .error(R.drawable.default_user_picture) // Optional: error image if load fails
-                    .into(imageView);
-        });
-    }
-
-
-
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
+    /**
+     * Formats authors that are String.
+     * @param authors The String that contains authors to be formatted.
+     * @return A formatted String.
+     */
     private String formatAuthors(String authors) {
         if (authors == null || authors.isEmpty()) {
             return "No authors listed";
@@ -169,12 +207,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Searchable
                 .collect(Collectors.joining(", "));
     }
 
+
+    /**
+     * Task for updating the data with the new results.
+     */
     public void updateData(List<Object> newItems) {
         this.items.clear();
         this.items.addAll(newItems);
         notifyDataSetChanged();
     }
 
+    /**
+     * ReciclerView for showing the results of the search.
+     */
     static class SearchableViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleTextView;

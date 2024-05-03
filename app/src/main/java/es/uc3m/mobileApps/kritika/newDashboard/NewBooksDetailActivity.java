@@ -3,6 +3,7 @@ package es.uc3m.mobileApps.kritika.newDashboard;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,12 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.uc3m.mobileApps.kritika.Actions.AddtoListActivity;
 import es.uc3m.mobileApps.kritika.Actions.RateActivity;
@@ -40,11 +45,14 @@ public class NewBooksDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_book_item_detail);
 
+        // Get id of book and fetch details from DB
         String bookId = getIntent().getStringExtra("id");
-
         if (bookId != null) {
-            new FetchBooksDetailsTask().execute(bookId);
+            fetchBookFromDB(bookId);
+        } else {
+            Toast.makeText(this, "Book name not provided", Toast.LENGTH_SHORT).show();
         }
+
 
         openMenuButton = findViewById(R.id.openMenuButton);
         openMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +96,11 @@ public class NewBooksDetailActivity extends AppCompatActivity {
         });
     }
 
-    private class FetchBooksDetailsTask extends AsyncTask<String, Void, Book> {
+
+    /**
+     * AsyncTask to fetch details of the book from the API.
+     */
+    private class FetchBooksFromAPI extends AsyncTask<String, Void, Book> {
         @Override
         protected Book doInBackground(String... bookIds) {
             OkHttpClient client = new OkHttpClient();
@@ -130,7 +142,7 @@ public class NewBooksDetailActivity extends AppCompatActivity {
         }
 
         public String stripHtml(String html) {
-            // Remove HTML tags using a regular expression
+            // Remove HTML tags
             String cleanHtml = html.replaceAll("&quot;", "\"");
             return cleanHtml.replaceAll("\\<.*?\\>", "");
         }
@@ -154,8 +166,96 @@ public class NewBooksDetailActivity extends AppCompatActivity {
                         .into(imageViewPoster);
 
             } else {
-                Toast.makeText(NewBooksDetailActivity.this, "Error al cargar los detalles del libro.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewBooksDetailActivity.this, "Error loading details of book.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    /**
+     * AsyncTask to fetch details of the book from the DB.
+     */
+    private void fetchBookFromDB(String bookId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("books").document(bookId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+
+                    if (document.contains("image")) {
+                        updateUIWithBookDetails(document);
+                    } else {
+                        new NewBooksDetailActivity.FetchBooksFromAPI().execute(bookId);
+                    }
+                    //
+                    Log.d("document", String.valueOf(document));
+                } else {
+                    Log.e("BookDetail", "No such document");
+                    Toast.makeText(NewBooksDetailActivity.this, "No book details found.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.e("BookDetail", "Error fetching book details", task.getException());
+                Toast.makeText(NewBooksDetailActivity.this, "Error loading book details.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Task to update the UI with the details from the API
+     */
+    private void updateUIWithBookDetails(DocumentSnapshot book) {
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        TextView tvOverview = findViewById(R.id.tvOverview);
+        TextView tvAuthor = findViewById(R.id.tvAuthor);
+        ImageView imageViewPoster = findViewById(R.id.imageViewThumbnail);
+
+        tvTitle.setText(book.getString("title"));
+
+        tvOverview.setText(book.getString("description"));
+
+        Object authors = book.get("authors");
+        String authorsText = handleAuthors(authors);
+        tvAuthor.setText(formatAuthors(authorsText));
+
+        String posterUrl = book.getString("image");
+        Glide.with(this)
+                .load(posterUrl)
+                .into(imageViewPoster);
+    }
+
+    /**
+     * Formats a field that could be a List or a single String.
+     * @param field The object that might be a String or List.
+     * @return A formatted String.
+     */
+    private String handleAuthors(Object field) {
+        if (field instanceof List) {
+            List<?> list = (List<?>) field;
+            return list.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(", "));
+        } else if (field instanceof String) {
+            return (String) field;
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Formats authors that are String.
+     * @param authors The String that contains authors to be formatted.
+     * @return A formatted String.
+     */
+    private String formatAuthors(String authors) {
+        if (authors == null || authors.isEmpty()) {
+            return "No authors listed";
+        }
+        String[] authorsArray = authors.replace("[", "")
+                .replace("]", "")
+                .replace("'", "")
+                .trim()
+                .split("\\s*,\\s*");
+
+        return Arrays.stream(authorsArray)
+                .collect(Collectors.joining(", "));
     }
 }
