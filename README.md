@@ -17,7 +17,7 @@ Kritika is an all-in-one mobile application for movie buffs, avid readers and mu
 - Firebase
 - Google Books API
 - The Movie Database (TMDb) API
-- Last FM API
+- SpotifyAPI
 
 ## Project Setup 🚀
 
@@ -32,6 +32,12 @@ To set up this project in your local environment, follow these steps:
 ## License 📄
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## DEMO 📹
+
+You can see a demo of the project in the next link:
+
+- [DEMO](https://youtu.be/zzogLWfVgrE)
 
 ## 👥 Authors
 
